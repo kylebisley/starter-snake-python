@@ -138,6 +138,7 @@ def setEdge(dataDump):
     board = [[1 for x in range(board_width)] for y in range(board_height)] 
 
     board = [[0 for x in range(1,board_width-1)] for y in range(1,board_height-1)] 
+    return board
 
 # Expose WSGI app (so gunicorn can find it)
 application = bottle.default_app()
