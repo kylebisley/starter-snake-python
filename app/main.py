@@ -62,9 +62,16 @@ def move():
     for x in board:
         for y in x:
             print(str(y) + " "),
-        print()        
-    board = setBoardValues(board)
+        print()
+
+
+    pathableBoard = setBoardValues(converted_data)
     
+    for x in pathableBoard:
+        for y in x:
+            print(str(y) + " "),
+        print()
+
     """
     TODO: Using the data from the endpoint request object, your
             snake AI must choose a direction to move in.
@@ -127,16 +134,34 @@ def boardToArray(dataDump):
                     board[y][x] = 'S'
     return board
 
-def setBoardValues(board):
+def setBoardValues(jData):
+    board = setEdge(jData)
     
-    for i in range(len(board)):
-        for j in range(len(board[i])):
-            if board[i][j] == 'S' or board[i][j] == 'E' or board[i][j] == 'H':
-                board[i][j] = None
-            elif board[i][j] == 'F':
-                board[i][j] = 0
-            elif board[i][j] == 'E':
-                board[i][j] = 0
+    # pertaining to our own body
+    me = jData["you"]["id"]
+    for z in jData["you"]["body"]:
+        if (z == jData["you"]["body"][0]):
+            x = z['x']
+            y = z['y']
+            board[y][x] = 0
+        else:
+            x = z['x']
+            y = z['y']
+            board[y][x] = None
+    # other snakes
+    for z in jData["board"]["snakes"]:
+        name = z["id"]
+        for a in z["body"]:
+            if (name != me):
+                if (a == z["body"][0]):
+                    x = a['x']
+                    y = a['y']
+
+                    board[y][x] = None
+                else:
+                    x = a['x']
+                    y = a['y']
+                    board[y][x] = None
     return board
 
 def setEdge(dataDump):
