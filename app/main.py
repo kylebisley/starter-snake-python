@@ -63,12 +63,14 @@ def move():
         for y in x:
             print(str(y) + " "),
         print()        
-    setBoardValues(board)
+    board = setBoardValues(board)
+    
+    
     print('After setBoardValues')
     for x in board:
         for y in x:
             print(str(y) + " "),
-        print()      
+        print()
     """
     TODO: Using the data from the endpoint request object, your
             snake AI must choose a direction to move in.
@@ -172,6 +174,7 @@ def getNearestFood(datadump):
 
 
 def setBoardValues(board):
+    
     for i in range(len(board)):
         for j in range(len(board[i])):
             if board[i][j] == 'S' or 'E' or 'H':
@@ -180,6 +183,7 @@ def setBoardValues(board):
                 board[i][j] = 0
             elif board[i][j] == 'E':
                 board[i][j] = 0
+    return board
 
 # Expose WSGI app (so gunicorn can find it)
 application = bottle.default_app()
