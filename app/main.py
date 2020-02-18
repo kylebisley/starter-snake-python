@@ -2,6 +2,7 @@ import json
 import os
 import random
 import bottle
+import math
 
 from api import ping_response, start_response, move_response, end_response
 
@@ -53,7 +54,7 @@ def start():
 @bottle.post('/move')
 def move():
     data = bottle.request.json
-    #Converts data to be parsable
+    # Converts data to be parsable
     converted_data = json.loads(json.dumps(data))
     game_id = converted_data["game"]["id"]
 
@@ -64,12 +65,6 @@ def move():
         print()        
     board = setBoardValues(board)
     
-    
-    print('After setBoardValues')
-    for x in board:
-        for y in x:
-            print(str(y) + " "),
-        print()
     """
     TODO: Using the data from the endpoint request object, your
             snake AI must choose a direction to move in.
@@ -104,24 +99,24 @@ def boardToArray(dataDump):
         x = z['x']
         y = z['y']
         board[y][x] = 'F'
-    #finding your body
-    me=dataDump["you"]["id"]
+    # finding your body
+    me = dataDump["you"]["id"]
     for z in dataDump["you"]["body"]:
-        
-        if (z==dataDump["you"]["body"][0]):
+
+        if (z == dataDump["you"]["body"][0]):
             x = z['x']
             y = z['y']
             board[y][x] = 'H'
-            headPosition=z
+            headPosition = z
         else:
             x = z['x']
             y = z['y']
             board[y][x] = 'S'
-    #to find other snakes
+    # to find other snakes
     for z in dataDump["board"]["snakes"]:
         name = z["id"]
         for a in z["body"]:
-            if (name!=me):
+            if (name != me):
                 if (a == z["body"][0]):
                     x = a['x']
                     y = a['y']
@@ -129,7 +124,7 @@ def boardToArray(dataDump):
                 else:
                     x = a['x']
                     y = a['y']
-                    board[y][x]='S'
+                    board[y][x] = 'S'
     return board
 
 def setBoardValues(board):
@@ -143,6 +138,24 @@ def setBoardValues(board):
             elif board[i][j] == 'E':
                 board[i][j] = 0
     return board
+
+def getNearestFood(datadump):
+    food_array = []
+    distance_array = []
+    snake_x = datadump["you"]["body"][0]['x']
+    snake_y = datadump["you"]["body"][0]['y']
+    for z in datadump["board"]["food"]:
+        x = z['x']
+        y = z['y']
+        food_array.append([x, y])
+
+    for i in food_array:
+        move_distance = (abs((snake_x) - i[0])) + (abs((snake_y) - i[1]))
+        distance_array.append(move_distance)
+
+    index_of_smallest = distance_array.index(min(distance_array))
+    print(food_array[index_of_smallest])
+    return food_array[index_of_smallest]
 
 # Expose WSGI app (so gunicorn can find it)
 application = bottle.default_app()
