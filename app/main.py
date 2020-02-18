@@ -2,6 +2,7 @@ import json
 import os
 import random
 import bottle
+import math
 
 from api import ping_response, start_response, move_response, end_response
 
@@ -53,7 +54,7 @@ def start():
 @bottle.post('/move')
 def move():
     data = bottle.request.json
-    #Converts data to be parsable
+    # Converts data to be parsable
     converted_data = json.loads(json.dumps(data))
     game_id = converted_data["game"]["id"]
 
@@ -95,15 +96,16 @@ def boardToArray(dataDump):
     board_height = dataDump["board"]["height"]
     board = [[0 for x in range(board_width)] for y in range(board_height)] 
     #label spaces as food
+
     for z in dataDump["board"]["food"]:
         x = z['x']
         y = z['y']
         board[y][x] = 'F'
-    #finding your body
-    me=dataDump["you"]["id"]
+    # finding your body
+    me = dataDump["you"]["id"]
     for z in dataDump["you"]["body"]:
-        
-        if (z==dataDump["you"]["body"][0]):
+
+        if (z == dataDump["you"]["body"][0]):
             x = z['x']
             y = z['y']
             board[y][x] = 'H'
@@ -111,11 +113,11 @@ def boardToArray(dataDump):
             x = z['x']
             y = z['y']
             board[y][x] = 'S'
-    #to find other snakes
+    # to find other snakes
     for z in dataDump["board"]["snakes"]:
         name = z["id"]
         for a in z["body"]:
-            if (name!=me):
+            if (name != me):
                 if (a == z["body"][0]):
                     x = a['x']
                     y = a['y']
@@ -123,8 +125,9 @@ def boardToArray(dataDump):
                 else:
                     x = a['x']
                     y = a['y']
-                    board[y][x]='S'
+                    board[y][x] = 'S'
     return board
+
 
 def setEdge(dataDump):
     board_width = dataDump["board"]["width"]
@@ -134,7 +137,7 @@ def setEdge(dataDump):
         for y in range(board_height):
             if(y == dataDump["board"]["height"] - 1):
                 board[y][x] = 1
-            elif(y == dataDump["board"]["height"] - dataDump["board"]["height"]):
+            elif(y == 0):
                 board[y][x] = 1
             elif (x == dataDump["board"]["width"] - 1):
                 board[y][x] = 1
@@ -143,6 +146,27 @@ def setEdge(dataDump):
             else:
                 board[y][x] = 0
     return board
+
+
+def getNearestFood(datadump):
+    food_array = []
+    distance_array = []
+    snake_x = datadump["you"]["body"][0]['x']
+    snake_y = datadump["you"]["body"][0]['y']
+    for z in datadump["board"]["food"]:
+        x = z['x']
+        y = z['y']
+        food_array.append([x, y])
+
+    for i in food_array:
+        move_distance = (abs((snake_x) - i[0])) + (abs((snake_y) - i[1]))
+        distance_array.append(move_distance)
+
+    index_of_smallest = distance_array.index(min(distance_array))
+    print(food_array[index_of_smallest])
+    return food_array[index_of_smallest]
+
+
 
 # Expose WSGI app (so gunicorn can find it)
 application = bottle.default_app()
