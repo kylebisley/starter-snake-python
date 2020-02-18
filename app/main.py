@@ -65,12 +65,6 @@ def move():
         print()        
     board = setBoardValues(board)
     
-    
-    print('After setBoardValues')
-    for x in board:
-        for y in x:
-            print(str(y) + " "),
-        print()
     """
     TODO: Using the data from the endpoint request object, your
             snake AI must choose a direction to move in.
@@ -102,7 +96,6 @@ def boardToArray(dataDump):
     board_height = dataDump["board"]["height"]
     board = [[0 for x in range(board_width)] for y in range(board_height)] 
     #label spaces as food
-
     for z in dataDump["board"]["food"]:
         x = z['x']
         y = z['y']
@@ -134,6 +127,17 @@ def boardToArray(dataDump):
                     board[y][x] = 'S'
     return board
 
+def setBoardValues(board):
+    
+    for i in range(len(board)):
+        for j in range(len(board[i])):
+            if board[i][j] == 'S' or board[i][j] == 'E' or board[i][j] == 'H':
+                board[i][j] = None
+            elif board[i][j] == 'F':
+                board[i][j] = 0
+            elif board[i][j] == 'E':
+                board[i][j] = 0
+    return board
 
 def setEdge(dataDump):
     board_width = dataDump["board"]["width"]
@@ -171,19 +175,6 @@ def getNearestFood(datadump):
     index_of_smallest = distance_array.index(min(distance_array))
     print(food_array[index_of_smallest])
     return food_array[index_of_smallest]
-
-
-def setBoardValues(board):
-    
-    for i in range(len(board)):
-        for j in range(len(board[i])):
-            if board[i][j] == 'S' or board[i][j] == 'E' or board[i][j] == 'H':
-                board[i][j] = None
-            elif board[i][j] == 'F':
-                board[i][j] = 0
-            elif board[i][j] == 'E':
-                board[i][j] = 0
-    return board
 
 # Expose WSGI app (so gunicorn can find it)
 application = bottle.default_app()
