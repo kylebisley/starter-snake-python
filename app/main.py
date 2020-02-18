@@ -138,7 +138,7 @@ def setEdge(dataDump):
                 board[y][x] = 1
             elif (x == dataDump["board"]["width"] - 1):
                 board[y][x] = 1
-            elif(x == dataDump["board"]["width"] - dataDump["board"]["width"]):
+            elif(x == 0):
                 board[y][x] = 1
             else:
                 board[y][x] = 0
