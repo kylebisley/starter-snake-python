@@ -11,7 +11,7 @@ from api import ping_response, start_response, move_response, end_response
 def index():
     return '''
     Battlesnake documentation can be found at
-       <a href="https://docs.battlesnake.com">https://docs.battlesnake.com</a>.
+        <a href="https://docs.battlesnake.com">https://docs.battlesnake.com</a>.
     '''
 
 
@@ -62,9 +62,13 @@ def move():
     for x in board:
         for y in x:
             print(str(y) + " "),
-
-        print()
-
+        print()        
+    setBoardValues(board)
+    print('After setBoardValues')
+    for x in board:
+        for y in x:
+            print(str(y) + " "),
+        print()      
     """
     TODO: Using the data from the endpoint request object, your
             snake AI must choose a direction to move in.
@@ -167,6 +171,15 @@ def getNearestFood(datadump):
     return food_array[index_of_smallest]
 
 
+def setBoardValues(board):
+    for i in range(len(board)):
+        for j in range(len(board[i])):
+            if board[i][j] == 'S' or 'E' or 'H':
+                board[i][j] = None
+            elif board[i][j] == 'F':
+                board[i][j] = 0
+            elif board[i][j] == 'E':
+                board[i][j] = 0
 
 # Expose WSGI app (so gunicorn can find it)
 application = bottle.default_app()
