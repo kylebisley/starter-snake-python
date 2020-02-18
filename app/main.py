@@ -135,9 +135,19 @@ def boardToArray(dataDump):
 def setEdge(dataDump):
     board_width = dataDump["board"]["width"]
     board_height = dataDump["board"]["height"]
-    board = [[1 for x in range(board_width)] for y in range(board_height)] 
-
-    board = [[0 for x in range(1,board_width-1)] for y in range(1,board_height-1)] 
+    board = [[0 for x in range(board_width)] for y in range(board_height)] 
+    for x in range(board_width):
+        for y in range(board_height):
+            if(y == dataDump["board"]["height"] - 1):
+                board[y][x] = 1
+            elif(y == dataDump["board"]["height"] - dataDump["board"]["height"]):
+                board[y][x] = 1
+            elif (y == dataDump["board"]["width"] - 1):
+                board[y][x] = 1
+            elif(y == dataDump["board"]["width"] - dataDump["board"]["width"]):
+                board[y][x] = 1
+            else:
+                board[y][x] = 0
     return board
 
 # Expose WSGI app (so gunicorn can find it)
