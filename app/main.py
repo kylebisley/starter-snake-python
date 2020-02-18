@@ -136,7 +136,7 @@ def setBoardValues(board):
     
     for i in range(len(board)):
         for j in range(len(board[i])):
-            if board[i][j] == 'S' or 'E' or 'H':
+            if board[i][j] == 'S' or board[i][j] == 'E' or board[i][j] == 'H':
                 board[i][j] = None
             elif board[i][j] == 'F':
                 board[i][j] = 0
