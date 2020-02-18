@@ -69,6 +69,7 @@ def move():
     TODO: Using the data from the endpoint request object, your
             snake AI must choose a direction to move in.
     """
+
     print(json.dumps(data))
 
     directions = ['up', 'down', 'left', 'right']
@@ -93,8 +94,9 @@ def end():
 def boardToArray(dataDump):
     board_width = dataDump["board"]["width"]
     board_height = dataDump["board"]["height"]
-    board = [[10 for x in range(board_width)] for y in range(board_height)]
-    # label spaces as food
+    board = [[0 for x in range(board_width)] for y in range(board_height)] 
+    #label spaces as food
+
     for z in dataDump["board"]["food"]:
         x = z['x']
         y = z['y']
@@ -107,7 +109,6 @@ def boardToArray(dataDump):
             x = z['x']
             y = z['y']
             board[y][x] = 'H'
-            headPosition = z
         else:
             x = z['x']
             y = z['y']
@@ -128,6 +129,25 @@ def boardToArray(dataDump):
     return board
 
 
+def setEdge(dataDump):
+    board_width = dataDump["board"]["width"]
+    board_height = dataDump["board"]["height"]
+    board = [[0 for x in range(board_width)] for y in range(board_height)] 
+    for x in range(board_width):
+        for y in range(board_height):
+            if(y == dataDump["board"]["height"] - 1):
+                board[y][x] = 1
+            elif(y == 0):
+                board[y][x] = 1
+            elif (x == dataDump["board"]["width"] - 1):
+                board[y][x] = 1
+            elif(x == 0):
+                board[y][x] = 1
+            else:
+                board[y][x] = 0
+    return board
+
+
 def getNearestFood(datadump):
     food_array = []
     distance_array = []
@@ -145,6 +165,7 @@ def getNearestFood(datadump):
     index_of_smallest = distance_array.index(min(distance_array))
     print(food_array[index_of_smallest])
     return food_array[index_of_smallest]
+
 
 
 # Expose WSGI app (so gunicorn can find it)
