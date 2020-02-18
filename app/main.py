@@ -68,6 +68,13 @@ def move():
     TODO: Using the data from the endpoint request object, your
             snake AI must choose a direction to move in.
     """
+    edges = setEdge(converted_data)
+
+    for x in edges:
+        for y in x:
+            print(str(y) + " "),
+
+        print()
     print(json.dumps(data))
 
     directions = ['up', 'down', 'left', 'right']
@@ -92,7 +99,7 @@ def end():
 def boardToArray(dataDump):
     board_width = dataDump["board"]["width"]
     board_height = dataDump["board"]["height"]
-    board = [[10 for x in range(board_width)] for y in range(board_height)] 
+    board = [[0 for x in range(board_width)] for y in range(board_height)] 
     #label spaces as food
     for z in dataDump["board"]["food"]:
         x = z['x']
@@ -106,7 +113,6 @@ def boardToArray(dataDump):
             x = z['x']
             y = z['y']
             board[y][x] = 'H'
-            headPosition=z
         else:
             x = z['x']
             y = z['y']
@@ -125,6 +131,13 @@ def boardToArray(dataDump):
                     y = a['y']
                     board[y][x]='S'
     return board
+
+def setEdge(dataDump):
+    board_width = dataDump["board"]["width"]
+    board_height = dataDump["board"]["height"]
+    board = [[1 for x in range(board_width)] for y in range(board_height)] 
+
+    board = [[0 for x in range(1,board_width-1)] for y in range(1,board_height-1)] 
 
 # Expose WSGI app (so gunicorn can find it)
 application = bottle.default_app()
