@@ -223,7 +223,7 @@ def navigate(converted_data, pathBoard, food):
         if ((converted_data["you"]["body"][0]['y']) < (path[1][1])):
             direction = ['down']
         else:
-            direction = direction = ['up']
+            direction = ['up']
     else: #x values are different check them for direction
         if((converted_data["you"]["body"][0]['x']) < (path[1][0])):
             direction = ['right']
