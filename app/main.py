@@ -73,29 +73,8 @@ def move():
 
     print(json.dumps(data))
 
-    closeFood=getNearestFood(converted_data)
-
-    matrix = setBoardValues(converted_data)
-    grid = Grid(matrix=matrix)
-
-    start = grid.node(converted_data["you"]["body"][0]['x'],converted_data["you"]["body"][0]['y'])
-    end = grid.node(closeFood[0],closeFood[1])
-
-    finder = AStarFinder()
-    path, runs = finder.find_path(start, end, grid)
-
-    directions = ['up', 'down', 'left', 'right']
-
-    if(converted_data["you"]["body"][0]['x']<path[0][1]):
-        directions = ['right']
-    elif(converted_data["you"]["body"][0]['x']>path[0][1]):
-        directions = ['left']
-    elif(converted_data["you"]["body"][0]['y']<path[1][0]):
-        directions = ['down']
-    elif(converted_data["you"]["body"][0]['y']>path[1][0]):
-        directions = ['up']
-
     
+    directions = navigate
     direction = random.choice(directions)
 
     return move_response(direction)
@@ -190,6 +169,30 @@ def getNearestFood(datadump):
     return food_array[index_of_smallest]
 
 
+def navigate(converted_data):
+    closeFood=getNearestFood(converted_data)
+
+    matrix = setBoardValues(converted_data)
+    grid = Grid(matrix=matrix)
+
+    start = grid.node(converted_data["you"]["body"][0]['x'],converted_data["you"]["body"][0]['y'])
+    end = grid.node(closeFood[0],closeFood[1])
+
+    finder = AStarFinder()
+    path, runs = finder.find_path(start, end, grid)
+
+    directions = ['up', 'down', 'left', 'right']
+
+    if(converted_data["you"]["body"][0]['x']<path[0][1]):
+        directions = ['right']
+    elif(converted_data["you"]["body"][0]['x']>path[0][1]):
+        directions = ['left']
+    elif(converted_data["you"]["body"][0]['y']<path[1][0]):
+        directions = ['down']
+    elif(converted_data["you"]["body"][0]['y']>path[1][0]):
+        directions = ['up']
+
+    return directions
 
 # Expose WSGI app (so gunicorn can find it)
 application = bottle.default_app()
