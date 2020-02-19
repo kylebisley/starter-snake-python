@@ -11,7 +11,7 @@ from api import ping_response, start_response, move_response, end_response
 def index():
     return '''
     Battlesnake documentation can be found at
-       <a href="https://docs.battlesnake.com">https://docs.battlesnake.com</a>.
+        <a href="https://docs.battlesnake.com">https://docs.battlesnake.com</a>.
     '''
 
 
@@ -62,8 +62,11 @@ def move():
     for x in board:
         for y in x:
             print(str(y) + " "),
-
         print()
+
+
+    pathableBoard = setBoardValues(converted_data)
+
 
     """
     TODO: Using the data from the endpoint request object, your
@@ -96,7 +99,6 @@ def boardToArray(dataDump):
     board_height = dataDump["board"]["height"]
     board = [[0 for x in range(board_width)] for y in range(board_height)] 
     #label spaces as food
-
     for z in dataDump["board"]["food"]:
         x = z['x']
         y = z['y']
@@ -128,6 +130,36 @@ def boardToArray(dataDump):
                     board[y][x] = 'S'
     return board
 
+def setBoardValues(jData):
+    board = setEdge(jData)
+    
+    # pertaining to our own body
+    me = jData["you"]["id"]
+
+    for z in jData["you"]["body"]:
+        if (z == jData["you"]["body"][0]):
+            x = z['x']
+            y = z['y']
+            board[y][x] = 0
+        else:
+            x = z['x']
+            y = z['y']
+            board[y][x] = None
+    # other snakes
+    for z in jData["board"]["snakes"]:
+        name = z["id"]
+
+        for a in z["body"]:
+            if (name != me):
+                if (a == z["body"][0]):
+                    x = a['x']
+                    y = a['y']
+                    board[y][x] = None
+                else:
+                    x = a['x']
+                    y = a['y']
+                    board[y][x] = None
+    return board
 
 def setEdge(dataDump):
     board_width = dataDump["board"]["width"]
@@ -165,8 +197,6 @@ def getNearestFood(datadump):
     index_of_smallest = distance_array.index(min(distance_array))
     print(food_array[index_of_smallest])
     return food_array[index_of_smallest]
-
-
 
 # Expose WSGI app (so gunicorn can find it)
 application = bottle.default_app()
