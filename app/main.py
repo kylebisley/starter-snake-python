@@ -74,7 +74,7 @@ def move():
     print(json.dumps(data))
 
     
-    directions = navigate
+    directions = navigate(converted_data)
     direction = random.choice(directions)
 
     return move_response(direction)
