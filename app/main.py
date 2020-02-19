@@ -65,7 +65,7 @@ def move():
             print(str(y) + " "),
         print()
 
-
+    closeFood=getNearestFood(converted_data)
     pathableBoard = setBoardValues(converted_data)
 
 
@@ -77,7 +77,7 @@ def move():
     print(json.dumps(data))
 
     
-    directions = navigate(converted_data)
+    directions = navigate(converted_data,pathableBoard,closeFood)
     direction = random.choice(directions)
 
     return move_response(direction)
@@ -201,14 +201,14 @@ def getNearestFood(datadump):
     return food_array[index_of_smallest]
   
 
-def navigate(converted_data):
-    closeFood=getNearestFood(converted_data)
+def navigate(converted_data, pathBoard, food):
+    
 
-    matrix = setBoardValues(converted_data)
+    matrix = pathBoard
     grid = Grid(matrix=matrix)
 
     start = grid.node(converted_data["you"]["body"][0]['x'],converted_data["you"]["body"][0]['y'])
-    end = grid.node(closeFood[0],closeFood[1])
+    end = grid.node(food[0],food[1])
 
     finder = AStarFinder()
     path, runs = finder.find_path(start, end, grid)
