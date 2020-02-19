@@ -5,7 +5,8 @@ import bottle
 import math
 
 from api import ping_response, start_response, move_response, end_response
-
+from pathfinding.core.grid import Grid
+from pathfinding.finder.a_star import AStarFinder
 
 @bottle.route('/')
 def index():
@@ -72,7 +73,29 @@ def move():
 
     print(json.dumps(data))
 
+    closeFood=getNearestFood(converted_data)
+
+    matrix = setBoardValues(converted_data)
+    grid = Grid(matrix=matrix)
+
+    start = grid.node(converted_data["you"]["body"][0]['x'],converted_data["you"]["body"][0]['y'])
+    end = grid.node(closeFood[0],closeFood[1])
+
+    finder = AStarFinder()
+    path, runs = finder.find_path(start, end, grid)
+
     directions = ['up', 'down', 'left', 'right']
+
+    if(converted_data["you"]["body"][0]['x']<path[0][1]):
+        directions = ['right']
+    elif(converted_data["you"]["body"][0]['x']>path[0][1]):
+        directions = ['left']
+    elif(converted_data["you"]["body"][0]['y']<path[1][0]):
+        directions = ['down']
+    elif(converted_data["you"]["body"][0]['y']>path[1][0]):
+        directions = ['up']
+
+    
     direction = random.choice(directions)
 
     return move_response(direction)
