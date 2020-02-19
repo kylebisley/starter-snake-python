@@ -207,11 +207,14 @@ def navigate(converted_data, pathBoard, food):
     grid = Grid(matrix=matrix)
 
     start = grid.node(converted_data["you"]["body"][0]['x'],converted_data["you"]["body"][0]['y'])
-    #end = grid.node(food[0],food[1]) #isn't food_array something like food[0]['x']food[0]['y']
+    end = grid.node(food[0],food[1]) #isn't food_array something like food[0]['x']food[0]['y']
     print ("food")
     print (food)
-    print (food[0][0], food[0][1])
-    end = grid.node(food[0][0], food[0][1])      #this is more how I think it should look. I could be way off though. 
+    print ("food[0]")
+    print (food[0])
+    print ("food[1]")
+    print (food[1])
+
 
     finder = AStarFinder()
     path, runs = finder.find_path(start, end, grid)
