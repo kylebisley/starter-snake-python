@@ -213,6 +213,10 @@ def navigate(converted_data, pathBoard, food):
     finder = AStarFinder()
     path, runs = finder.find_path(start, end, grid)
 
+
+    print('operations:', runs, 'path length:', len(path))
+    print(grid.grid_str(path=path, start=start, end=end))
+    print(path[1])
     directions = ['up', 'down', 'left', 'right']
 
     if(converted_data["you"]["body"][0]['x']<path[0][1]):
@@ -223,7 +227,7 @@ def navigate(converted_data, pathBoard, food):
         directions = ['down']
     elif(converted_data["you"]["body"][0]['y']>path[1][0]):
         directions = ['up']
-
+    print(directions)
     return directions
 
 # Expose WSGI app (so gunicorn can find it)
