@@ -222,9 +222,9 @@ def navigate(converted_data, pathBoard, food):
         directions = ['right']
     elif(converted_data["you"]["body"][0]['x']>path[0][1]):
         directions = ['left']
-    elif(converted_data["you"]["body"][0]['y']<path[1][0]):
+    elif(converted_data["you"]["body"][0]['y']<path[1][1]):
         directions = ['down']
-    elif(converted_data["you"]["body"][0]['y']>path[1][0]):
+    elif(converted_data["you"]["body"][0]['y']>path[1][1]):
         directions = ['up']
     print(directions)
     return directions
