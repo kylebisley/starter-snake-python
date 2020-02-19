@@ -142,11 +142,11 @@ def setBoardValues(jData):
         if (z == jData["you"]["body"][0]):
             x = z['x']
             y = z['y']
-            board[y][x] = 0
+            board[y][x] = 1
         else:
             x = z['x']
             y = z['y']
-            board[y][x] = None
+            board[y][x] = -1
     # other snakes
     for z in jData["board"]["snakes"]:
         name = z["id"]
@@ -156,11 +156,11 @@ def setBoardValues(jData):
                 if (a == z["body"][0]):
                     x = a['x']
                     y = a['y']
-                    board[y][x] = None
+                    board[y][x] = -1
                 else:
                     x = a['x']
                     y = a['y']
-                    board[y][x] = None
+                    board[y][x] = -1
     return board
 
 def setEdge(dataDump):
@@ -170,15 +170,15 @@ def setEdge(dataDump):
     for x in range(board_width):
         for y in range(board_height):
             if(y == dataDump["board"]["height"] - 1):
-                board[y][x] = 1
+                board[y][x] = 2
             elif(y == 0):
-                board[y][x] = 1
+                board[y][x] = 2
             elif (x == dataDump["board"]["width"] - 1):
-                board[y][x] = 1
+                board[y][x] = 2
             elif(x == 0):
-                board[y][x] = 1
+                board[y][x] = 2
             else:
-                board[y][x] = 0
+                board[y][x] = 1
     return board
 
 
@@ -203,7 +203,6 @@ def getNearestFood(datadump):
 
 def navigate(converted_data, pathBoard, food):
     
-
     matrix = pathBoard
     grid = Grid(matrix=matrix)
 
