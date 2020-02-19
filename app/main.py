@@ -66,11 +66,7 @@ def move():
 
 
     pathableBoard = setBoardValues(converted_data)
-    
-    for x in pathableBoard:
-        for y in x:
-            print(str(y) + " "),
-        print()
+
 
     """
     TODO: Using the data from the endpoint request object, your
@@ -139,6 +135,7 @@ def setBoardValues(jData):
     
     # pertaining to our own body
     me = jData["you"]["id"]
+
     for z in jData["you"]["body"]:
         if (z == jData["you"]["body"][0]):
             x = z['x']
@@ -151,12 +148,12 @@ def setBoardValues(jData):
     # other snakes
     for z in jData["board"]["snakes"]:
         name = z["id"]
+
         for a in z["body"]:
             if (name != me):
                 if (a == z["body"][0]):
                     x = a['x']
                     y = a['y']
-
                     board[y][x] = None
                 else:
                     x = a['x']
