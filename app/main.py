@@ -202,29 +202,44 @@ def getNearestFood(datadump):
   
 
 def navigate(converted_data, pathBoard, food):
-    
-
+    """
+    This method generates a path to the nearest food object and returns the 
+    direction for the first move along that path. 
+    @food array of food locations in (x,y) format
+    @converted_data parsed json data dump
+    @pathBoard integer representation of current board
+    """
     matrix = pathBoard
     grid = Grid(matrix=matrix)
 
     start = grid.node(converted_data["you"]["body"][0]['x'],converted_data["you"]["body"][0]['y'])
-    end = grid.node(food[0],food[1])
+    end = grid.node(food[0],food[1]) 
 
     finder = AStarFinder()
     path, runs = finder.find_path(start, end, grid)
+    
+    #same logic but perhaps clearer this way? I'll leave it up to code review which one we choose. 
+    if (converted_data["you"]["body"][0]['x'] == path[1][0]): #if x values are same check y values for direction
+        if ((converted_data["you"]["body"][0]['y']) < (path[1][1])):
+            direction = ['down']
+        else:
+            direction = ['up']
+    else: #x values are different check them for direction
+        if((converted_data["you"]["body"][0]['x']) < (path[1][0])):
+            direction = ['right']
+        else:
+            direction = ['left']
+        
+    # if(converted_data["you"]["body"][0]['x']<path[1][0]):
+    #     direction = ['right']
+    # elif(converted_data["you"]["body"][0]['x']>path[1][0]):
+    #     direction = ['left']
+    # elif(converted_data["you"]["body"][0]['y']<path[1][1]):
+    #     direction = ['down']
+    # elif(converted_data["you"]["body"][0]['y']>path[1][1]):
+    #     direction = ['up']
+    return direction
 
-    directions = ['up', 'down', 'left', 'right']
-
-    if(converted_data["you"]["body"][0]['x']<path[0][1]):
-        directions = ['right']
-    elif(converted_data["you"]["body"][0]['x']>path[0][1]):
-        directions = ['left']
-    elif(converted_data["you"]["body"][0]['y']<path[1][0]):
-        directions = ['down']
-    elif(converted_data["you"]["body"][0]['y']>path[1][0]):
-        directions = ['up']
-
-    return directions
 
 # Expose WSGI app (so gunicorn can find it)
 application = bottle.default_app()
