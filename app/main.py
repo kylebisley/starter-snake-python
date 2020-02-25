@@ -138,11 +138,11 @@ def setBoardValues(jData):
     # pertaining to our own body
     me = jData["you"]["id"]
 
-    for z in jData["you"]["body"]-1:
+    for z in jData["you"]["body"]:
         if (z == jData["you"]["body"][0]):
             x = z['x']
             y = z['y']
-            board[y][x] = 1
+            board[y][x] = 5
         else:
             x = z['x']
             y = z['y']
@@ -151,7 +151,7 @@ def setBoardValues(jData):
     for z in jData["board"]["snakes"]:
         name = z["id"]
 
-        for a in z["body"]-1:
+        for a in z["body"]:
             if (name != me):
                 if (a == z["body"][0]):
                     x = a['x']
@@ -249,7 +249,7 @@ def bullyPathing(converted_data, pathBoard):
         board = pathBoard
         name = z["id"]
     
-        for a in z["body"]-1:
+        for a in z["body"]:
             if ((name != me) and (len(converted_data["board"]["snakes"]["body"])< len(converted_data["you"]["body"]))):
                 if (a == z["body"][0]):
                     x = a['x']
