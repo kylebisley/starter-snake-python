@@ -250,6 +250,9 @@ def bullyPathing(converted_data, pathBoard):
         name = z["id"]
     
         for a in z["body"]:
+
+            print("length of a " + len(a))
+            print("a is " +a)
             if ((name != me) and (len(a)< len(converted_data["you"]["body"]))):
                 if (a == z["body"][0]):
                     x = a['x']
