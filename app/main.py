@@ -161,7 +161,8 @@ def setBoardValues(jData):
                     x = a['x']
                     y = a['y']
                     board[y][x] = -1
-    return bullyPathing(jData,board)
+    board = bullyPathing(jData,board)
+    return board
 
 def setEdge(dataDump):
     board_width = dataDump["board"]["width"]
@@ -267,6 +268,10 @@ def bullyPathing(converted_data, pathBoard):
                         board[x-1][y]=3
                     if(pathBoard[x][y-1]!=-1):
                         board[x][y-1]=3
+    for x in board:
+        for y in x:
+            print(str(y) + " "),
+        print()
     return board
 
 
