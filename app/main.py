@@ -77,7 +77,7 @@ def move():
     print(json.dumps(data))
 
     
-    directions = navigate(converted_data,pathableBoard,closeFood)
+    directions = navigate(converted_data, pathableBoard, closeFood)
     direction = random.choice(directions)
 
     return move_response(direction)
@@ -138,7 +138,7 @@ def setBoardValues(jData):
     # pertaining to our own body
     me = jData["you"]["id"]
 
-    for z in jData["you"]["body"]:
+    for z in jData["you"]["body"]-1:
         if (z == jData["you"]["body"][0]):
             x = z['x']
             y = z['y']
@@ -151,7 +151,7 @@ def setBoardValues(jData):
     for z in jData["board"]["snakes"]:
         name = z["id"]
 
-        for a in z["body"]:
+        for a in z["body"]-1:
             if (name != me):
                 if (a == z["body"][0]):
                     x = a['x']
@@ -161,7 +161,7 @@ def setBoardValues(jData):
                     x = a['x']
                     y = a['y']
                     board[y][x] = -1
-    return board
+    return bullyPathing(jData,board)
 
 def setEdge(dataDump):
     board_width = dataDump["board"]["width"]
@@ -170,15 +170,15 @@ def setEdge(dataDump):
     for x in range(board_width):
         for y in range(board_height):
             if(y == dataDump["board"]["height"] - 1):
-                board[y][x] = 2
+                board[y][x] = 10
             elif(y == 0):
-                board[y][x] = 2
+                board[y][x] = 10
             elif (x == dataDump["board"]["width"] - 1):
-                board[y][x] = 2
+                board[y][x] = 10
             elif(x == 0):
-                board[y][x] = 2
+                board[y][x] = 10
             else:
-                board[y][x] = 1
+                board[y][x] = 5
     return board
 
 
@@ -199,7 +199,7 @@ def getNearestFood(datadump):
     index_of_smallest = distance_array.index(min(distance_array))
     print(food_array[index_of_smallest])
     return food_array[index_of_smallest]
-  
+
 
 def navigate(converted_data, pathBoard, food):
     """
@@ -239,6 +239,30 @@ def navigate(converted_data, pathBoard, food):
     # elif(converted_data["you"]["body"][0]['y']>path[1][1]):
     #     direction = ['up']
     return direction
+
+
+def bullyPathing(converted_data, pathBoard):
+    me = converted_data["you"]["id"]
+
+    # other snakes heads will be assigned xy
+    for z in converted_data["board"]["snakes"]:
+        board = pathBoard
+        name = z["id"]
+    
+        for a in z["body"]-1:
+            if ((name != me) and (len(converted_data["board"]["snakes"]["body"])< len(converted_data["you"]["body"]))):
+                if (a == z["body"][0]):
+                    x = a['x']
+                    y = a['y']
+                    if(pathBoard[x+1][y]!=-1):
+                        board[x+1][y]=3
+                    if(pathBoard[x][y+1]!=-1):
+                        board[x][y+1]=3
+                    if(pathBoard[x-1][y]!=-1):
+                        board[x-1][y]=3
+                    if(pathBoard[x][y-1]!=-1):
+                        board[x][y-1]=3
+    return board
 
 
 # Expose WSGI app (so gunicorn can find it)
