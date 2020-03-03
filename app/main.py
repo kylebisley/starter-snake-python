@@ -305,6 +305,8 @@ def cardinal(converted_data, path):
     #same logic but perhaps clearer this way? I'll leave it up to code review which one we choose. 
     print("converted_data['you']['body'][0]['x']")
     print(converted_data["you"]["body"][0]['x'])
+    print("path")
+    print(path)
     print("path[1][0]")
     print(path[1][0])
     if (converted_data["you"]["body"][0]['x'] == path[1][0]): #if x values are same check y values for direction
