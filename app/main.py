@@ -71,7 +71,7 @@ def move():
             print(str(y) + " "),
         print()
 
-    closeFood=getNearestFood(converted_data)
+    closeFood = getNearestFood(converted_data)
     pathableBoard = setBoardValues(converted_data)
 
 
@@ -81,10 +81,13 @@ def move():
     """
 
     print(json.dumps(data))
+    pathableBoard = boardToArray(data)
+    directions = cardinal(getMinPathToFood(converted_data, pathableBoard))
+    #directions = navigate(converted_data,pathableBoard,closeFood)
 
-    
-    directions = navigate(converted_data,pathableBoard,closeFood)
+
     direction = random.choice(directions)
+    #direction = direction[0]
 
     return move_response(direction)
 
@@ -246,6 +249,20 @@ def getNearestFood(datadump):
     print(food_array[index_of_smallest])
     return food_array[index_of_smallest]
 
+def getMinPathToFood(converted_data, pathBoard):
+    target = []
+    shortestPath = "Unassigned"
+    for food in converted_data["board"]["food"]:
+        x = food['x']
+        y = food['y']
+        target.append([x, y])
+        newPath = navigate(converted_data, pathBoard, target)
+        if (shortestPath == "Unassigned"):
+            shortestPath = newPath
+        if (newPath.length < shortestPath):
+            shortestPath = newPath
+    return shortestPath
+
 def navigate(converted_data, pathBoard, food):
     """
     This method generates the cardinal direction to navigate to the first element of path. 
@@ -264,7 +281,7 @@ def navigate(converted_data, pathBoard, food):
 
     finder = AStarFinder()
     path, runs = finder.find_path(start, end, grid)
-    return cardinal(converted_data, path)
+    return path
 
 def cardinal(converted_data, path):
     """
