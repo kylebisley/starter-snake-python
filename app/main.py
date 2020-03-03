@@ -252,7 +252,7 @@ def getMinPathToFood(converted_data, pathBoard):
         converted_data (json): converted python representation of current game snapshot
         pathBoard (int array): integer representation of board
     Returns:
-        path (path): shortest path to food
+        path (path): shortest path to food OR "Unassigned" when it can't find a path
     """
     shortestPath = "Unassigned"
     for food in converted_data["board"]["food"]:
@@ -263,15 +263,16 @@ def getMinPathToFood(converted_data, pathBoard):
             shortestPath = newPath
         else:
             # good place to begin the logic for when we can't path to food
+            print("NO FOOD IN IMMEDIATE FUTURE BETTER KILL MYSELF")
             continue
         if (len(newPath) < len(shortestPath) & (len(newPath) != 0)):
             shortestPath = newPath
-        print("Food")
-        print(food)
-        print("length of newPath")
-        print(len(newPath))
-        print("length of shortestPath")
-        print(len(shortestPath))
+        # print("Food")
+        # print(food)
+        # print("length of newPath")
+        # print(len(newPath))
+        # print("length of shortestPath")
+        # print(len(shortestPath))
     return shortestPath
 
 def navigate(converted_data, pathBoard, food):
