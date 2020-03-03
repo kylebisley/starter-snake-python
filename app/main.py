@@ -250,6 +250,14 @@ def getNearestFood(datadump):
     return food_array[index_of_smallest]
 
 def getMinPathToFood(converted_data, pathBoard):
+    """
+    Checks for shortest path to food. 
+    Args:
+        converted_data (json): converted python representation of current game snapshot
+        pathBoard (int array): integer representation of board
+    Returns:
+        path (path): shortest path to food
+    """
     target = []
     shortestPath = "Unassigned"
     for food in converted_data["board"]["food"]:
