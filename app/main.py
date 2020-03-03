@@ -244,18 +244,17 @@ def navigate(converted_data, pathBoard, food):
 
 def bullyPathing(converted_data, pathBoard):
     me = converted_data["you"]["id"]
-
+    board = pathBoard
     # other snakes heads will be assigned xy
     for z in converted_data["board"]["snakes"]:
-        board = pathBoard
         name = z["id"]
     
         for a in z["body"]:
-            print("length of z ")
-            print(len(z))
-            print("z is ")
-            print(z)
-            if ((name != me) and (len(z["body"])< len(converted_data["you"]["body"]))):
+            print("length of z[\"body\"] ")
+            print(len(z["body"]))
+            print("a is ")
+            print(a)
+            if ((str(name) != str(me)) and (len(z["body"])< len(converted_data["you"]["body"]))):
                 if (a == z["body"][0]):
                     x = a['x']
                     y = a['y']
