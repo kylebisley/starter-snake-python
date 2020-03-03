@@ -73,19 +73,15 @@ def move():
 
     #closeFood = getNearestFood(converted_data)
     pathableBoard = setBoardValues(converted_data)
-
-
-    """
-    TODO: Using the data from the endpoint request object, your
-            snake AI must choose a direction to move in.
-    """
-
+    
+    for x in pathableBoard:
+        for y in x:
+            print(str(y) + " "),
+        print()
+    #Json data is printed for debug help
     print(json.dumps(data))
-    
-    
     directions = cardinal(converted_data, getMinPathToFood(converted_data, pathableBoard))
 
-    #direction = random.choice(directions)
     direction = directions[0]
 
     return move_response(direction)
@@ -303,12 +299,15 @@ def cardinal(converted_data, path):
     """
     
     #same logic but perhaps clearer this way? I'll leave it up to code review which one we choose. 
-    print("converted_data['you']['body'][0]['x']")
-    print(converted_data["you"]["body"][0]['x'])
-    print("path")
-    print(path)
-    print("path[1][0]")
-    print(path[1][0])
+    # got off track with debugging this oddity. After eating a bunch of food the paths start to just return blank
+    # I've not the time to go further on this and it deserves a new branch also so I'll leave it for now
+    # with these debug statements commented out. 
+    # print("converted_data['you']['body'][0]['x']")
+    # print(converted_data["you"]["body"][0]['x'])
+    # print("path")
+    # print(path)
+    # print("path[1][0]")
+    # print(path[1][0])
     if (converted_data["you"]["body"][0]['x'] == path[1][0]): #if x values are same check y values for direction
         if ((converted_data["you"]["body"][0]['y']) < (path[1][1])):
             direction = ['down']
