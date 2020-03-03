@@ -252,7 +252,9 @@ def getMinPathToFood(converted_data, pathBoard):
         converted_data (json): converted python representation of current game snapshot
         pathBoard (int array): integer representation of board
     Returns:
-        path (path): shortest path to food OR "Unassigned" when it can't find a path
+        shortestPath (path): shortest path to food 
+        OR 
+        shortestPath (string): "Unassigned" when it can't path to food
     """
     shortestPath = "Unassigned"
     for food in converted_data["board"]["food"]:
@@ -267,12 +269,6 @@ def getMinPathToFood(converted_data, pathBoard):
             continue
         if (len(newPath) < len(shortestPath) & (len(newPath) != 0)):
             shortestPath = newPath
-        # print("Food")
-        # print(food)
-        # print("length of newPath")
-        # print(len(newPath))
-        # print("length of shortestPath")
-        # print(len(shortestPath))
     return shortestPath
 
 def navigate(converted_data, pathBoard, food):
@@ -298,23 +294,14 @@ def navigate(converted_data, pathBoard, food):
 def cardinal(converted_data, path):
     """
     Translates first move on path to cardinal direction.
+
     Args:
         converted_data (json): python readable json
         path (list): path from a*
     Return:
         direction (single item list): cardinal direction as string 
     """
-    
-    #same logic but perhaps clearer this way? I'll leave it up to code review which one we choose. 
-    # got off track with debugging this oddity. After eating a bunch of food the paths start to just return blank
-    # I've not the time to go further on this and it deserves a new branch also so I'll leave it for now
-    # with these debug statements commented out. 
-    # print("converted_data['you']['body'][0]['x']")
-    # print(converted_data["you"]["body"][0]['x'])
-    # print("path")
-    # print(path)
-    # print("path[1][0]")
-    # print(path[1][0])
+
     if (converted_data["you"]["body"][0]['x'] == path[1][0]): #if x values are same check y values for direction
         if ((converted_data["you"]["body"][0]['y']) < (path[1][1])):
             direction = ['down']
