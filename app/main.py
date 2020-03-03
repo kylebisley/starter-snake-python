@@ -183,6 +183,13 @@ def setEdge(dataDump):
 
 
 def getNearestFood(datadump):
+    """
+    Returns a x,y coordinates of the closest pathable food (as a crow flys)
+    Args:
+        datadump (json): converted python representation of current game snapshot
+    Returns:
+        Index of the food closest to head of snake. 
+    """
     food_array = []
     distance_array = []
     snake_x = datadump["you"]["body"][0]['x']
@@ -203,11 +210,13 @@ def getNearestFood(datadump):
 
 def navigate(converted_data, pathBoard, food):
     """
-    This method generates a path to the nearest food object and returns the 
-    direction for the first move along that path. 
-    @food array of food locations in (x,y) format
-    @converted_data parsed json data dump
-    @pathBoard integer representation of current board
+    This method generates the cardinal direction to navigate to the first element of path. 
+    Args:
+        food (list): food locations in (x,y) format
+        converted_data (json): parsed json data dump
+        pathBoard (array): integer representation of current board 
+    Returns:
+        output of cardinal function
     """
     matrix = pathBoard
     grid = Grid(matrix=matrix)
@@ -217,6 +226,17 @@ def navigate(converted_data, pathBoard, food):
 
     finder = AStarFinder()
     path, runs = finder.find_path(start, end, grid)
+    return cardinal(converted_data, path)
+
+def cardinal(converted_data, path):
+    """
+    Translates first move on path to cardinal direction.
+    Args:
+        converted_data (json): python readable json
+        path (list): path from a*
+    Return:
+        direction (single item list): cardinal direction as string 
+    """
     
     #same logic but perhaps clearer this way? I'll leave it up to code review which one we choose. 
     if (converted_data["you"]["body"][0]['x'] == path[1][0]): #if x values are same check y values for direction
@@ -229,15 +249,6 @@ def navigate(converted_data, pathBoard, food):
             direction = ['right']
         else:
             direction = ['left']
-        
-    # if(converted_data["you"]["body"][0]['x']<path[1][0]):
-    #     direction = ['right']
-    # elif(converted_data["you"]["body"][0]['x']>path[1][0]):
-    #     direction = ['left']
-    # elif(converted_data["you"]["body"][0]['y']<path[1][1]):
-    #     direction = ['down']
-    # elif(converted_data["you"]["body"][0]['y']>path[1][1]):
-    #     direction = ['up']
     return direction
 
 
