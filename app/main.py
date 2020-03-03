@@ -259,15 +259,15 @@ def getMinPathToFood(converted_data, pathBoard):
     Returns:
         path (path): shortest path to food
     """
-    target = []
+    #target = []
     shortestPath = "Unassigned"
     for food in converted_data["board"]["food"]:
         x = food['x']
         y = food['y']
-        target.append([x, y])
+        #target.append([x, y])
         print("Target")
-        print(target)
-        newPath = navigate(converted_data, pathBoard, target)
+        print([x, y])
+        newPath = navigate(converted_data, pathBoard, [x, y])
         if (shortestPath == "Unassigned"):
             shortestPath = newPath
         if (newPath.length < shortestPath):
