@@ -96,20 +96,27 @@ def end():
     return end_response()
 
 
-def boardToArray(dataDump):
-    board_width = dataDump["board"]["width"]
-    board_height = dataDump["board"]["height"]
+def boardToArray(data_dump):
+    """
+    Converts converted JSON data from battlesnake engine to a list
+    Args:
+        data_dump (list): Converted JSON data
+
+    Returns:
+        2D list of game board.
+    """
+    board_width = data_dump["board"]["width"]
+    board_height = data_dump["board"]["height"]
     board = [[0 for x in range(board_width)] for y in range(board_height)] 
     #label spaces as food
-    for z in dataDump["board"]["food"]:
+    for z in data_dump["board"]["food"]:
         x = z['x']
         y = z['y']
         board[y][x] = 'F'
     # finding your body
-    me = dataDump["you"]["id"]
-    for z in dataDump["you"]["body"]:
-
-        if (z == dataDump["you"]["body"][0]):
+    me = data_dump["you"]["id"]
+    for z in data_dump["you"]["body"]:
+        if z == data_dump["you"]["body"][0]:
             x = z['x']
             y = z['y']
             board[y][x] = 'H'
@@ -118,11 +125,11 @@ def boardToArray(dataDump):
             y = z['y']
             board[y][x] = 'S'
     # to find other snakes
-    for z in dataDump["board"]["snakes"]:
+    for z in data_dump["board"]["snakes"]:
         name = z["id"]
         for a in z["body"]:
-            if (name != me):
-                if (a == z["body"][0]):
+            if name != me:
+                if a == z["body"][0]:
                     x = a['x']
                     y = a['y']
                     board[y][x] = 'E'
@@ -132,14 +139,22 @@ def boardToArray(dataDump):
                     board[y][x] = 'S'
     return board
 
-def setBoardValues(jData):
-    board = setEdge(jData)
+def setBoardValues(j_data):
+    """
+    Converts converted JSON data from the battlesnake engine, to an a_star friendly gameboard.
+    Args:
+        j_data (list): Converted JSON data
+
+    Returns:
+        A_Star friendly version of the gameboard.
+    """
+    board = setEdge(j_data)
     
     # pertaining to our own body
-    me = jData["you"]["id"]
+    me = j_data["you"]["id"]
 
-    for z in jData["you"]["body"]:
-        if (z == jData["you"]["body"][0]):
+    for z in j_data["you"]["body"]:
+        if (z == j_data["you"]["body"][0]):
             x = z['x']
             y = z['y']
             board[y][x] = 1
@@ -148,12 +163,11 @@ def setBoardValues(jData):
             y = z['y']
             board[y][x] = -1
     # other snakes
-    for z in jData["board"]["snakes"]:
+    for z in j_data["board"]["snakes"]:
         name = z["id"]
-
         for a in z["body"]:
-            if (name != me):
-                if (a == z["body"][0]):
+            if name != me:
+                if a == z["body"][0]:
                     x = a['x']
                     y = a['y']
                     board[y][x] = -1
@@ -164,19 +178,32 @@ def setBoardValues(jData):
     return board
 
 def setEdge(dataDump):
+    """
+    Sets edge of gamemap to the value '2'
+    Args:
+        dataDump (list): Converted JSON data
+
+    Returns:
+         Gameboard with the edges initialised to '2'
+    """
     board_width = dataDump["board"]["width"]
     board_height = dataDump["board"]["height"]
     board = [[1 for x in range(board_width)] for y in range(board_height)] 
     for x in range(board_width):
         for y in range(board_height):
+            # bottom of board
             if(y == dataDump["board"]["height"] - 1):
                 board[y][x] = 2
+            # top of board
             elif(y == 0):
                 board[y][x] = 2
+            # right side of board
             elif (x == dataDump["board"]["width"] - 1):
                 board[y][x] = 2
+            # left side of board
             elif(x == 0):
                 board[y][x] = 2
+            # Anything else
             else:
                 board[y][x] = 1
     return board
