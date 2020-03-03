@@ -74,10 +74,10 @@ def move():
     #closeFood = getNearestFood(converted_data)
     pathableBoard = setBoardValues(converted_data)
     
-    for x in pathableBoard:
-        for y in x:
-            print(str(y) + " "),
-        print()
+    # for x in pathableBoard:
+    #     for y in x:
+    #         print(str(y) + " "),
+    #     print()
     #Json data is printed for debug help
     print(json.dumps(data))
     directions = cardinal(converted_data, getMinPathToFood(converted_data, pathableBoard))
@@ -193,7 +193,7 @@ def setEdge(dataDump):
         dataDump (list): Converted JSON data
 
     Returns:
-         Gameboard with the edges initialised to '2'
+        Gameboard with the edges initialised to '2'
 
     """
     board_width = dataDump["board"]["width"]
@@ -218,31 +218,32 @@ def setEdge(dataDump):
                 board[y][x] = OPEN_SPACE
     return board
 
+# DEPRICATED
+# I'd like to move this code to another file in our repo and keep it for reference. 
+# def getNearestFood(datadump):
+#     """
+#     Returns x,y coordinates of the closest pathable food (as a crow flys)
+#     Args:
+#         datadump (json): converted python representation of current game snapshot
+#     Returns:
+#         Index of the food closest to head of snake. 
+#     """
+#     food_array = []
+#     distance_array = []
+#     snake_x = datadump["you"]["body"][0]['x']
+#     snake_y = datadump["you"]["body"][0]['y']
+#     for z in datadump["board"]["food"]:
+#         x = z['x']
+#         y = z['y']
+#         food_array.append([x, y])
 
-def getNearestFood(datadump):
-    """
-    Returns x,y coordinates of the closest pathable food (as a crow flys)
-    Args:
-        datadump (json): converted python representation of current game snapshot
-    Returns:
-        Index of the food closest to head of snake. 
-    """
-    food_array = []
-    distance_array = []
-    snake_x = datadump["you"]["body"][0]['x']
-    snake_y = datadump["you"]["body"][0]['y']
-    for z in datadump["board"]["food"]:
-        x = z['x']
-        y = z['y']
-        food_array.append([x, y])
+#     for i in food_array:
+#         move_distance = (abs((snake_x) - i[0])) + (abs((snake_y) - i[1]))
+#         distance_array.append(move_distance)
 
-    for i in food_array:
-        move_distance = (abs((snake_x) - i[0])) + (abs((snake_y) - i[1]))
-        distance_array.append(move_distance)
-
-    index_of_smallest = distance_array.index(min(distance_array))
-    print(food_array[index_of_smallest])
-    return food_array[index_of_smallest]
+#     index_of_smallest = distance_array.index(min(distance_array))
+#     print(food_array[index_of_smallest])
+#     return food_array[index_of_smallest]
 
 def getMinPathToFood(converted_data, pathBoard):
     """
@@ -253,19 +254,18 @@ def getMinPathToFood(converted_data, pathBoard):
     Returns:
         path (path): shortest path to food
     """
-    #target = []
     shortestPath = "Unassigned"
     for food in converted_data["board"]["food"]:
-        x = food['x']
-        y = food['y']
-        #target.append([x, y])
-        print("Target")
-        print([x, y])
-        newPath = navigate(converted_data, pathBoard, [x, y])
+        print(len(newPath))
+        newPath = navigate(converted_data, pathBoard, [food['x'], food['y']])
         if (shortestPath == "Unassigned"):
             shortestPath = newPath
         if (len(newPath) < len(shortestPath)):
             shortestPath = newPath
+        print("newPath")
+        print(len(newPath))
+        print("shortestPath")
+        print(len(shortestPath))
     return shortestPath
 
 def navigate(converted_data, pathBoard, food):
