@@ -81,8 +81,8 @@ def move():
     """
 
     print(json.dumps(data))
-    print(pathableBoard)
-    pathableBoard = boardToArray(data)
+    
+    
     directions = cardinal(getMinPathToFood(converted_data, pathableBoard))
     #directions = navigate(converted_data,pathableBoard,closeFood)
 
