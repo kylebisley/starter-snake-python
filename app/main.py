@@ -84,11 +84,9 @@ def move():
     
     
     directions = cardinal(converted_data, getMinPathToFood(converted_data, pathableBoard))
-    #directions = navigate(converted_data,pathableBoard,closeFood)
 
-
-    direction = random.choice(directions)
-    #direction = direction[0]
+    #direction = random.choice(directions)
+    direction = direction[0]
 
     return move_response(direction)
 
