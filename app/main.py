@@ -259,9 +259,10 @@ def getMinPathToFood(converted_data, pathBoard):
         x = food['x']
         y = food['y']
         newPath = navigate(converted_data, pathBoard, [x, y])
-        if (shortestPath == "Unassigned" & (len(newPath) != 0)):
+        if (shortestPath == "Unassigned" and (len(newPath) != 0)):
             shortestPath = newPath
         else:
+            # good place to begin the logic for when we can't path to food
             continue
         if (len(newPath) < len(shortestPath) & (len(newPath) != 0)):
             shortestPath = newPath
