@@ -184,7 +184,7 @@ def setEdge(dataDump):
 
 def getNearestFood(datadump):
     """
-    Returns a x,y coordinates of the closest pathable food (as a crow flys)
+    Returns x,y coordinates of the closest pathable food (as a crow flys)
     Args:
         datadump (json): converted python representation of current game snapshot
     Returns:
