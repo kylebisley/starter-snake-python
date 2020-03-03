@@ -8,6 +8,12 @@ from api import ping_response, start_response, move_response, end_response
 from pathfinding.core.grid import Grid
 from pathfinding.finder.a_star import AStarFinder
 
+snake = -1
+wallspace = 10
+openSpace = 5
+smallerSnakeFutureHead = 3
+ourHead = 1
+
 @bottle.route('/')
 def index():
     return '''
@@ -142,11 +148,11 @@ def setBoardValues(jData):
         if (z == jData["you"]["body"][0]):
             x = z['x']
             y = z['y']
-            board[y][x] = 1
+            board[y][x] = ourHead
         else:
             x = z['x']
             y = z['y']
-            board[y][x] = -1
+            board[y][x] = snake
     # other snakes
     for z in jData["board"]["snakes"]:
         name = z["id"]
@@ -156,11 +162,11 @@ def setBoardValues(jData):
                 if (a == z["body"][0]):
                     x = a['x']
                     y = a['y']
-                    board[y][x] = -1
+                    board[y][x] = snake
                 else:
                     x = a['x']
                     y = a['y']
-                    board[y][x] = -1
+                    board[y][x] = snake
     return board
 
 def setEdge(dataDump):
@@ -170,15 +176,15 @@ def setEdge(dataDump):
     for x in range(board_width):
         for y in range(board_height):
             if(y == dataDump["board"]["height"] - 1):
-                board[y][x] = 2
+                board[y][x] = wallspace
             elif(y == 0):
-                board[y][x] = 2
+                board[y][x] = wallspace
             elif (x == dataDump["board"]["width"] - 1):
-                board[y][x] = 2
+                board[y][x] = wallspace
             elif(x == 0):
-                board[y][x] = 2
+                board[y][x] = wallspace
             else:
-                board[y][x] = 1
+                board[y][x] = openSpace
     return board
 
 
@@ -199,7 +205,6 @@ def getNearestFood(datadump):
     index_of_smallest = distance_array.index(min(distance_array))
     print(food_array[index_of_smallest])
     return food_array[index_of_smallest]
-  
 
 def navigate(converted_data, pathBoard, food):
     """
