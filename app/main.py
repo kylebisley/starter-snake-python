@@ -261,9 +261,11 @@ def getMinPathToFood(converted_data, pathBoard):
             shortestPath = newPath
         if (len(newPath) < len(shortestPath) & (len(newPath) != 0)):
             shortestPath = newPath
-        print("newPath")
+        print("Food")
+        print(food)
+        print("length of newPath")
         print(len(newPath))
-        print("shortestPath")
+        print("length of shortestPath")
         print(len(shortestPath))
     return shortestPath
 
