@@ -251,23 +251,24 @@ def bullyPathing(converted_data, pathBoard):
         name = z["id"]
     
         for a in z["body"]:
-
-            print("length of a ")
-            print(len(a))
-            print("a is ")
-            print(a)
-            if ((name != me) and (len(a)< len(converted_data["you"]["body"]))):
+            print("length of z ")
+            print(len(z))
+            print("z is ")
+            print(z)
+            if ((name != me) and (len(z["body"])< len(converted_data["you"]["body"]))):
                 if (a == z["body"][0]):
                     x = a['x']
                     y = a['y']
-                    if(pathBoard[x+1][y]!=-1):
-                        board[x+1][y]=3
-                    if(pathBoard[x][y+1]!=-1):
-                        board[x][y+1]=3
-                    if(pathBoard[x-1][y]!=-1):
-                        board[x-1][y]=3
-                    if(pathBoard[x][y-1]!=-1):
-                        board[x][y-1]=3
+                    if(x<converted_data['board']['width'] and x>0):
+                        if(pathBoard[x+1][y]!=-1):
+                            board[x+1][y]=3
+                        if(pathBoard[x-1][y]!=-1):
+                            board[x-1][y]=3
+                    if(y<converted_data['board']['width'] and y>0):
+                        if(pathBoard[x][y+1]!=-1):
+                            board[x][y+1]=3
+                        if(pathBoard[x][y-1]!=-1):
+                            board[x][y-1]=3
     for x in board:
         for y in x:
             print(str(y) + " "),
