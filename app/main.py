@@ -242,7 +242,26 @@ def getMinPathToFood(converted_data, pathBoard):
             continue
         if (len(newPath) < len(shortestPath) & (len(newPath) != 0)):
             shortestPath = newPath
+        
+        print(sumPathWeight(newPath, pathBoard))
     return shortestPath
+
+def sumPathWeight(path, pathBoard):
+    """
+    Recieves path, returns cost of the nodes of the path.
+    Args:
+        path (list): A* path 
+        pathBoard (list): int representation of board
+    Returns:
+        sum (int): sum of weights of tiles on path
+    """
+    print("path")
+    print(path)
+    weight = 0
+    for step in path:
+        print ("step")
+        print (step)
+    return weight
 
 def navigate(converted_data, pathBoard, food):
     """
