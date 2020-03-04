@@ -259,27 +259,35 @@ def cardinal(converted_data, path):
 
 def bullyPathing(converted_data, pathBoard):
     me = converted_data["you"]["id"]
-
+    board = pathBoard
     # other snakes heads will be assigned xy
     for z in converted_data["board"]["snakes"]:
-        board = pathBoard
         name = z["id"]
     
-        for a in z["body"]-1:
-            if ((name != me) and (len(converted_data["board"]["snakes"]["body"])< len(converted_data["you"]["body"]))):
+        for a in z["body"]:
+            print("length of z[\"body\"] ")
+            print(len(z["body"]))
+            print("a is ")
+            print(a)
+            if ((str(name) != str(me)) and (len(z["body"])< len(converted_data["you"]["body"]))):
                 if (a == z["body"][0]):
                     x = a['x']
                     y = a['y']
-                    if(pathBoard[x+1][y]!=-1):
-                        board[x+1][y]=3
-                    if(pathBoard[x][y+1]!=-1):
-                        board[x][y+1]=3
-                    if(pathBoard[x-1][y]!=-1):
-                        board[x-1][y]=3
-                    if(pathBoard[x][y-1]!=-1):
-                        board[x][y-1]=3
+                    if(x<converted_data['board']['width'] and x>0):
+                        if(pathBoard[y][x+1]!=-1):
+                            board[y][x+1]=3
+                        if(pathBoard[y][x-1]!=-1):
+                            board[y][x-1]=3
+                    if(y<converted_data['board']['width'] and y>0):
+                        if(pathBoard[y+1][x]!=-1):
+                            board[y+1][x]=3
+                        if(pathBoard[y-1][x]!=-1):
+                            board[y-1][x]=3
+    for x in board:
+        for y in x:
+            print(str(y) + " "),
+        print()
     return board
-
 # Expose WSGI app (so gunicorn can find it)
 application = bottle.default_app()
 
