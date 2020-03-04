@@ -218,9 +218,33 @@ def setEdge(dataDump):
                 board[y][x] = OPEN_SPACE
     return board
 
+# def getMinPathToFood(converted_data, pathBoard):
+#     """
+#     Checks for shortest path to food. 
+#     Args:
+#         converted_data (json): converted python representation of current game snapshot
+#         pathBoard (int array): integer representation of board
+#     Returns:
+#         shortestPath (path): shortest path to food 
+#         OR 
+#         shortestPath (string): "Unassigned" when it can't path to food
+#     """
+#     shortestPath = "Unassigned"
+#     for food in converted_data["board"]["food"]:
+#         x = food['x']
+#         y = food['y']
+#         newPath = navigate(converted_data, pathBoard, [x, y])
+#         if (shortestPath == "Unassigned" and (len(newPath) != 0)):
+#             shortestPath = newPath
+#         if (len(newPath) < len(shortestPath) and (len(newPath) != 0)):
+#             shortestPath = newPath
+        
+#         sumPathWeight(newPath, pathBoard)
+#     return shortestPath
+
 def getMinPathToFood(converted_data, pathBoard):
     """
-    Checks for shortest path to food. 
+    Checks for lightest path to food. 
     Args:
         converted_data (json): converted python representation of current game snapshot
         pathBoard (int array): integer representation of board
@@ -236,7 +260,7 @@ def getMinPathToFood(converted_data, pathBoard):
         newPath = navigate(converted_data, pathBoard, [x, y])
         if (shortestPath == "Unassigned" and (len(newPath) != 0)):
             shortestPath = newPath
-        if (len(newPath) < len(shortestPath) and (len(newPath) != 0)):
+        if (sumPathWeight(newPath, pathBoard) < sumPathWeight(shortestPath, pathBoard) and (len(newPath) != 0)):
             shortestPath = newPath
         
         sumPathWeight(newPath, pathBoard)
@@ -251,20 +275,20 @@ def sumPathWeight(path, pathBoard):
     Returns:
         sum (int): sum of weights of tiles on path
     """
-    print("path")
-    print(path)
+    # print("path")
+    # print(path)
     weight = 0
     for step in path:
-        print ("step")
-        print (step)
-        print ("tile weight")
-        print pathBoard[step[1]] [step[0]]
+        # print ("step")
+        # print (step)
+        # print ("tile weight")
+        # print pathBoard[step[1]] [step[0]]
         if (pathBoard[step[1]][step[0]] <= 0):
-            print("doom")
+            # print("doom")
             return "doom"
         weight = weight + pathBoard[step[1]] [step[0]]
-    print("weight")
-    print(weight)
+    # print("weight")
+    # print(weight)
     return weight
 
 def navigate(converted_data, pathBoard, food):
