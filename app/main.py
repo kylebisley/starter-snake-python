@@ -73,11 +73,11 @@ def move():
 
     #closeFood = getNearestFood(converted_data)
     pathableBoard = setBoardValues(converted_data)
-    
-    # for x in pathableBoard:
-    #     for y in x:
-    #         print(str(y) + " "),
-    #     print()
+    print("pathableBoard")
+    for x in pathableBoard:
+        for y in x:
+            print(str(y) + " "),
+        print()
     #Json data is printed for debug help
     print(json.dumps(data))
     directions = cardinal(converted_data, getMinPathToFood(converted_data, pathableBoard))
