@@ -356,6 +356,38 @@ def printBoard(converted_board, integer_board):
         print()
 
         
+class Tile():
+    """
+    This class exists so that whatDoYourSnakeEyesSee only needs to look at the associated object of a tile to see if it's been
+    visited, instead of searching the entire list of visited tiles every time. Should be usable for other things.
+
+    Attributes:
+        x (integer): the x coordinate, should line up with our other methods
+        y (integer): the y coordinate etc
+        visited (boolean): whether or not a tile has been visited, useful for some algorithms
+        cost: the cost for a-star to travers a tile, can be used to determine if a tile is pathable
+
+    Methods:
+        visit (void): sets visited to true
+        getVisited (boolean): returns current state of visited
+        getCost(int): returns cost attribute the tile
+    """
+    def __init__(self, xCoord, yCoord, pathCost):
+        self.x = xCoord
+        self.y = yCoord
+        self.visited = False
+        self.cost = pathCost
+    
+    def visit(self):
+        self.visited = True
+    
+    def getVisited(self):
+        return self.visited
+    
+    def getCost(self):
+        return cost
+
+
 # Expose WSGI app (so gunicorn can find it)
 application = bottle.default_app()
 
