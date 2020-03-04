@@ -236,10 +236,10 @@ def getMinPathToFood(converted_data, pathBoard):
         newPath = navigate(converted_data, pathBoard, [x, y])
         if (shortestPath == "Unassigned" and (len(newPath) != 0)):
             shortestPath = newPath
-        if (len(newPath) < len(shortestPath) & (len(newPath) != 0)):
+        if (len(newPath) < len(shortestPath) and (len(newPath) != 0)):
             shortestPath = newPath
         
-        print(sumPathWeight(newPath, pathBoard))
+        sumPathWeight(newPath, pathBoard)
     return shortestPath
 
 def sumPathWeight(path, pathBoard):
@@ -255,11 +255,13 @@ def sumPathWeight(path, pathBoard):
     print(path)
     weight = 0
     for step in path:
-        # print ("step")
-        # print (step)
-        # print ("tile weight")
-        # print pathBoard[step[0]] [step[1]]
+        print ("step")
+        print (step)
+        print ("tile weight")
+        print pathBoard[step[0]] [step[1]]
         weight = weight + pathBoard[step[0]] [step[1]]
+    print("weight")
+    print(weight)
     return weight
 
 def navigate(converted_data, pathBoard, food):
