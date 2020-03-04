@@ -262,7 +262,7 @@ def sumPathWeight(path, pathBoard):
         print ("step")
         print (step)
         print ("tile weight")
-        print pathBoard[step]
+        print pathBoard[step[0], step[1]]
     return weight
 
 def navigate(converted_data, pathBoard, food):
