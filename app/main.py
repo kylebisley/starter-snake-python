@@ -259,6 +259,9 @@ def sumPathWeight(path, pathBoard):
         print (step)
         print ("tile weight")
         print pathBoard[step[0]] [step[1]]
+        if (pathBoard[step[0]][step[1]] <= 0):
+            print("doom")
+            return "doom"
         weight = weight + pathBoard[step[0]] [step[1]]
     print("weight")
     print(weight)
