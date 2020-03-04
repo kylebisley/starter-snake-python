@@ -368,6 +368,7 @@ class Tile():
         cost: the cost for a-star to travers a tile, can be used to determine if a tile is pathable
 
     Methods:
+        getCoord(int list): returns a list of the x position, then the y position
         visit (void): sets visited to true
         getVisited (boolean): returns current state of visited
         getCost(int): returns cost attribute the tile
@@ -378,6 +379,9 @@ class Tile():
         self.visited = False
         self.cost = pathCost
     
+    def getCoord(self):
+        return [self.x, self.y]
+
     def visit(self):
         self.visited = True
     
@@ -386,6 +390,47 @@ class Tile():
     
     def getCost(self):
         return cost
+
+
+def whatDoYourSnakeEyesSee(converted_data, pathBoard):
+    """
+    This method finds the tiles it is possible to path to from our head, and the tiles that form walls around/in this area. 
+    Args:
+        converted_data (json): parsed json data dump
+        pathBoard (array): integer representation of current board 
+    Returns:
+        an list of two lists, the first contains all the coordinates of tiles it is possible and viable to path to, the second 
+        contains the coordinates of all tiles that form the walls. Can compare these lists to lists of all food, for example, to get
+        just food we can path too.
+        It'd be easy to return lists of Tile objects if that would be better
+    """
+    
+    allBoardTiles = []
+    head = converted_data["you"]["body"][0]
+    newViableTiles = [Tile(head['x'], head['y'], 1)]
+    pathableTiles = []
+    blockingTiles = []
+
+    for x in pathBoard:
+        for y in x:
+            allBoardTiles += Tile(x, y, pathBoard[y][x]) #TODO: adjust so coords of array line up with coords of Tiles, so it's easy to match a coordinate with the Tile
+
+    while (len(newViableTiles) > 0):
+        #deal with the new tile before scanning from it
+        checkNext = newViableTiles.pop()
+        checkNext.visit()
+
+        if (checkNext.getCost() < 1):
+            blockingTiles.append(checkNext)
+            continue #go to next iteration if it's a wall, we don't care about it after this step
+        else:
+            pathableTiles.append(checkNext)
+        
+        #at this point, look in each cardinal direction, and if the tile there exists, and has not been visited, append to newViableTiles
+        #TODO: finish while loop
+
+    #TODO: extract coords from pathableTiles and blockingTiles in such a way that we have usable lists, perhaps in a similar format to the converted_data??? and return them
+
 
 
 # Expose WSGI app (so gunicorn can find it)
