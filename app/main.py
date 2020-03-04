@@ -53,9 +53,10 @@ def start():
     """
     print(json.dumps(data))
 
-    color = "#00FF00"
-
-    return start_response(color)
+    color = "#ff5050"
+    head = "shades" 
+    tail = "bolt"
+    return start_response(color,head,tail)
 
 
 @bottle.post('/move')
@@ -98,7 +99,6 @@ def end():
     print(json.dumps(data))
 
     return end_response()
-
 
 def boardToArray(dataDump):
     """
@@ -144,7 +144,6 @@ def boardToArray(dataDump):
                     board[y][x] = 'S'
     return board
 
-
 def setBoardValues(jData):
     """
     Converts converted JSON data from the battlesnake engine, to an a_star friendly gameboard.
@@ -184,7 +183,6 @@ def setBoardValues(jData):
                     y = a['y']
                     board[y][x] = SNAKE
     return board
-
 
 def setEdge(dataDump):
     """
@@ -287,14 +285,13 @@ def cardinal(converted_data, path):
             direction = ['left']
     return direction
 
-
 # Expose WSGI app (so gunicorn can find it)
 application = bottle.default_app()
 
 if __name__ == '__main__':
     bottle.run(
         application,
-        host=os.getenv('IP', '0.0.0.0'),
+        host=os.getenv('IP', '127.0.0.1'),
         port=os.getenv('PORT', '8080'),
         debug=os.getenv('DEBUG', True)
     )
