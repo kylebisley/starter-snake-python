@@ -71,20 +71,18 @@ def move():
             print(str(y) + " "),
         print()
 
-    closeFood=getNearestFood(converted_data)
+    #closeFood = getNearestFood(converted_data)
     pathableBoard = setBoardValues(converted_data)
-
-
-    """
-    TODO: Using the data from the endpoint request object, your
-            snake AI must choose a direction to move in.
-    """
-
-    print(json.dumps(data))
-
     
-    directions = navigate(converted_data,pathableBoard,closeFood)
-    direction = random.choice(directions)
+    # for x in pathableBoard:
+    #     for y in x:
+    #         print(str(y) + " "),
+    #     print()
+    #Json data is printed for debug help
+    print(json.dumps(data))
+    directions = cardinal(converted_data, getMinPathToFood(converted_data, pathableBoard))
+
+    direction = directions[0]
 
     return move_response(direction)
 
@@ -195,7 +193,7 @@ def setEdge(dataDump):
         dataDump (list): Converted JSON data
 
     Returns:
-         Gameboard with the edges initialised to '2'
+        Gameboard with the edges initialised to '2'
 
     """
     board_width = dataDump["board"]["width"]
@@ -220,31 +218,31 @@ def setEdge(dataDump):
                 board[y][x] = OPEN_SPACE
     return board
 
-
-def getNearestFood(datadump):
+def getMinPathToFood(converted_data, pathBoard):
     """
-    Returns x,y coordinates of the closest pathable food (as a crow flys)
+    Checks for shortest path to food. 
     Args:
-        datadump (json): converted python representation of current game snapshot
+        converted_data (json): converted python representation of current game snapshot
+        pathBoard (int array): integer representation of board
     Returns:
-        Index of the food closest to head of snake. 
+        shortestPath (path): shortest path to food 
+        OR 
+        shortestPath (string): "Unassigned" when it can't path to food
     """
-    food_array = []
-    distance_array = []
-    snake_x = datadump["you"]["body"][0]['x']
-    snake_y = datadump["you"]["body"][0]['y']
-    for z in datadump["board"]["food"]:
-        x = z['x']
-        y = z['y']
-        food_array.append([x, y])
-
-    for i in food_array:
-        move_distance = (abs((snake_x) - i[0])) + (abs((snake_y) - i[1]))
-        distance_array.append(move_distance)
-
-    index_of_smallest = distance_array.index(min(distance_array))
-    print(food_array[index_of_smallest])
-    return food_array[index_of_smallest]
+    shortestPath = "Unassigned"
+    for food in converted_data["board"]["food"]:
+        x = food['x']
+        y = food['y']
+        newPath = navigate(converted_data, pathBoard, [x, y])
+        if (shortestPath == "Unassigned" and (len(newPath) != 0)):
+            shortestPath = newPath
+        else:
+            # good place to begin the logic for when we can't path to food
+            print("NO FOOD IN IMMEDIATE FUTURE BETTER KILL MYSELF")
+            continue
+        if (len(newPath) < len(shortestPath) & (len(newPath) != 0)):
+            shortestPath = newPath
+    return shortestPath
 
 def navigate(converted_data, pathBoard, food):
     """
@@ -264,19 +262,19 @@ def navigate(converted_data, pathBoard, food):
 
     finder = AStarFinder()
     path, runs = finder.find_path(start, end, grid)
-    return cardinal(converted_data, path)
+    return path
 
 def cardinal(converted_data, path):
     """
     Translates first move on path to cardinal direction.
+
     Args:
         converted_data (json): python readable json
         path (list): path from a*
     Return:
         direction (single item list): cardinal direction as string 
     """
-    
-    #same logic but perhaps clearer this way? I'll leave it up to code review which one we choose. 
+
     if (converted_data["you"]["body"][0]['x'] == path[1][0]): #if x values are same check y values for direction
         if ((converted_data["you"]["body"][0]['y']) < (path[1][1])):
             direction = ['down']
