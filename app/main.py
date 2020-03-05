@@ -74,11 +74,11 @@ def move():
 
     #closeFood = getNearestFood(converted_data)
     pathableBoard = setBoardValues(converted_data)
-    
-    # for x in pathableBoard:
-    #     for y in x:
-    #         print(str(y) + " "),
-    #     print()
+    print("pathableBoard")
+    for x in pathableBoard:
+        for y in x:
+            print(str(y) + " "),
+        print()
     #Json data is printed for debug help
     print(json.dumps(data))
     directions = cardinal(converted_data, getMinPathToFood(converted_data, pathableBoard))
@@ -216,9 +216,10 @@ def setEdge(dataDump):
                 board[y][x] = OPEN_SPACE
     return board
 
+
 def getMinPathToFood(converted_data, pathBoard):
     """
-    Checks for shortest path to food. 
+    Checks for lightest path to food. 
     Args:
         converted_data (json): converted python representation of current game snapshot
         pathBoard (int array): integer representation of board
@@ -234,13 +235,30 @@ def getMinPathToFood(converted_data, pathBoard):
         newPath = navigate(converted_data, pathBoard, [x, y])
         if (shortestPath == "Unassigned" and (len(newPath) != 0)):
             shortestPath = newPath
-        else:
-            # good place to begin the logic for when we can't path to food
-            print("NO FOOD IN IMMEDIATE FUTURE BETTER KILL MYSELF")
-            continue
-        if (len(newPath) < len(shortestPath) & (len(newPath) != 0)):
-            shortestPath = newPath
+        elif (shortestPath !="Unassigned"):
+            if (sumPathWeight(newPath, pathBoard) < sumPathWeight(shortestPath, pathBoard) and (len(newPath) != 0)):
+                shortestPath = newPath
+        
+        sumPathWeight(newPath, pathBoard)
     return shortestPath
+
+def sumPathWeight(path, pathBoard):
+    """
+    Recieves path, returns cost of the nodes of the path.
+    Args:
+        path (list): A* path 
+        pathBoard (list): int representation of board
+    Returns:
+        sum (int): sum of weights of tiles on path
+    """
+    if path == "Unassigned":
+        return
+    weight = 0
+    for step in path:
+        if (pathBoard[step[1]][step[0]] <= 0):
+            return
+        weight = weight + pathBoard[step[1]] [step[0]]
+    return weight
 
 def navigate(converted_data, pathBoard, food):
     """

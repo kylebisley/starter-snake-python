@@ -24,3 +24,28 @@
 #     index_of_smallest = distance_array.index(min(distance_array))
 #     print(food_array[index_of_smallest])
 #     return food_array[index_of_smallest]
+
+
+# def getMinPathToFood(converted_data, pathBoard):
+#     """
+#     Checks for shortest path to food. 
+#     Args:
+#         converted_data (json): converted python representation of current game snapshot
+#         pathBoard (int array): integer representation of board
+#     Returns:
+#         shortestPath (path): shortest path to food 
+#         OR 
+#         shortestPath (string): "Unassigned" when it can't path to food
+#     """
+#     shortestPath = "Unassigned"
+#     for food in converted_data["board"]["food"]:
+#         x = food['x']
+#         y = food['y']
+#         newPath = navigate(converted_data, pathBoard, [x, y])
+#         if (shortestPath == "Unassigned" and (len(newPath) != 0)):
+#             shortestPath = newPath
+#         if (len(newPath) < len(shortestPath) and (len(newPath) != 0)):
+#             shortestPath = newPath
+        
+#         sumPathWeight(newPath, pathBoard)
+#     return shortestPath
