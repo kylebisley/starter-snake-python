@@ -67,7 +67,6 @@ def move():
     converted_data = json.loads(json.dumps(data))
     # Json data is printed for debug help
     print(json.dumps(data))
-    printBoard(board, pathable_board)
     directions = cardinal(converted_data, getMinPathToFood(converted_data,
                                                            pathable_board))
     
@@ -392,15 +391,7 @@ def cowardPathing(converted_data, pathBoard):
     return board
 
 
-def printBoard(converted_board, integer_board):
-    for x in integer_board:
-        for y in x:
-            print(str(y) + " "),
-        print()
-    for x in converted_board:
-        for y in x:
-            print(str(y) + " "),
-        print()
+
 
         
 # Expose WSGI app (so gunicorn can find it)
