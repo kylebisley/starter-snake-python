@@ -68,7 +68,6 @@ def move():
     # Json data is printed for debug help
     print(json.dumps(data))
     
-
     board = parseBoard.boardToArray(converted_data)
     pathable_board = parseBoard.setBoardValues(converted_data)
     parseBoard.display(board, pathable_board)
