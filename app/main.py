@@ -275,20 +275,20 @@ def sumPathWeight(path, pathBoard):
     Returns:
         sum (int): sum of weights of tiles on path
     """
-    # print("path")
-    # print(path)
+    print("path")
+    print(path)
     weight = 0
     for step in path:
-        # print ("step")
-        # print (step)
-        # print ("tile weight")
-        # print pathBoard[step[1]] [step[0]]
-        if (pathBoard[step[0]][step[1]] <= 0):
-            # print("doom")
+        print ("step")
+        print (step)
+        print ("tile weight")
+        print pathBoard[step[1]] [step[0]]
+        if (pathBoard[step[1]][step[0]] <= 0):
+            print("doom")
             return "doom"
-        weight = weight + pathBoard[step[0]] [step[1]]
-    # print("weight")
-    # print(weight)
+        weight = weight + pathBoard[step[1]] [step[0]]
+    print("weight")
+    print(weight)
     return weight
 
 def navigate(converted_data, pathBoard, food):
