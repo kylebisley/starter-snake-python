@@ -67,8 +67,6 @@ def move():
     converted_data = json.loads(json.dumps(data))
     # Json data is printed for debug help
     print(json.dumps(data))
-    directions = cardinal(converted_data, getMinPathToFood(converted_data,
-                                                           pathable_board))
     
 
     board = parseBoard.boardToArray(converted_data)
