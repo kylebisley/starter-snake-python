@@ -1,23 +1,18 @@
 import json
 import os
 import bottle
+import parseBoard
 
 from api import ping_response, start_response, move_response, end_response
 from pathfinding.core.grid import Grid
 from pathfinding.finder.a_star import AStarFinder
-
-SNAKE = -1
-WALL_SPACE = 10
-OPEN_SPACE = 5
-SMALLER_SNAKE_FUTURE_HEAD = 3
-ourHead = 1
 
 
 @bottle.route('/')
 def index():
     return '''
     Battlesnake documentation can be found at
-        <a href="https://docs.battlesnake.com">https://docs.battlesnake.com</a>.
+    <a href="https://docs.battlesnake.com">https://docs.battlesnake.com</a>.
     '''
 
 
@@ -63,18 +58,19 @@ def move():
     data = bottle.request.json
     # Converts data to be parsable
     converted_data = json.loads(json.dumps(data))
-
-    board = boardToArray(converted_data)
-
-    # closeFood = getNearestFood(converted_data)
-    pathable_board = setBoardValues(converted_data)
-
     # Json data is printed for debug help
     print(json.dumps(data))
     printBoard(board, pathable_board)
     directions = cardinal(converted_data, getMinPathToFood(converted_data,
                                                            pathable_board))
+    
 
+    board = parseBoard.boardToArray(converted_data)
+    pathable_board = parseBoard.setBoardValues(converted_data)
+    parseBoard.display(board, pathable_board)
+
+    directions = cardinal(converted_data, getMinPathToFood(converted_data,
+                                                           pathable_board))
     direction = directions[0]
 
     return move_response(direction)
@@ -91,6 +87,7 @@ def end():
     print(json.dumps(data))
 
     return end_response()
+
 
 
 def boardToArray(dataDump):
@@ -218,6 +215,7 @@ def getMinPathToFood(converted_data, pathBoard):
     Checks for lightest path to food.
     Args:
         converted_data (json): converted python representation of current game
+
                                 snapshot
         pathBoard (int array): integer representation of board
     Returns:
@@ -298,7 +296,8 @@ def cardinal(converted_data, path):
             direction = ['down']
         else:
             direction = ['up']
-    else:  # x values are different check them for direction
+    # x values are different check them for direction
+    else:
         if((converted_data["you"]["body"][0]['x']) < (path[1][0])):
             direction = ['right']
         else:
@@ -356,7 +355,7 @@ def printBoard(converted_board, integer_board):
             print(str(y) + " "),
         print()
 
-
+        
 # Expose WSGI app (so gunicorn can find it)
 application = bottle.default_app()
 
