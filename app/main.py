@@ -2,7 +2,6 @@ import json
 import os
 import bottle
 import parseBoard
-from parseBoard import printBoard
 
 from api import ping_response, start_response, move_response, end_response
 from pathfinding.core.grid import Grid
@@ -59,18 +58,15 @@ def move():
     data = bottle.request.json
     # Converts data to be parsable
     converted_data = json.loads(json.dumps(data))
-
-    board = parseBoard.boardToArray(converted_data)
-
-    # closeFood = getNearestFood(converted_data)
-    pathable_board = parseBoard.setBoardValues(converted_data)
-
     # Json data is printed for debug help
     print(json.dumps(data))
-    printBoard(board, pathable_board)
+
+    board = parseBoard.boardToArray(converted_data)
+    pathable_board = parseBoard.setBoardValues(converted_data)
+    parseBoard.printBoard(board, pathable_board)
+
     directions = cardinal(converted_data, getMinPathToFood(converted_data,
                                                            pathable_board))
-
     direction = directions[0]
 
     return move_response(direction)
