@@ -392,22 +392,25 @@ class Tile():
         return cost
 
 
-def whatDoYourSnakeEyesSee(converted_data, pathBoard):
+def whatDoYourSnakeEyesSee(converted_data, pathBoard, xPos, yPos):
     """
-    This method finds the tiles it is possible to path to from our head, and the tiles that form walls around/in this area. 
+    This method finds the tiles it is possible to path to from any tiles coordinates, and the tiles that form walls around/in this area,
+    Then creates lists for this information.
     Args:
         converted_data (json): parsed json data dump
         pathBoard (array): integer representation of current board 
+        xPos(int): the x coordinate of the tile we want to search from
+        yPos(int): the y coordinate of the tile we want to search from
     Returns:
         an list of two lists, the first contains all the coordinates of tiles it is possible and viable to path to, the second 
         contains the coordinates of all tiles that form the walls. Can compare these lists to lists of all food, for example, to get
         just food we can path too.
         It'd be easy to return lists of Tile objects if that would be better
     """
-    
+    startTile = Tile(xPos, yPos, pathBoard[yPos][xPos]) 
     allBoardTiles = []
-    head = converted_data["you"]["body"][0]
-    newViableTiles = [Tile(head['x'], head['y'], 1)]
+    #head = converted_data["you"]["body"][0]
+    newViableTiles = [startTile]
     pathableTiles = []
     blockingTiles = []
 
