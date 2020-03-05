@@ -7,6 +7,13 @@ from api import ping_response, start_response, move_response, end_response
 from pathfinding.core.grid import Grid
 from pathfinding.finder.a_star import AStarFinder
 
+SNAKE = -1
+WALL_SPACE = 50
+OPEN_SPACE = 25
+SMALLER_SNAKE_FUTURE_HEAD = 15
+OUR_HEAD = 10
+LARGER_SNAKE_FUTURE_HEAD = 50
+
 
 @bottle.route('/')
 def index():
@@ -155,7 +162,7 @@ def setBoardValues(jData):
         if (z == jData["you"]["body"][0]):
             x = z['x']
             y = z['y']
-            board[y][x] = ourHead
+            board[y][x] = OUR_HEAD
         else:
             x = z['x']
             y = z['y']
