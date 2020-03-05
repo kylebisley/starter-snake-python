@@ -12,6 +12,7 @@ OPEN_SPACE = 5
 SMALLER_SNAKE_FUTURE_HEAD = 3
 ourHead = 1
 
+
 @bottle.route('/')
 def index():
     return '''
@@ -68,13 +69,9 @@ def move():
     # closeFood = getNearestFood(converted_data)
     pathable_board = setBoardValues(converted_data)
 
-    # for x in pathable_board:
-    #     for y in x:
-    #         print(str(y) + " "),
-    #     print()
     # Json data is printed for debug help
     print(json.dumps(data))
-    print(board, pathable_board)
+    printBoard(board, pathable_board)
     directions = cardinal(converted_data, getMinPathToFood(converted_data, pathable_board))
 
     direction = directions[0]
@@ -106,7 +103,7 @@ def boardToArray(dataDump):
     """
     board_width = dataDump["board"]["width"]
     board_height = dataDump["board"]["height"]
-    board = [[0 for x in range(board_width)] for y in range(board_height)] 
+    board = [[0 for x in range(board_width)] for y in range(board_height)]
     # label spaces as food
     for z in dataDump["board"]["food"]:
         x = z['x']
@@ -193,7 +190,7 @@ def setEdge(dataDump):
     """
     board_width = dataDump["board"]["width"]
     board_height = dataDump["board"]["height"]
-    board = [[1 for x in range(board_width)] for y in range(board_height)] 
+    board = [[1 for x in range(board_width)] for y in range(board_height)]
     for x in range(board_width):
         for y in range(board_height):
             # Bottom of board
@@ -254,8 +251,8 @@ def navigate(converted_data, pathBoard, food):
     matrix = pathBoard
     grid = Grid(matrix=matrix)
 
-    start = grid.node(converted_data["you"]["body"][0]['x'],converted_data["you"]["body"][0]['y'])
-    end = grid.node(food[0], food[1]) 
+    start = grid.node(converted_data["you"]["body"][0]['x'], converted_data["you"]["body"][0]['y'])
+    end = grid.node(food[0], food[1])
 
     finder = AStarFinder()
     path, runs = finder.find_path(start, end, grid)
@@ -278,7 +275,7 @@ def cardinal(converted_data, path):
             direction = ['down']
         else:
             direction = ['up']
-    else:  #x values are different check them for direction
+    else:  # x values are different check them for direction
         if((converted_data["you"]["body"][0]['x']) < (path[1][0])):
             direction = ['right']
         else:
