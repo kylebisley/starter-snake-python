@@ -176,6 +176,7 @@ def setBoardValues(jData):
                     x = a['x']
                     y = a['y']
                     board[y][x] = SNAKE
+    board = bullyPathing(jData, board)
     return board
 
 
@@ -327,14 +328,14 @@ def bullyPathing(converted_data, pathBoard):
                     y = a['y']
                     if(x < converted_data['board']['width'] and x > 0):
                         if(pathBoard[y][x+1] != -1):
-                            board[y][x+1] = 3
+                            board[y][x+1] = SMALLER_SNAKE_FUTURE_HEAD
                         if(pathBoard[y][x-1] != -1):
-                            board[y][x-1] = 3
+                            board[y][x-1] = SMALLER_SNAKE_FUTURE_HEAD
                     if(y < converted_data['board']['width'] and y > 0):
                         if(pathBoard[y+1][x] != -1):
-                            board[y+1][x] = 3
+                            board[y+1][x] = SMALLER_SNAKE_FUTURE_HEAD
                         if(pathBoard[y-1][x] != -1):
-                            board[y-1][x] = 3
+                            board[y-1][x] = SMALLER_SNAKE_FUTURE_HEAD
 
     return board
 
