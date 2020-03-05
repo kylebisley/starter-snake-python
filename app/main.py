@@ -63,7 +63,7 @@ def move():
 
     board = parseBoard.boardToArray(converted_data)
     pathable_board = parseBoard.setBoardValues(converted_data)
-    parseBoard.printBoard(board, pathable_board)
+    parseBoard.display(board, pathable_board)
 
     directions = cardinal(converted_data, getMinPathToFood(converted_data,
                                                            pathable_board))

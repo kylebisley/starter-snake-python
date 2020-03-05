@@ -162,7 +162,7 @@ def boardToArray(dataDump):
     return board
 
 
-def printBoard(converted_board, integer_board):
+def display(converted_board, integer_board):
     for x in integer_board:
         for y in x:
             print(str(y) + " "),
