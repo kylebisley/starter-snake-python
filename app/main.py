@@ -159,7 +159,7 @@ def setBoardValues(jData):
     # pertaining to our own body
     me = jData["you"]["id"]
 
-    for z in jData["you"]["body"]-1:
+    for z in jData["you"]["body"]:
         if (z == jData["you"]["body"][0]):
             x = z['x']
             y = z['y']
@@ -186,12 +186,12 @@ def setBoardValues(jData):
 
 def setEdge(dataDump):
     """
-    Sets edge of gamemap to the value '2'
+    Sets edge of gamemap to the value '10'
     Args:
         dataDump (list): Converted JSON data
 
     Returns:
-        Gameboard with the edges initialised to '2'
+        Gameboard with the edges initialised to '10'
 
     """
     board_width = dataDump["board"]["width"]
