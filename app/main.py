@@ -326,7 +326,7 @@ def bullyPathing(converted_data, pathBoard):
                 if (a == z["body"][0]):
                     x = a['x']
                     y = a['y']
-                    if(x < converted_data['board']['width'] and x > 0):
+                    if(x < converted_data['board']['width']-1 and x > 0):
                         if(pathBoard[y][x+1] != -1):
                             board[y][x+1] = SMALLER_SNAKE_FUTURE_HEAD
                         if(pathBoard[y][x-1] != -1):
