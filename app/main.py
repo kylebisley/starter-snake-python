@@ -305,57 +305,6 @@ def cardinal(converted_data, path):
     return direction
 
 
-def bullyPathing(converted_data, pathBoard):
-    """
-    Finds Snakes that are smaller than us and assigns the area around
-    their head with the Smaller_Snake_Future_Head
-
-    May need logical update for snake bodies but it should be fine
-
-    Args:
-        converted_data (json): python readable json
-        path (list): path from a*
-
-    Return:
-        updated board (list) with potentially new values around smaller snakes
-        heads
-    """
-    me = converted_data["you"]["id"]
-    board = pathBoard
-    # other snakes heads will be assigned xy
-    for z in converted_data["board"]["snakes"]:
-        name = z["id"]
-        for a in z["body"]:
-            if ((str(name) != str(me)) and
-                (len(z["body"]) < len(converted_data["you"]["body"]))):
-                if (a == z["body"][0]):
-                    x = a['x']
-                    y = a['y']
-                    if(x < converted_data['board']['width'] and x > 0):
-                        if(pathBoard[y][x+1] != -1):
-                            board[y][x+1] = 3
-                        if(pathBoard[y][x-1] != -1):
-                            board[y][x-1] = 3
-                    if(y < converted_data['board']['width'] and y > 0):
-                        if(pathBoard[y+1][x] != -1):
-                            board[y+1][x] = 3
-                        if(pathBoard[y-1][x] != -1):
-                            board[y-1][x] = 3
-
-    return board
-
-
-def printBoard(converted_board, integer_board):
-    for x in integer_board:
-        for y in x:
-            print(str(y) + " "),
-        print()
-    for x in converted_board:
-        for y in x:
-            print(str(y) + " "),
-        print()
-
-        
 class Tile():
     """
     TODO: Add functionality for what kind of tile it is, ie: snakeBody, ourHead, ourBody, food, empty tile
