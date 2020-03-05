@@ -159,7 +159,7 @@ def setBoardValues(jData):
     # pertaining to our own body
     me = jData["you"]["id"]
 
-    for z in jData["you"]["body"]-1:
+    for z in jData["you"]["body"]:
         if (z == jData["you"]["body"][0]):
             x = z['x']
             y = z['y']
