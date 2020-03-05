@@ -371,7 +371,8 @@ def whatDoYourSnakeEyesSee(pathBoard, xPos, yPos):
     board_height = len(pathBoard)
     allBoardTiles = [[None for x in range(board_width)] for y in range(board_height)] 
 
-    startTile = Tile(xPos, yPos, pathBoard[yPos][xPos]) 
+    startTile = Tile(xPos, yPos, pathBoard[yPos][xPos])
+    startTile.visit()
     #head = converted_data["you"]["body"][0]
     newViableTiles = [startTile]
     pathableTiles = []
@@ -385,7 +386,6 @@ def whatDoYourSnakeEyesSee(pathBoard, xPos, yPos):
     while (len(newViableTiles) > 0):
         #deal with the next tile we are examining
         checkNext = newViableTiles.pop()
-        checkNext.visit()
         yHere = checkNext.getCoord[0]
         xHere = checkNext.getCoord[1]
 
@@ -398,13 +398,17 @@ def whatDoYourSnakeEyesSee(pathBoard, xPos, yPos):
         #at this point, look in each cardinal direction, and if the tile there exists, and has not been visited, append to newViableTiles
         if((yHere > 0) and not allBoardTiles[yHere - 1][xHere].getVisited()):
             newViableTiles.append(allBoardTiles[yHere - 1][xHere])
+            allBoardTiles[yHere - 1][xHere].visit()
         if((yHere < board_height - 1) and not allBoardTiles[yHere + 1][xHere].getVisited()):
             newViableTiles.append(allBoardTiles[yHere + 1][xHere])
-        
+            allBoardTiles[yHere + 1][xHere].visit()
+
         if((xHere > 0) and not allBoardTiles[yHere][xHere - 1].getVisited()):
             newViableTiles.append(allBoardTiles[yHere][xHere - 1])
+            allBoardTiles[yHere][xHere - 1].visit()
         if((xHere < board_width - 1) and not allBoardTiles[yHere][xHere + 1].getVisited()):
             newViableTiles.append(allBoardTiles[yHere][xHere + 1])
+            allBoardTiles[yHere][xHere + 1].visit()
 
     return [pathableTiles, blockingTiles]
 
