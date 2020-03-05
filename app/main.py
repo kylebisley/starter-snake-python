@@ -1,8 +1,6 @@
 import json
 import os
-import random
 import bottle
-import math
 
 from api import ping_response, start_response, move_response, end_response
 from pathfinding.core.grid import Grid
@@ -54,9 +52,9 @@ def start():
     print(json.dumps(data))
 
     color = "#ff5050"
-    head = "shades" 
+    head = "shades"
     tail = "bolt"
-    return start_response(color,head,tail)
+    return start_response(color, head, tail)
 
 
 @bottle.post('/move')
@@ -64,24 +62,20 @@ def move():
     data = bottle.request.json
     # Converts data to be parsable
     converted_data = json.loads(json.dumps(data))
-    game_id = converted_data["game"]["id"]
 
     board = boardToArray(converted_data)
-    for x in board:
-        for y in x:
-            print(str(y) + " "),
-        print()
 
-    #closeFood = getNearestFood(converted_data)
-    pathableBoard = setBoardValues(converted_data)
-    
-    # for x in pathableBoard:
+    # closeFood = getNearestFood(converted_data)
+    pathable_board = setBoardValues(converted_data)
+
+    # for x in pathable_board:
     #     for y in x:
     #         print(str(y) + " "),
     #     print()
-    #Json data is printed for debug help
+    # Json data is printed for debug help
     print(json.dumps(data))
-    directions = cardinal(converted_data, getMinPathToFood(converted_data, pathableBoard))
+    print(board, pathable_board)
+    directions = cardinal(converted_data, getMinPathToFood(converted_data, pathable_board))
 
     direction = directions[0]
 
@@ -100,6 +94,7 @@ def end():
 
     return end_response()
 
+
 def boardToArray(dataDump):
     """
     Converts converted JSON data from battlesnake engine to a list
@@ -112,7 +107,7 @@ def boardToArray(dataDump):
     board_width = dataDump["board"]["width"]
     board_height = dataDump["board"]["height"]
     board = [[0 for x in range(board_width)] for y in range(board_height)] 
-    #label spaces as food
+    # label spaces as food
     for z in dataDump["board"]["food"]:
         x = z['x']
         y = z['y']
@@ -144,6 +139,7 @@ def boardToArray(dataDump):
                     board[y][x] = 'S'
     return board
 
+
 def setBoardValues(jData):
     """
     Converts converted JSON data from the battlesnake engine, to an a_star friendly gameboard.
@@ -155,7 +151,7 @@ def setBoardValues(jData):
 
     """
     board = setEdge(jData)
-    
+
     # pertaining to our own body
     me = jData["you"]["id"]
 
@@ -183,6 +179,7 @@ def setBoardValues(jData):
                     y = a['y']
                     board[y][x] = SNAKE
     return board
+
 
 def setEdge(dataDump):
     """
@@ -216,39 +213,41 @@ def setEdge(dataDump):
                 board[y][x] = OPEN_SPACE
     return board
 
+
 def getMinPathToFood(converted_data, pathBoard):
     """
-    Checks for shortest path to food. 
+    Checks for shortest path to food.
     Args:
         converted_data (json): converted python representation of current game snapshot
         pathBoard (int array): integer representation of board
     Returns:
-        shortestPath (path): shortest path to food 
-        OR 
+        shortestPath (path): shortest path to food
+        OR
         shortestPath (string): "Unassigned" when it can't path to food
     """
     shortestPath = "Unassigned"
     for food in converted_data["board"]["food"]:
         x = food['x']
         y = food['y']
-        newPath = navigate(converted_data, pathBoard, [x, y])
-        if (shortestPath == "Unassigned" and (len(newPath) != 0)):
-            shortestPath = newPath
+        new_path = navigate(converted_data, pathBoard, [x, y])
+        if (shortestPath == "Unassigned" and (len(new_path) != 0)):
+            shortestPath = new_path
         else:
             # good place to begin the logic for when we can't path to food
             print("NO FOOD IN IMMEDIATE FUTURE BETTER KILL MYSELF")
             continue
-        if (len(newPath) < len(shortestPath) & (len(newPath) != 0)):
-            shortestPath = newPath
+        if (len(new_path) < len(shortestPath) & (len(new_path) != 0)):
+            shortestPath = new_path
     return shortestPath
+
 
 def navigate(converted_data, pathBoard, food):
     """
-    This method generates the cardinal direction to navigate to the first element of path. 
+    This method generates the cardinal direction to navigate to the first element of path.
     Args:
         food (list): food locations in (x,y) format
         converted_data (json): parsed json data dump
-        pathBoard (array): integer representation of current board 
+        pathBoard (array): integer representation of current board
     Returns:
         output of cardinal function
     """
@@ -256,11 +255,12 @@ def navigate(converted_data, pathBoard, food):
     grid = Grid(matrix=matrix)
 
     start = grid.node(converted_data["you"]["body"][0]['x'],converted_data["you"]["body"][0]['y'])
-    end = grid.node(food[0],food[1]) 
+    end = grid.node(food[0], food[1]) 
 
     finder = AStarFinder()
     path, runs = finder.find_path(start, end, grid)
     return path
+
 
 def cardinal(converted_data, path):
     """
@@ -270,15 +270,15 @@ def cardinal(converted_data, path):
         converted_data (json): python readable json
         path (list): path from a*
     Return:
-        direction (single item list): cardinal direction as string 
+        direction (single item list): cardinal direction as string
     """
 
-    if (converted_data["you"]["body"][0]['x'] == path[1][0]): #if x values are same check y values for direction
+    if (converted_data["you"]["body"][0]['x'] == path[1][0]):  # if x values are same check y values for direction
         if ((converted_data["you"]["body"][0]['y']) < (path[1][1])):
             direction = ['down']
         else:
             direction = ['up']
-    else: #x values are different check them for direction
+    else:  #x values are different check them for direction
         if((converted_data["you"]["body"][0]['x']) < (path[1][0])):
             direction = ['right']
         else:
@@ -305,25 +305,34 @@ def bullyPathing(converted_data, pathBoard):
     for z in converted_data["board"]["snakes"]:
         name = z["id"]
         for a in z["body"]:
-            if ((str(name) != str(me)) and (len(z["body"])< len(converted_data["you"]["body"]))):
+            if ((str(name) != str(me)) and (len(z["body"]) < len(converted_data["you"]["body"]))):
                 if (a == z["body"][0]):
                     x = a['x']
                     y = a['y']
-                    if(x<converted_data['board']['width'] and x>0):
-                        if(pathBoard[y][x+1]!=-1):
-                            board[y][x+1]=3
-                        if(pathBoard[y][x-1]!=-1):
-                            board[y][x-1]=3
-                    if(y<converted_data['board']['width'] and y>0):
-                        if(pathBoard[y+1][x]!=-1):
-                            board[y+1][x]=3
-                        if(pathBoard[y-1][x]!=-1):
-                            board[y-1][x]=3
-    for x in board:
+                    if(x < converted_data['board']['width'] and x > 0):
+                        if(pathBoard[y][x+1] != -1):
+                            board[y][x+1] = 3
+                        if(pathBoard[y][x-1] != -1):
+                            board[y][x-1] = 3
+                    if(y < converted_data['board']['width'] and y > 0):
+                        if(pathBoard[y+1][x] != -1):
+                            board[y+1][x] = 3
+                        if(pathBoard[y-1][x] != -1):
+                            board[y-1][x] = 3
+
+    return board
+
+
+def printBoard(converted_board, integer_board):
+    for x in integer_board:
         for y in x:
             print(str(y) + " "),
         print()
-    return board
+    for x in converted_board:
+        for y in x:
+            print(str(y) + " "),
+        print()
+
 
 # Expose WSGI app (so gunicorn can find it)
 application = bottle.default_app()
