@@ -251,8 +251,6 @@ def sumPathWeight(path, pathBoard):
     Returns:
         sum (int): sum of weights of tiles on path
     """
-    print("path")
-    print(path)
     if path == "Unassigned":
         return
     weight = 0
