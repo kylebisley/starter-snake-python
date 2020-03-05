@@ -13,7 +13,7 @@ from pathfinding.finder.a_star import AStarFinder
 def index():
     return '''
     Battlesnake documentation can be found at
-        <a href="https://docs.battlesnake.com">https://docs.battlesnake.com</a>.
+    <a href="https://docs.battlesnake.com">https://docs.battlesnake.com</a>.
     '''
 
 
@@ -68,7 +68,7 @@ def move():
     # Json data is printed for debug help
     print(json.dumps(data))
     printBoard(board, pathable_board)
-    directions = cardinal(converted_data, getMinPathToFood(converted_data, 
+    directions = cardinal(converted_data, getMinPathToFood(converted_data,
                                                            pathable_board))
 
     direction = directions[0]
@@ -93,8 +93,8 @@ def getMinPathToFood(converted_data, pathBoard):
     """
     Checks for lightest path to food.
     Args:
-        converted_data (json): converted python representation of current game snapshot
-        pathBoard (int array): integer representation of board
+        converted_data (json): converted python representation of current game
+        snapshot pathBoard (int array): integer representation of board
     Returns:
         shortestPath (path): shortest path to food
         OR
@@ -136,7 +136,8 @@ def sumPathWeight(path, pathBoard):
 
 def navigate(converted_data, pathBoard, food):
     """
-    This method generates the cardinal direction to navigate to the first element of path.
+    This method generates the cardinal direction to navigate to the first
+    element of path.
     Args:
         food (list): food locations in (x,y) format
         converted_data (json): parsed json data dump
@@ -165,13 +166,14 @@ def cardinal(converted_data, path):
     Return:
         direction (single item list): cardinal direction as string
     """
-
-    if (converted_data["you"]["body"][0]['x'] == path[1][0]):  # if x values are same check y values for direction
+    # if x values are same check y values for direction
+    if (converted_data["you"]["body"][0]['x'] == path[1][0]):
         if ((converted_data["you"]["body"][0]['y']) < (path[1][1])):
             direction = ['down']
         else:
             direction = ['up']
-    else:  # x values are different check them for direction
+    # x values are different check them for direction
+    else:
         if((converted_data["you"]["body"][0]['x']) < (path[1][0])):
             direction = ['right']
         else:
