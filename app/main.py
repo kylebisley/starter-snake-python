@@ -85,7 +85,6 @@ def end():
     return end_response()
 
 
-
 def boardToArray(dataDump):
     """
     Converts converted JSON data from battlesnake engine to a list
