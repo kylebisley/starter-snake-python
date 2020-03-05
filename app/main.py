@@ -72,7 +72,8 @@ def move():
     # Json data is printed for debug help
     print(json.dumps(data))
     printBoard(board, pathable_board)
-    directions = cardinal(converted_data, getMinPathToFood(converted_data, pathable_board))
+    directions = cardinal(converted_data, getMinPathToFood(converted_data,
+                                                           pathable_board))
 
     direction = directions[0]
 
@@ -139,7 +140,8 @@ def boardToArray(dataDump):
 
 def setBoardValues(jData):
     """
-    Converts converted JSON data from the battlesnake engine, to an a_star friendly gameboard.
+    Converts converted JSON data from the battlesnake engine, to an a_star
+    friendly gameboard.
     Args:
         jData (list): Converted JSON data
 
@@ -215,7 +217,8 @@ def getMinPathToFood(converted_data, pathBoard):
     """
     Checks for lightest path to food.
     Args:
-        converted_data (json): converted python representation of current game snapshot
+        converted_data (json): converted python representation of current game
+                                snapshot
         pathBoard (int array): integer representation of board
     Returns:
         shortestPath (path): shortest path to food
@@ -258,7 +261,8 @@ def sumPathWeight(path, pathBoard):
 
 def navigate(converted_data, pathBoard, food):
     """
-    This method generates the cardinal direction to navigate to the first element of path.
+    This method generates the cardinal direction to navigate to the first
+    element of path.
     Args:
         food (list): food locations in (x,y) format
         converted_data (json): parsed json data dump
@@ -269,7 +273,8 @@ def navigate(converted_data, pathBoard, food):
     matrix = pathBoard
     grid = Grid(matrix=matrix)
 
-    start = grid.node(converted_data["you"]["body"][0]['x'], converted_data["you"]["body"][0]['y'])
+    start = grid.node(converted_data["you"]["body"][0]['x'],
+                      converted_data["you"]["body"][0]['y'])
     end = grid.node(food[0], food[1])
 
     finder = AStarFinder()
@@ -287,8 +292,8 @@ def cardinal(converted_data, path):
     Return:
         direction (single item list): cardinal direction as string
     """
-
-    if (converted_data["you"]["body"][0]['x'] == path[1][0]):  # if x values are same check y values for direction
+    # if x values are same check y values for direction
+    if (converted_data["you"]["body"][0]['x'] == path[1][0]):
         if ((converted_data["you"]["body"][0]['y']) < (path[1][1])):
             direction = ['down']
         else:
@@ -303,7 +308,8 @@ def cardinal(converted_data, path):
 
 def bullyPathing(converted_data, pathBoard):
     """
-    Finds Snakes that are smaller than us and assigns the area around their head with the Smaller_Snake_Future_Head
+    Finds Snakes that are smaller than us and assigns the area around
+    their head with the Smaller_Snake_Future_Head
 
     May need logical update for snake bodies but it should be fine
 
@@ -312,7 +318,8 @@ def bullyPathing(converted_data, pathBoard):
         path (list): path from a*
 
     Return:
-        updated board (list) with potentially new values around smaller snakes heads
+        updated board (list) with potentially new values around smaller snakes
+        heads
     """
     me = converted_data["you"]["id"]
     board = pathBoard
@@ -320,7 +327,8 @@ def bullyPathing(converted_data, pathBoard):
     for z in converted_data["board"]["snakes"]:
         name = z["id"]
         for a in z["body"]:
-            if ((str(name) != str(me)) and (len(z["body"]) < len(converted_data["you"]["body"]))):
+            if ((str(name) != str(me)) and
+                (len(z["body"]) < len(converted_data["you"]["body"]))):
                 if (a == z["body"][0]):
                     x = a['x']
                     y = a['y']
