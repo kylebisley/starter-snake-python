@@ -215,62 +215,63 @@ def display(converted_board, integer_board):
             print(str(y) + " "),
         print()
 
-def whatDoYourSnakeEyesSee(pathBoard, xPos, yPos):
-    """
-    This method finds the tiles it is possible to path to from any tiles coordinates, and the tiles that form walls around/in this area,
-    Then creates lists for this information.
-    Args:
-        pathBoard (array): integer representation of current board 
-        xPos(int): the x coordinate of the tile we want to search from
-        yPos(int): the y coordinate of the tile we want to search from
-    OBJECT_ORIENTED_TODO: pass in a board object and tile object instead
-    Returns:
-        an list of two lists, the first contains all the Tile objects it is possible and viable to path to, the second 
-        contains all Tile objects that form the walls. Can compare these lists to lists of all food, for example, to get
-        just food we can path too.
-    OBJECT_ORIENTED_TODO: return board objects instead eventually maybe
-    """
-    board_width = len(pathBoard[0])
-    board_height = len(pathBoard)
-    allBoardTiles = [[None for x in range(board_width)] for y in range(board_height)] 
+#TODO: change this to use passed in board object, can't use as is since Tile constructor changed
+# def whatDoYourSnakeEyesSee(pathBoard, xPos, yPos):
+#     """
+#     This method finds the tiles it is possible to path to from any tiles coordinates,
+#     and the tiles that form walls around/in this area, then creates lists of this information.
+#     Args:
+#         pathBoard (array): integer representation of current board 
+#         xPos(int): the x coordinate of the tile we want to search from
+#         yPos(int): the y coordinate of the tile we want to search from
+#     OBJECT_ORIENTED_TODO: pass in a board object and tile object instead
+#     Returns:
+#         an list of two lists, the first contains all the Tile objects it is possible and viable to path to, the second 
+#         contains all Tile objects that form the walls. Can compare these lists to lists of all food, for example, to get
+#         just food we can path too.
+#     OBJECT_ORIENTED_TODO: return board objects instead eventually maybe
+#     """
+#     board_width = len(pathBoard[0])
+#     board_height = len(pathBoard)
+#     allBoardTiles = [[None for x in range(board_width)] for y in range(board_height)] 
 
-    startTile = tile.Tile(xPos, yPos, pathBoard[yPos][xPos])
-    startTile.visit()
-    #head = converted_data["you"]["body"][0]
-    newViableTiles = [startTile]
-    pathableTiles = []
-    blockingTiles = []
+#     startTile = tile.Tile(xPos, yPos, pathBoard[yPos][xPos])
+#     startTile.visit()
+#     #head = converted_data["you"]["body"][0]
+#     newViableTiles = [startTile]
+#     pathableTiles = []
+#     blockingTiles = []
 
 
-    for x in pathBoard:
-        for y in x:
-            allBoardTiles[y][x] += tile.Tile(x, y, pathBoard[y][x])
+#     for x in pathBoard:
+#         for y in x:
+#             allBoardTiles[y][x] += tile.Tile(x, y, pathBoard[y][x])
 
-    while (len(newViableTiles) > 0):
-        #deal with the next tile we are examining
-        checkNext = newViableTiles.pop()
-        yHere = checkNext.getCoord[0]
-        xHere = checkNext.getCoord[1]
+#     while (len(newViableTiles) > 0):
+#         #deal with the next tile we are examining
+#         checkNext = newViableTiles.pop()
+#         yHere = checkNext.getCoord[0]
+#         xHere = checkNext.getCoord[1]
 
-        if (checkNext.getCost() < 1):
-            blockingTiles.append(checkNext)
-            continue #go to next iteration if it's a wall, we don't care about it after this step
-        else:
-            pathableTiles.append(checkNext)
+#         if (checkNext.getCost() < 1):
+#             blockingTiles.append(checkNext)
+#             continue #go to next iteration if it's a wall, we don't care about it after this step
+#         else:
+#             pathableTiles.append(checkNext)
         
-        #at this point, look in each cardinal direction, and if the tile there exists, and has not been visited, append to newViableTiles
-        if((yHere > 0) and not allBoardTiles[yHere - 1][xHere].getVisited()):
-            newViableTiles.append(allBoardTiles[yHere - 1][xHere])
-            allBoardTiles[yHere - 1][xHere].visit()
-        if((yHere < board_height - 1) and not allBoardTiles[yHere + 1][xHere].getVisited()):
-            newViableTiles.append(allBoardTiles[yHere + 1][xHere])
-            allBoardTiles[yHere + 1][xHere].visit()
+#         #at this point, look in each cardinal direction, and if the tile there exists, and has not been visited, append to newViableTiles
+#         if((yHere > 0) and not allBoardTiles[yHere - 1][xHere].getVisited()):
+#             newViableTiles.append(allBoardTiles[yHere - 1][xHere])
+#             allBoardTiles[yHere - 1][xHere].visit()
+#         if((yHere < board_height - 1) and not allBoardTiles[yHere + 1][xHere].getVisited()):
+#             newViableTiles.append(allBoardTiles[yHere + 1][xHere])
+#             allBoardTiles[yHere + 1][xHere].visit()
 
-        if((xHere > 0) and not allBoardTiles[yHere][xHere - 1].getVisited()):
-            newViableTiles.append(allBoardTiles[yHere][xHere - 1])
-            allBoardTiles[yHere][xHere - 1].visit()
-        if((xHere < board_width - 1) and not allBoardTiles[yHere][xHere + 1].getVisited()):
-            newViableTiles.append(allBoardTiles[yHere][xHere + 1])
-            allBoardTiles[yHere][xHere + 1].visit()
+#         if((xHere > 0) and not allBoardTiles[yHere][xHere - 1].getVisited()):
+#             newViableTiles.append(allBoardTiles[yHere][xHere - 1])
+#             allBoardTiles[yHere][xHere - 1].visit()
+#         if((xHere < board_width - 1) and not allBoardTiles[yHere][xHere + 1].getVisited()):
+#             newViableTiles.append(allBoardTiles[yHere][xHere + 1])
+#             allBoardTiles[yHere][xHere + 1].visit()
 
-    return [pathableTiles, blockingTiles]
+#     return [pathableTiles, blockingTiles]
