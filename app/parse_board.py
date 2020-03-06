@@ -30,6 +30,7 @@ def int_board(converted_data):
 
     return path_board
 
+
 def remove_tails(converted_data, path_board):
     """
     """
@@ -37,6 +38,23 @@ def remove_tails(converted_data, path_board):
     food = re.split("/", converted_data["you"]["shout"])
     print("food")
     print(food)
+    for location in food:
+        xy = re.split(",", location)
+        print("path_board[xy[0]][xy[1]]")
+        print(path_board[xy[0]][xy[1]])
+        if path_board[xy[0]][xy[1]] <= 0:
+            snake_id = snake_id_from_tile(xy[0], xy[1], converted_data)
+            print("snake " + str(snake_id) + " just ate")
+
+
+def snake_id_from_tile(x, y, converted_data):
+    for snake in converted_data["board"]["snakes"]:
+        for segment in snake["body"]:
+            if x == segment["x"] and y == segment["y"]:
+                return snake["id"]
+
+            # get snake id from json
+            # set tail of snake[id] to 25
 
 
 def set_snake_values(converted_data, board):
