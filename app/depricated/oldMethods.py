@@ -49,3 +49,16 @@
         
 #         sumPathWeight(newPath, pathBoard)
 #     return shortestPath
+#
+#   def printBoard(converted_board, integer_board):
+#    for x in integer_board:
+#       for y in x:
+#          print(str(y) + " "),
+#     print()
+#     for x in converted_board:
+#        for y in x:
+#           print(str(y) + " "),
+#      print()
+#
+#
+#
