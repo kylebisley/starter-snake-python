@@ -312,3 +312,33 @@ def look_from_here(the_board, the_tile, j_data):
     if not ((the_tile.get_x() == head["x"]) and (the_tile.get_y() == head["y"])):
         tile_is_head = False
         the_board.get_tile_at(head["x"], head["y"]).set_cost(-1)
+
+        new_viable_tiles = [the_tile]
+    blocking_tiles = []
+    pathable_tiles = []
+    
+    while (len(new_viable_tiles) > 0):
+        #deal with the next tile we are examining
+        check_next = new_viable_tiles.pop()
+
+        if (check_next.getCost() < 1):
+            blocking_tiles.append(check_next)
+            continue #go to next iteration if it's a wall, we don't care about it after this step
+        else:
+            pathable_tiles.append(check_next)
+
+        neighbours = the_board.find_neighbours(check_next)
+
+        for t in neighbours:
+            if (not t.get_visited()):
+                new_viable_tiles.append(t)
+                t.set_visited(True)
+        
+    for x in range(the_board.get_width()):
+        for y in range(the_board.get_height()):
+            the_board.get_tile_at(x, y).set_visited(False)
+
+    if not tile_is_head:
+        the_board.get_tile_at(head["x"], head["y"]).set_cost(head_cost)
+    
+    return [pathable_tiles, blocking_tiles]
