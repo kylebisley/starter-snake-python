@@ -39,12 +39,16 @@ class Board:
         return self.food_tiles
 
     def food_string(self):
+        """
+        String representation of food locations
+        Returns: (str) x,y/x,y
+        """
         food_list = ""
         for food in self.food_tiles:
-            food_list = food_list + str(food.get_x()) + "," + str(food.get_y()) + "/"
-#            join x,y for each food object
-#           add joined xy to food_list string 
-#            add /
+            food_list = (food_list +
+                         str(food.get_x()) + "," +
+                         str(food.get_y()) +
+                         "/")
         return food_list
 
     # TODO: finish print methods
