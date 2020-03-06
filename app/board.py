@@ -10,8 +10,13 @@ class Board:
         self._board_height = len(j_data["board"]["height"])
         self._the_board = [[None for x in range(self._board_width)] for y in range(self._board_height)]
         self.food_tiles = []
+<<<<<<< HEAD
         
         char_board = board_to_array(j_data)
+=======
+
+        char_board = boardToArray(j_data)
+>>>>>>> wrote turnedAround method to find our tail in the walls or find the position that will open first
 
         for y in range(len(path_board)):
             for x in range(len(path_board[0])):

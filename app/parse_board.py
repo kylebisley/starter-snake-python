@@ -276,9 +276,8 @@ def display(converted_board, integer_board):
 #             continue #go to next iteration if it's a wall, we don't care about it after this step
 #         else:
 #             pathableTiles.append(checkNext)
-        
-#         # at this point, look in each cardinal direction,
-#         and if the tile there exists, and has not been visited, append to newViableTiles
+
+#         #at this point, look in each cardinal direction, and if the tile there exists, and has not been visited, append to newViableTiles
 #         if((yHere > 0) and not allBoardTiles[yHere - 1][xHere].getVisited()):
 #             newViableTiles.append(allBoardTiles[yHere - 1][xHere])
 #             allBoardTiles[yHere - 1][xHere].visit()
@@ -294,3 +293,17 @@ def display(converted_board, integer_board):
 #             allBoardTiles[yHere][xHere + 1].visit()
 
 #     return [pathableTiles, blockingTiles]
+
+
+def turnedAround(walls_around, converted_data):
+    tail = converted_data["you"]["body"][len(converted_data["you"]["body"])-1]
+    index_counter = 1
+    for z in walls_around:
+        if z is tail:
+            return tail
+    else:
+        while tail != walls_around[len(walls_around)-1]:
+            tail = converted_data["you"]["body"][len(
+                converted_data["you"]["body"]) - index_counter]
+            index_counter -= 1
+        return tail
