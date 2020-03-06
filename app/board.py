@@ -23,7 +23,7 @@ class Board():
                 new_tile = t.Tile(x, y, path_board[y][x], is_food, char_board[y][x])
                 self._the_board[y][x].append(new_tile)
                 if new_tile.get_food():
-                    food_tiles.append(new_tile)
+                    self.food_tiles.append(new_tile)
 
     #Getters and setters
     def get_tile_at(self, x, y):
