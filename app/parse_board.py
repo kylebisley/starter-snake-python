@@ -172,8 +172,6 @@ def coward_pathing(converted_data, path_board):
                         if(path_board[y-1][x] != -1):
                             path_board[y-1][x] = LARGER_SNAKE_FUTURE_HEAD
 
-    # return path_board
-
 
 def boardToArray(data_dump):
     """
@@ -195,7 +193,6 @@ def boardToArray(data_dump):
     # finding your body
     me = data_dump["you"]["id"]
     for z in data_dump["you"]["body"]:
-
         if (z == data_dump["you"]["body"][0]):
             x = z['x']
             y = z['y']
@@ -231,7 +228,7 @@ def display(converted_board, integer_board):
             print(str(y) + " "),
         print()
 
-#TODO: change this to use passed in board object, can't use as is since Tile
+# TODO: change this to use passed in board object, can't use as is since Tile
 # constructor changed
 # def whatDoYourSnakeEyesSee(pathBoard, xPos, yPos):
 #     """
