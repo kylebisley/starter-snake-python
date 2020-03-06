@@ -3,7 +3,7 @@ class Tile():
     Attributes:
         x (integer): the x coordinate, should line up with our other methods
         y (integer): the y coordinate etc
-        visited (boolean): whether or not a tile has been visited, useful for some algorithms
+        visited (bool): whether or not a tile has been visited, useful for some algorithms
         cost: the cost for a-star to travers a tile, can be used to determine if a tile is pathable
 
     Object Methods:
@@ -11,7 +11,7 @@ class Tile():
         getX(): int, returns the x coordinate of the tile
         getY(): int, returns the y coordinate of the tile
         visit(): void, sets visited to true
-        getVisited(): boolean, returns current state of visited
+        getVisited(): bool, returns current state of visited
         getCost(): int, returns cost attribute of the tile
     """
 
