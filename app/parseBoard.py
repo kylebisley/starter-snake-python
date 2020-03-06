@@ -11,7 +11,7 @@ def setBoardValues(jData):
     Converts converted JSON data from the battlesnake engine, to an a_star
     friendly gameboard.
     Args:
-        jData (list): Converted JSON data
+        jData (dict): Converted JSON data
 
     Returns:
         A_Star friendly version of the gameboard.
@@ -48,28 +48,28 @@ def setBoardValues(jData):
     return board
 
 
-def setEdge(dataDump):
+def setEdge(data_dump):
     """
     Sets edge of gamemap to the value '10'
     Args:
-        dataDump (list): Converted JSON data
+        data_dump (dict): Converted JSON data
 
     Returns:
         Gameboard with the edges initialised to '10'
     """
-    board_width = dataDump["board"]["width"]
-    board_height = dataDump["board"]["height"]
+    board_width = data_dump["board"]["width"]
+    board_height = data_dump["board"]["height"]
     board = [[1 for x in range(board_width)] for y in range(board_height)]
     for x in range(board_width):
         for y in range(board_height):
             # Bottom of board
-            if(y == dataDump["board"]["height"] - 1):
+            if(y == data_dump["board"]["height"] - 1):
                 board[y][x] = WALL_SPACE
             # Top of Board
             elif(y == 0):
                 board[y][x] = WALL_SPACE
             # Right side of board
-            elif (x == dataDump["board"]["width"] - 1):
+            elif (x == data_dump["board"]["width"] - 1):
                 board[y][x] = WALL_SPACE
             # Left side of board
             elif(x == 0):
@@ -80,7 +80,7 @@ def setEdge(dataDump):
     return board
 
 
-def bullyPathing(converted_data, pathBoard):
+def bullyPathing(converted_data, path_board):
     """
     Finds Snakes that are smaller than us and assigns the area around their
     head with the Smaller_Snake_Future_Head
@@ -88,96 +88,97 @@ def bullyPathing(converted_data, pathBoard):
     May need logical update for snake bodies but it should be fine
 
     Args:
-        converted_data (json): python readable json
+        converted_data (dict): python readable version of json
         path (list): path from a*
     Return:
         updated board (list) with potentially new values around smaller snakes
         heads
     """
     snake_id = converted_data["you"]["id"]
-    board = pathBoard
     # other snakes heads will be assigned xy
     for z in converted_data["board"]["snakes"]:
         name = z["id"]
         for a in z["body"]:
-            if ((str(name) != str(snake_id)) and (len(z["body"]) < len(converted_data["you"]["body"]))):
+            if ((str(name) != str(snake_id))
+                    and (len(z["body"]) < len(converted_data["you"]["body"]))):
 
                 if (a == z["body"][0]):
                     x = a['x']
                     y = a['y']
                     if(x < converted_data['board']['width'] and x > 0):
-                        if(pathBoard[y][x+1] != -1):
-                            board[y][x+1] = SMALLER_SNAKE_FUTURE_HEAD
-                        if(pathBoard[y][x-1] != -1):
-                            board[y][x-1] = SMALLER_SNAKE_FUTURE_HEAD
+                        if(path_board[y][x+1] != -1):
+                            path_board[y][x+1] = SMALLER_SNAKE_FUTURE_HEAD
+                        if(path_board[y][x-1] != -1):
+                            path_board[y][x-1] = SMALLER_SNAKE_FUTURE_HEAD
                     if(y < converted_data['board']['width'] and y > 0):
-                        if(pathBoard[y+1][x] != -1):
-                            board[y+1][x] = SMALLER_SNAKE_FUTURE_HEAD
-                        if(pathBoard[y-1][x] != -1):
-                            board[y-1][x] = SMALLER_SNAKE_FUTURE_HEAD
-    return board
+                        if(path_board[y+1][x] != -1):
+                            path_board[y+1][x] = SMALLER_SNAKE_FUTURE_HEAD
+                        if(path_board[y-1][x] != -1):
+                            path_board[y-1][x] = SMALLER_SNAKE_FUTURE_HEAD
+    return path_board
 
 
-def cowardPathing(converted_data, pathBoard):
+def cowardPathing(converted_data, path_board):
     """
-    Finds Snakes that are LARGER than us and assigns the area around their head with the LARGER_Snake_Future_Head
+    Finds Snakes that are LARGER than us and assigns
+    the area around their head with the LARGER_Snake_Future_Head
 
     May need logical update for snake bodies but it should be fine
 
     Args:
-        converted_data (json): python readable json
+        converted_data (dict): python readable version of json
         path (list): path from a*
 
     Return:
-        updated board (list) with potentially new values around LARGER snakes heads
+        updated board (list) with potentially new values
+        around LARGER snakes heads
     """
     me = converted_data["you"]["id"]
-    board = pathBoard
     # other snakes heads will be assigned xy
     for z in converted_data["board"]["snakes"]:
         name = z["id"]
         for a in z["body"]:
-            if ((str(name) != str(me)) and (len(z["body"]) >= len(converted_data["you"]["body"]))):
+            if ((str(name) != str(me)) and
+                    (len(z["body"]) >= len(converted_data["you"]["body"]))):
                 if (a == z["body"][0]):
                     x = a['x']
                     y = a['y']
-                    if(x < converted_data['board']['width']-1 and x >=0):
-                        if(pathBoard[y][x+1] != -1):
-                            board[y][x+1] = LARGER_SNAKE_FUTURE_HEAD
-                        if(pathBoard[y][x-1] != -1):
-                            board[y][x-1] = LARGER_SNAKE_FUTURE_HEAD
-                    if(y < converted_data['board']['height']-1 and y >=0):
-                        if(pathBoard[y+1][x] != -1):
-                            board[y+1][x] = LARGER_SNAKE_FUTURE_HEAD
-                            print("lower than head 15")
-                        if(pathBoard[y-1][x] != -1):
-                            board[y-1][x] = LARGER_SNAKE_FUTURE_HEAD
+                    if(x < converted_data['board']['width']-1 and x >= 0):
+                        if(path_board[y][x+1] != -1):
+                            path_board[y][x+1] = LARGER_SNAKE_FUTURE_HEAD
+                        if(path_board[y][x-1] != -1):
+                            path_board[y][x-1] = LARGER_SNAKE_FUTURE_HEAD
+                    if(y < converted_data['board']['height']-1 and y >= 0):
+                        if(path_board[y+1][x] != -1):
+                            path_board[y+1][x] = LARGER_SNAKE_FUTURE_HEAD
+                        if(path_board[y-1][x] != -1):
+                            path_board[y-1][x] = LARGER_SNAKE_FUTURE_HEAD
 
-    return board
+    return path_board
 
 
-def boardToArray(dataDump):
+def boardToArray(data_dump):
     """
     Converts converted JSON data from battlesnake engine to a list
     Args:
-        dataDump (list): Converted JSON data
+        data_dump (dict): Converted JSON data
 
     Returns:
         2D list of game board.
     """
-    board_width = dataDump["board"]["width"]
-    board_height = dataDump["board"]["height"]
+    board_width = data_dump["board"]["width"]
+    board_height = data_dump["board"]["height"]
     board = [[0 for x in range(board_width)] for y in range(board_height)]
     # label spaces as food
-    for z in dataDump["board"]["food"]:
+    for z in data_dump["board"]["food"]:
         x = z['x']
         y = z['y']
         board[y][x] = 'F'
     # finding your body
-    me = dataDump["you"]["id"]
-    for z in dataDump["you"]["body"]:
+    me = data_dump["you"]["id"]
+    for z in data_dump["you"]["body"]:
 
-        if (z == dataDump["you"]["body"][0]):
+        if (z == data_dump["you"]["body"][0]):
             x = z['x']
             y = z['y']
             board[y][x] = 'H'
@@ -186,7 +187,7 @@ def boardToArray(dataDump):
             y = z['y']
             board[y][x] = 'S'
     # to find other snakes
-    for z in dataDump["board"]["snakes"]:
+    for z in data_dump["board"]["snakes"]:
         name = z["id"]
         for a in z["body"]:
             if (name != me):
@@ -206,6 +207,7 @@ def display(converted_board, integer_board):
         for y in x:
             print(str(y) + " "),
         print()
+    print()
     for x in converted_board:
         for y in x:
             print(str(y) + " "),
