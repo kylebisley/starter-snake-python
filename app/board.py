@@ -21,7 +21,7 @@ class Board:
                     is_food = True
 
                 new_tile = t.Tile(x, y, path_board[y][x], is_food, char_board[y][x])
-                self._the_board[y][x].append(new_tile)
+                self._the_board[y].append(new_tile)
                 if new_tile.get_food():
                     self.food_tiles.append(new_tile)
 
