@@ -38,6 +38,19 @@ class Board:
     def get_food_tiles(self):
         return self.food_tiles
 
+    def food_string(self):
+        """
+        String representation of food locations
+        Returns: (str) x,y/x,y
+        """
+        food_list = ""
+        for food in self.food_tiles:
+            food_list = (food_list +
+                         str(food.get_x()) + "," +
+                         str(food.get_y()) +
+                         "/")
+        return food_list
+
     # TODO: finish print methods
     def print_int_board(self):
         raise NotImplementedError

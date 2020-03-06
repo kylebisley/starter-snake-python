@@ -3,6 +3,7 @@ import os
 import bottle
 import parse_board
 import tile
+import board
 
 from api import ping_response, start_response, move_response, end_response
 from pathfinding.core.grid import Grid
@@ -60,19 +61,19 @@ def move():
     # Converts data to be parsable
     converted_data = json.loads(json.dumps(data))
 
-    board = parse_board.board_to_array(converted_data)
+    dima_board = parse_board.board_to_array(converted_data)
     pathable_board = parse_board.int_board(converted_data)
-
+    board_object = board.Board(converted_data, pathable_board)
     # Json data is printed for debug help
     print(json.dumps(data))
     # debug display boards
-    parse_board.display(board, pathable_board)
+    parse_board.display(dima_board, pathable_board)
 
     directions = cardinal(converted_data,
                           get_min_path_to_food(converted_data, pathable_board))
-    direction = directions[0]
 
-    return move_response(direction)
+    response = {"move": directions[0], "shout": board_object.food_string()}
+    return response
 
 
 @bottle.post('/end')
