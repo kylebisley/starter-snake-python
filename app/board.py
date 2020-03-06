@@ -1,17 +1,14 @@
 import tile as t
-# from parse_board import board_to_array
 
 
 class Board:
 
     # TODO: add functionality to ignore tails if their snake isn't growing this turn
-    def __init__(self, j_data, path_board):
+    def __init__(self, j_data, path_board, char_board):
         self._board_width = j_data["board"]["width"]
         self._board_height = j_data["board"]["height"]
         self._the_board = [[None for x in range(self._board_width)] for y in range(self._board_height)]
         self.food_tiles = []
-        
-        char_board = board_to_array(j_data)
 
         for y in range(len(path_board)):
             for x in range(len(path_board[0])):
