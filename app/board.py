@@ -41,7 +41,10 @@ class Board:
     def food_string(self):
         food_list = ""
         for food in self.food_tiles:
-            food_list.join(food)
+            food_list = food.get_x + "," + food.get_y + "/"
+#            join x,y for each food object
+#           add joined xy to food_list string 
+#            add /
         return food_list
 
     # TODO: finish print methods
