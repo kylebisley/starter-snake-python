@@ -70,9 +70,9 @@ def move():
 
     directions = cardinal(converted_data,
                           get_min_path_to_food(converted_data, pathable_board))
-    direction = directions[0]
-
-    return move_response(direction)
+    # direction = directions[0]
+    response = {"move": directions[0], "shout": "This is a shout"}
+    return move_response(response)
 
 
 @bottle.post('/end')
