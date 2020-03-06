@@ -6,8 +6,8 @@ class Board:
 
     # TODO: add functionality to ignore tails if their snake isn't growing this turn
     def __init__(self, j_data, path_board):
-        self._board_width = len(j_data["board"]["width"])
-        self._board_height = len(j_data["board"]["height"])
+        self._board_width = j_data["board"]["width"]
+        self._board_height = j_data["board"]["height"]
         self._the_board = [[None for x in range(self._board_width)] for y in range(self._board_height)]
         self.food_tiles = []
         
@@ -21,7 +21,7 @@ class Board:
                     is_food = True
 
                 new_tile = t.Tile(x, y, path_board[y][x], is_food, char_board[y][x])
-                self._the_board[y][x].append(new_tile)
+                self._the_board[y].append(new_tile)
                 if new_tile.get_food():
                     self.food_tiles.append(new_tile)
 
@@ -55,6 +55,7 @@ class Board:
     def find_neighbours(self, tile):
         neighbours = []
 
+        # look down
         if((tile.get_y() > 0) and not self.get_tile_at(tile.get_x(), tile.get_y() - 1)):
             neighbours.append(self.get_tile_at(tile.get_x(), tile.get_y() - 1))
 

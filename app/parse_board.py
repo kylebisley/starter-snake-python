@@ -234,8 +234,8 @@ def display(converted_board, integer_board):
 
 def look_from_here(the_board, the_tile, j_data):
     '''
-    TODO: if the tile is not the head of our snake, make our head unpathable
-    finds all tiles reachable on a board from a given tile, and the walls surrounding them
+    finds all tiles reachable on a board from a given tile, and the walls surrounding them, treats our head as
+    a wall
     Args:
         the_board (board): a board object
         the_tile (tile): the tile object we want to search from
@@ -244,6 +244,14 @@ def look_from_here(the_board, the_tile, j_data):
         a list of two 1d lists, the first is all the tiles that are possible to path to from the passed in tile,
         the second is a list of tiles that form a wall around the pathable area
     '''
+    tile_is_head = True
+    head_cost = the_tile.get_cost()
+    head = j_data["you"]["body"][0]
+    if not ((the_tile.get_x() == head["x"]) and (the_tile.get_y() == head["y"])):
+        tile_is_head = False
+        the_board.get_tile_at(head["x"], head["y"]).set_cost(-1)
+
+
     new_viable_tiles = [the_tile]
     blocking_tiles = []
     pathable_tiles = []
@@ -269,4 +277,7 @@ def look_from_here(the_board, the_tile, j_data):
         for y in range(the_board.get_height()):
             the_board.get_tile_at(x, y).set_visited(False)
 
+    if not tile_is_head:
+        the_board.get_tile_at(head["x"], head["y"]).set_cost(head_cost)
+    
     return [pathable_tiles, blocking_tiles]
