@@ -59,11 +59,13 @@ def move():
     data = bottle.request.json
     # Converts data to be parsable
     converted_data = json.loads(json.dumps(data))
-    # Json data is printed for debug help
-    print(json.dumps(data))
 
     board = parseBoard.boardToArray(converted_data)
-    pathable_board = parseBoard.setBoardValues(converted_data)
+    pathable_board = parseBoard.int_board(converted_data)
+
+    # Json data is printed for debug help
+    print(json.dumps(data))
+    # debug display boards
     parseBoard.display(board, pathable_board)
 
     directions = cardinal(converted_data,

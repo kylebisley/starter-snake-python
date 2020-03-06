@@ -8,51 +8,65 @@ OUR_HEAD = 10
 LARGER_SNAKE_FUTURE_HEAD = 99
 
 
-def setBoardValues(jData):
+def path_board_driver(converted_data):
     """
-    Converts converted JSON data from the battlesnake engine, to an a_star
-    friendly gameboard.
+    Call list of functions that modify and build the path_board
+    Args: jData (dic): Converted json
+
+    Returns: A* friendly version of the gameboard
+    """
+    path_board = setEdge(converted_data)
+    path_board = setSnakeValues(converted_data, path_board)
+    path_board = bullyPathing(converted_data, path_board)
+    path_board = cowardPathing(converted_data, path_board)
+    return path_board
+
+
+def setSnakeValues(jData, board):
+    """
+    Replaces values on pathable board that corespond with snake locations
+    with values for snake bodies
     Args:
         jData (dict): Converted JSON data
+        board (list): integer representation of the board
 
     Returns:
         A_Star friendly version of the gameboard.
 
     """
-    board = setEdge(jData)
 
     # pertaining to our own body
     me = jData["you"]["id"]
 
-    for z in jData["you"]["body"]:
-        if (z == jData["you"]["body"][0]):
-            x = z['x']
-            y = z['y']
+    for segment in jData["you"]["body"]:
+        if (segment == jData["you"]["body"][0]):
+            x = segment['x']
+            y = segment['y']
             board[y][x] = OUR_HEAD
         else:
-            x = z['x']
-            y = z['y']
+            x = segment['x']
+            y = segment['y']
             board[y][x] = SNAKE
 
     # other snakes
-    for z in jData["board"]["snakes"]:
-        name = z["id"]
-        for a in z["body"]:
+    for snake in jData["board"]["snakes"]:
+        name = snake["id"]
+        for segment in snake["body"]:
             if (name != me):
-                if (a == z["body"][0]):
-                    x = a['x']
-                    y = a['y']
+                if (segment == snake["body"][0]):
+                    x = segment['x']
+                    y = segment['y']
                     board[y][x] = SNAKE
                 else:
-                    x = a['x']
-                    y = a['y']
+                    x = segment['x']
+                    y = segment['y']
                     board[y][x] = SNAKE
     return board
 
 
 def setEdge(data_dump):
     """
-    Sets edge of gamemap to the value '10'
+    Creates pathable board and sets edge of gamemap to the value 'WALL_SPACE'
     Args:
         data_dump (dict): Converted JSON data
 
@@ -85,7 +99,7 @@ def setEdge(data_dump):
 def bullyPathing(converted_data, path_board):
     """
     Finds Snakes that are smaller than us and assigns the area around their
-    head with the Smaller_Snake_Future_Head
+    head with the SMALLER_SNAKE_FUTURE_HEAD
 
     May need logical update for snake bodies but it should be fine
 
