@@ -11,7 +11,7 @@ LARGER_SNAKE_FUTURE_HEAD = 99
 def int_board(converted_data):
     """
     Call list of functions that modify and build the path_board
-    Args: jData (dic): Converted json
+    Args: converted_data (dic): Converted json
 
     Returns: A* friendly version of the gameboard
     """
@@ -26,12 +26,12 @@ def int_board(converted_data):
     return path_board
 
 
-def set_snake_values(jData, board):
+def set_snake_values(converted_data, board):
     """
     Replaces values on pathable board that corespond with snake locations
     with values for snake bodies
     Args:
-        jData (dict): Converted JSON data
+        converted_data (dict): Converted JSON data
         board (list): integer representation of the board
 
     Returns:
@@ -40,10 +40,10 @@ def set_snake_values(jData, board):
     """
 
     # pertaining to our own body
-    me = jData["you"]["id"]
+    me = converted_data["you"]["id"]
 
-    for segment in jData["you"]["body"]:
-        if (segment == jData["you"]["body"][0]):
+    for segment in converted_data["you"]["body"]:
+        if (segment == converted_data["you"]["body"][0]):
             x = segment['x']
             y = segment['y']
             board[y][x] = OUR_HEAD
@@ -53,7 +53,7 @@ def set_snake_values(jData, board):
             board[y][x] = SNAKE
 
     # other snakes
-    for snake in jData["board"]["snakes"]:
+    for snake in converted_data["board"]["snakes"]:
         name = snake["id"]
         for segment in snake["body"]:
             if (name != me):
