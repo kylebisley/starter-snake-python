@@ -11,10 +11,10 @@ LARGER_SNAKE_FUTURE_HEAD = 99
 def int_board(converted_data):
     """
     Call list of functions that modify and build the path_board
-    Args: 
+    Args:
         converted_data (dict): Converted json
 
-    Returns: 
+    Returns:
         A* friendly version of the game-board
     """
     # make path_board
@@ -121,7 +121,8 @@ def bully_pathing(converted_data, path_board):
         name = snake["id"]
         for segment in snake["body"]:
             if ((str(name) != str(snake_id))
-                    and (len(snake["body"]) < len(converted_data["you"]["body"]))):
+                    and (len(snake["body"]) < len(
+                        converted_data["you"]["body"]))):
 
                 if segment == snake["body"][0]:
                     x = segment['x']
@@ -159,7 +160,8 @@ def coward_pathing(converted_data, path_board):
         name = snake["id"]
         for segment in snake["body"]:
             if ((str(name) != str(me)) and
-                    (len(snake["body"]) >= len(converted_data["you"]["body"]))):
+                    (len(snake["body"]) >=
+                        len(converted_data["you"]["body"]))):
                 if segment == snake["body"][0]:
                     x = segment['x']
                     y = segment['y']
@@ -251,7 +253,8 @@ def display(converted_board, integer_board):
 #     """
 #     board_width = len(pathBoard[0])
 #     board_height = len(pathBoard)
-#     allBoardTiles = [[None for x in range(board_width)] for y in range(board_height)] 
+#     allBoardTiles = [[None for x in range(board_width)]
+#                                for y in range(board_height)]
 
 #     startTile = tile.Tile(xPos, yPos, pathBoard[yPos][xPos])
 #     startTile.visit()
@@ -273,22 +276,26 @@ def display(converted_board, integer_board):
 
 #         if (checkNext.getCost() < 1):
 #             blockingTiles.append(checkNext)
-#             continue #go to next iteration if it's a wall, we don't care about it after this step
+#             continue #go to next iteration if it's a wall,
+#                we don't care about it after this step
 #         else:
 #             pathableTiles.append(checkNext)
 
-#         #at this point, look in each cardinal direction, and if the tile there exists, and has not been visited, append to newViableTiles
+#         #at this point, look in each cardinal direction, and if the tile
+#              there exists, and has not been visited, append to newViableTiles
 #         if((yHere > 0) and not allBoardTiles[yHere - 1][xHere].getVisited()):
 #             newViableTiles.append(allBoardTiles[yHere - 1][xHere])
 #             allBoardTiles[yHere - 1][xHere].visit()
-#         if((yHere < board_height - 1) and not allBoardTiles[yHere + 1][xHere].getVisited()):
+#         if((yHere < board_height - 1) and not allBoardTiles[yHere + 1][xHere]
+#                   .getVisited()):
 #             newViableTiles.append(allBoardTiles[yHere + 1][xHere])
 #             allBoardTiles[yHere + 1][xHere].visit()
 #
 #         if((xHere > 0) and not allBoardTiles[yHere][xHere - 1].getVisited()):
 #             newViableTiles.append(allBoardTiles[yHere][xHere - 1])
 #             allBoardTiles[yHere][xHere - 1].visit()
-#         if((xHere < board_width - 1) and not allBoardTiles[yHere][xHere + 1].getVisited()):
+#         if((xHere < board_width - 1) and not allBoardTiles[yHere][xHere + 1]
+#               .getVisited()):
 #             newViableTiles.append(allBoardTiles[yHere][xHere + 1])
 #             allBoardTiles[yHere][xHere + 1].visit()
 
@@ -296,6 +303,21 @@ def display(converted_board, integer_board):
 
 
 def turnedAround(walls_around, converted_data):
+    """
+        Fuction to find our tail or the position closest to our tail
+        when we get stuck inan area with no food
+
+        Args:
+            walls_around (list):
+                a list of all walls around our snake head (trapping us)
+
+            converted_data (dict):
+                a converted verion of the json that python can read
+
+        Returns:
+            a set of cords representative of the first tile that will open
+
+    """
     tail = converted_data["you"]["body"][len(converted_data["you"]["body"])-1]
     index_counter = 1
     for z in walls_around:
