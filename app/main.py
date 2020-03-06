@@ -60,7 +60,7 @@ def move():
     # Converts data to be parsable
     converted_data = json.loads(json.dumps(data))
 
-    board = parse_board.boardToArray(converted_data)
+    board = parse_board.board_to_array(converted_data)
     pathable_board = parse_board.int_board(converted_data)
 
     # Json data is printed for debug help
@@ -69,7 +69,7 @@ def move():
     parse_board.display(board, pathable_board)
 
     directions = cardinal(converted_data,
-                          getMinPathToFood(converted_data, pathable_board))
+                          get_min_path_to_food(converted_data, pathable_board))
     direction = directions[0]
 
     return move_response(direction)
@@ -88,14 +88,12 @@ def end():
     return end_response()
 
 
-def getMinPathToFood(converted_data, path_board):
+def get_min_path_to_food(converted_data, path_board):
     """
     Checks for lightest path to food.
     Args:
-        converted_data (dict): converted python representation of current game
-
-                                snapshot
-        path_board (list): integer representation of board
+        converted_data (dict): converted python representation of current game snapshot
+        path_board (array.py): integer representation of board
     Returns:
         shortest_path (list): shortest path to food
         OR
@@ -106,22 +104,22 @@ def getMinPathToFood(converted_data, path_board):
         x = food['x']
         y = food['y']
         new_path = navigate(converted_data, path_board, [x, y])
-        if (shortest_path == "Unassigned" and (len(new_path) != 0)):
+        if shortest_path == "Unassigned" and (len(new_path) != 0):
             shortest_path = new_path
-        elif (shortest_path != "Unassigned"):
+        elif shortest_path != "Unassigned":
             # Line below too long. Broken into 3 pieces for clarity
-            if (sumPathWeight(new_path, path_board) <
-                    sumPathWeight(shortest_path, path_board)
+            if (sum_path_weight(new_path, path_board) <
+                    sum_path_weight(shortest_path, path_board)
                     and (len(new_path) != 0)):
                 shortest_path = new_path
 
-        sumPathWeight(new_path, path_board)
+        sum_path_weight(new_path, path_board)
     return shortest_path
 
 
-def sumPathWeight(path, path_board):
+def sum_path_weight(path, path_board):
     """
-    Recieves path, returns cost of the nodes of the path.
+    Receives path, returns cost of the nodes of the path.
     Args:
         path (list): A* path
         path_board (list): int representation of board
@@ -132,7 +130,7 @@ def sumPathWeight(path, path_board):
         return
     weight = 0
     for step in path:
-        if (path_board[step[1]][step[0]] <= 0):
+        if path_board[step[1]][step[0]] <= 0:
             return
         weight = weight + path_board[step[1]][step[0]]
     return weight
@@ -152,12 +150,12 @@ def navigate(converted_data, path_board, food):
     matrix = path_board
     grid = Grid(matrix=matrix)
 
-    start = grid.node(converted_data["you"]["body"][0]['x'],
-                      converted_data["you"]["body"][0]['y'])
-    end = grid.node(food[0], food[1])
+    start_tile = grid.node(converted_data["you"]["body"][0]['x'],
+                           converted_data["you"]["body"][0]['y'])
+    end_tile = grid.node(food[0], food[1])
 
     finder = AStarFinder()
-    path, runs = finder.find_path(start, end, grid)
+    path, runs = finder.find_path(start_tile, end_tile, grid)
     return path
 
 
@@ -172,14 +170,14 @@ def cardinal(converted_data, path):
         direction (single item list): cardinal direction as string
     """
     # if x values are same check y values for direction
-    if (converted_data["you"]["body"][0]['x'] == path[1][0]):
-        if ((converted_data["you"]["body"][0]['y']) < (path[1][1])):
+    if converted_data["you"]["body"][0]['x'] == path[1][0]:
+        if (converted_data["you"]["body"][0]['y']) < (path[1][1]):
             direction = ['down']
         else:
             direction = ['up']
     # x values are different check them for direction
     else:
-        if((converted_data["you"]["body"][0]['x']) < (path[1][0])):
+        if (converted_data["you"]["body"][0]['x']) < (path[1][0]):
             direction = ['right']
         else:
             direction = ['left']
