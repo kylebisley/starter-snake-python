@@ -24,7 +24,7 @@ class Tile:
         self.visited = False
 
     # Getters and setters
-    
+
     def get_x(self):
         return self._x
 
@@ -36,7 +36,7 @@ class Tile:
 
     def get_visited(self):
         return self.visited
-    
+
     def get_cost(self):
         return self.cost
 
