@@ -38,4 +38,4 @@ class Tile():
         return self.visited
     
     def getCost(self):
-        return cost
+        return self.cost
