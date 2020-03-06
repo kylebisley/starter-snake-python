@@ -8,7 +8,7 @@ OUR_HEAD = 10
 LARGER_SNAKE_FUTURE_HEAD = 99
 
 
-def path_board_driver(converted_data):
+def int_board(converted_data):
     """
     Call list of functions that modify and build the path_board
     Args: jData (dic): Converted json
