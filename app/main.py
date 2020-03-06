@@ -63,7 +63,7 @@ def move():
 
     dima_board = parse_board.board_to_array(converted_data)
     pathable_board = parse_board.int_board(converted_data)
-    board_object = board.Board(converted_data, pathable_board)
+    board_object = board.Board(converted_data, pathable_board, dima_board)
     # Json data is printed for debug help
     print(json.dumps(data))
     # debug display boards
