@@ -1,9 +1,5 @@
 import tile as t
-<<<<<<< HEAD
-from parse_board import boardToArray
-=======
 from parse_board import board_to_array
->>>>>>> beta
 
 
 class Board:

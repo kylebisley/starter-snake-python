@@ -1,15 +1,9 @@
 class Tile:
     """
     Attributes:
-<<<<<<< HEAD
-        x (integer): the x coordinate, should line up with our other methods
-        y (integer): the y coordinate etc
-        visited (bool): whether or not a tile has been visited, useful for some algorithms
-=======
         _x (integer): the x coordinate, should line up with our other methods
         _y (integer): the y coordinate etc
         visited (boolean): whether or not a tile has been visited, useful for some algorithms
->>>>>>> beta
         cost: the cost for a-star to travers a tile, can be used to determine if a tile is pathable
 
     Object Methods:
@@ -17,13 +11,8 @@ class Tile:
         get_x(): int, returns the x coordinate of the tile
         get_y(): int, returns the y coordinate of the tile
         visit(): void, sets visited to true
-<<<<<<< HEAD
-        getVisited(): bool, returns current state of visited
-        getCost(): int, returns cost attribute of the tile
-=======
         get_visited(): boolean, returns current state of visited
         get_cost(): int, returns cost attribute of the tile
->>>>>>> beta
     """
 
     def __init__(self, x_coord, y_coord, path_cost, is_food, debug_char):

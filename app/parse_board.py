@@ -265,28 +265,8 @@ def look_from_here(the_board, the_tile, j_data):
                 new_viable_tiles.append(t)
                 t.set_visited(True)
         
-<<<<<<< HEAD
     for x in range(the_board.get_width()):
         for y in range(the_board.get_height()):
             the_board.get_tile_at(x, y).set_visited(False)
 
     return [pathable_tiles, blocking_tiles]
-=======
-#         # at this point, look in each cardinal direction,
-#         and if the tile there exists, and has not been visited, append to newViableTiles
-#         if((yHere > 0) and not allBoardTiles[yHere - 1][xHere].getVisited()):
-#             newViableTiles.append(allBoardTiles[yHere - 1][xHere])
-#             allBoardTiles[yHere - 1][xHere].visit()
-#         if((yHere < board_height - 1) and not allBoardTiles[yHere + 1][xHere].getVisited()):
-#             newViableTiles.append(allBoardTiles[yHere + 1][xHere])
-#             allBoardTiles[yHere + 1][xHere].visit()
-#
-#         if((xHere > 0) and not allBoardTiles[yHere][xHere - 1].getVisited()):
-#             newViableTiles.append(allBoardTiles[yHere][xHere - 1])
-#             allBoardTiles[yHere][xHere - 1].visit()
-#         if((xHere < board_width - 1) and not allBoardTiles[yHere][xHere + 1].getVisited()):
-#             newViableTiles.append(allBoardTiles[yHere][xHere + 1])
-#             allBoardTiles[yHere][xHere + 1].visit()
-
-#     return [pathableTiles, blockingTiles]
->>>>>>> beta
