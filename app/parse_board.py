@@ -232,6 +232,35 @@ def display(converted_board, integer_board):
         print()
 
 
+def turnedAround(walls_around, converted_data):
+    """
+        Fuction to find our tail or the position closest to our tail
+        when we get stuck inan area with no food
+
+        Args:
+            walls_around (list):
+                a list of all walls around our snake head (trapping us)
+
+            converted_data (dict):
+                a converted verion of the json that python can read
+
+        Returns:
+            a set of cords representative of the first tile that will open
+
+    """
+    tail = converted_data["you"]["body"][len(converted_data["you"]["body"])-1]
+    index_counter = 1
+    for z in walls_around:
+        if z is tail:
+            return tail
+    else:
+        while tail != walls_around[len(walls_around)-1]:
+            tail = converted_data["you"]["body"][len(
+                converted_data["you"]["body"]) - index_counter]
+            index_counter -= 1
+        return tail
+
+
 def DFS(pathableTiles, v, walls_around, seen=None, path=None):
     # Build graph dictionary
     G = copy.deepcopy(pathableTiles)
