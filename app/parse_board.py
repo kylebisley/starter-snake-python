@@ -11,9 +11,11 @@ LARGER_SNAKE_FUTURE_HEAD = 99
 def int_board(converted_data):
     """
     Call list of functions that modify and build the path_board
-    Args: converted_data (dic): Converted json
+    Args: 
+        converted_data (dict): Converted json
 
-    Returns: A* friendly version of the gameboard
+    Returns: 
+        A* friendly version of the gameboard
     """
     # make path_board
     path_board = set_edge(converted_data)
