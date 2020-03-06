@@ -1,4 +1,5 @@
 import tile
+import board as b
 
 SNAKE = -1
 WALL_SPACE = 50
@@ -230,67 +231,42 @@ def display(converted_board, integer_board):
             print(str(y) + " "),
         print()
 
-# TODO: change this to use passed in board object, can't use as is since Tile
-# constructor changed
-# def whatDoYourSnakeEyesSee(pathBoard, xPos, yPos):
-#     """
-#     This method finds the tiles it is possible to path to from any tiles
-#     coordinates, and the tiles that form walls around/in this area,
-#     then creates lists of this information.
-#     Args:
-#         pathBoard (array): integer representation of current board
-#         xPos(int): the x coordinate of the tile we want to search from
-#         yPos(int): the y coordinate of the tile we want to search from
-#     OBJECT_ORIENTED_TODO: pass in a board object and tile object instead
-#     Returns:
-#         an list of two lists, the first contains all the Tile objects it is
-#         possible and viable to path to, the second contains all Tile objects
-#         that form the walls. Can compare these lists to lists of all food,
-#         for example, to get just food we can path too.
-#     OBJECT_ORIENTED_TODO: return board objects instead eventually maybe
-#     """
-#     board_width = len(pathBoard[0])
-#     board_height = len(pathBoard)
-#     allBoardTiles = [[None for x in range(board_width)] for y in range(board_height)] 
 
-#     startTile = tile.Tile(xPos, yPos, pathBoard[yPos][xPos])
-#     startTile.visit()
-#     #head = converted_data["you"]["body"][0]
-#     newViableTiles = [startTile]
-#     pathableTiles = []
-#     blockingTiles = []
+def look_from_here(the_board, the_tile, j_data):
+    '''
+    TODO: if the tile is not the head of our snake, make our head unpathable
+    finds all tiles reachable on a board from a given tile, and the walls surrounding them
+    Args:
+        the_board (board): a board object
+        the_tile (tile): the tile object we want to search from
+        j_data (dict): the converted json data initially given to us
+    Returns:
+        a list of two 1d lists, the first is all the tiles that are possible to path to from the passed in tile,
+        the second is a list of tiles that form a wall around the pathable area
+    '''
+    new_viable_tiles = [the_tile]
+    blocking_tiles = []
+    pathable_tiles = []
+    
+    while (len(new_viable_tiles) > 0):
+        #deal with the next tile we are examining
+        check_next = new_viable_tiles.pop()
 
+        if (check_next.getCost() < 1):
+            blocking_tiles.append(check_next)
+            continue #go to next iteration if it's a wall, we don't care about it after this step
+        else:
+            pathable_tiles.append(check_next)
 
-#     for x in pathBoard:
-#         for y in x:
-#             allBoardTiles[y][x] += tile.Tile(x, y, pathBoard[y][x])
+        neighbours = the_board.find_neighbours(check_next)
 
-#     while (len(newViableTiles) > 0):
-#         #deal with the next tile we are examining
-#         checkNext = newViableTiles.pop()
-#         yHere = checkNext.getCoord[0]
-#         xHere = checkNext.getCoord[1]
-
-#         if (checkNext.getCost() < 1):
-#             blockingTiles.append(checkNext)
-#             continue #go to next iteration if it's a wall, we don't care about it after this step
-#         else:
-#             pathableTiles.append(checkNext)
+        for t in neighbours:
+            if (not t.get_visited()):
+                new_viable_tiles.append(t)
+                t.set_visited(True)
         
-#         # at this point, look in each cardinal direction,
-#         and if the tile there exists, and has not been visited, append to newViableTiles
-#         if((yHere > 0) and not allBoardTiles[yHere - 1][xHere].getVisited()):
-#             newViableTiles.append(allBoardTiles[yHere - 1][xHere])
-#             allBoardTiles[yHere - 1][xHere].visit()
-#         if((yHere < board_height - 1) and not allBoardTiles[yHere + 1][xHere].getVisited()):
-#             newViableTiles.append(allBoardTiles[yHere + 1][xHere])
-#             allBoardTiles[yHere + 1][xHere].visit()
-#
-#         if((xHere > 0) and not allBoardTiles[yHere][xHere - 1].getVisited()):
-#             newViableTiles.append(allBoardTiles[yHere][xHere - 1])
-#             allBoardTiles[yHere][xHere - 1].visit()
-#         if((xHere < board_width - 1) and not allBoardTiles[yHere][xHere + 1].getVisited()):
-#             newViableTiles.append(allBoardTiles[yHere][xHere + 1])
-#             allBoardTiles[yHere][xHere + 1].visit()
+    for x in range(the_board.get_width()):
+        for y in range(the_board.get_height()):
+            the_board.get_tile_at(x, y).set_visited(False)
 
-#     return [pathableTiles, blockingTiles]
+    return [pathable_tiles, blocking_tiles]

@@ -60,3 +60,27 @@ class Board:
 
     def dab(self):
         raise NotImplementedError
+
+
+    # Other methods
+
+    #takes in a tile, and outputs a list of all tiles that are adjacent to it
+    def find_neighbours(self, tile):
+        neighbours = []
+
+        if((tile.get_y() > 0) and not self.get_tile_at(tile.get_x(), tile.get_y() - 1)):
+            neighbours.append(self.get_tile_at(tile.get_x(), tile.get_y() - 1))
+
+        #look up
+        if((tile.get_y() < self.get_height() - 1) and not self.get_tile_at(tile.get_x(), tile.get_y() + 1)):
+            neighbours.append(self.get_tile_at(tile.get_x(), tile.get_y() + 1))
+
+        #look left
+        if((tile.get_x() > 0) and not self.get_tile_at(tile.get_x() - 1, tile.get_y())):
+            neighbours.append(self.get_tile_at(tile.get_x() - 1, tile.get_y()))
+        
+        #look right
+        if((tile.get_x() < self.get_width() - 1) and not self.get_tile_at(tile.get_x() + 1,tile.get_y())):
+            neighbours.append(self.get_tile_at(tile.get_x() + 1,tile.get_y()))
+        
+        return neighbours
