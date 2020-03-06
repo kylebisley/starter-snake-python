@@ -55,6 +55,7 @@ class Board:
     def find_neighbours(self, tile):
         neighbours = []
 
+        #look down
         if((tile.get_y() > 0) and not self.get_tile_at(tile.get_x(), tile.get_y() - 1)):
             neighbours.append(self.get_tile_at(tile.get_x(), tile.get_y() - 1))
 
