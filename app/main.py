@@ -137,7 +137,7 @@ def getMinPathToFood(converted_data, path_board):
         converted_data (dict): converted python representation of current game
 
                                 snapshot
-        path_board (int array): integer representation of board
+        path_board (list): integer representation of board
     Returns:
         shortest_path (path): shortest path to food
         OR
