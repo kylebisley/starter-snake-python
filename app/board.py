@@ -2,7 +2,7 @@ import tile as t
 from parseBoard import boardToArray
 
 
-class Board():
+class Board:
 
     #TODO: add functionality to ignore tails if their snake isn't growing this turn
     def __init__(self, j_data, path_board):
@@ -47,4 +47,3 @@ class Board():
 
     def dab(self):
         raise NotImplementedError
-
