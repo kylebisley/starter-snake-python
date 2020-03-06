@@ -2,6 +2,7 @@ import json
 import os
 import bottle
 import parseBoard
+import tile
 
 from api import ping_response, start_response, move_response, end_response
 from pathfinding.core.grid import Grid
