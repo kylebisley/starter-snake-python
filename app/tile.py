@@ -14,28 +14,47 @@ class Tile():
         getVisited(): boolean, returns current state of visited
         getCost(): int, returns cost attribute of the tile
     """
-    #isFood = False
 
-    def __init__(self, xCoord, yCoord, pathCost):
-        self.x = xCoord
-        self.y = yCoord
-        self.visited = False
+    def __init__(self, xCoord, yCoord, pathCost, is_food, debug_char):
+        self._x = xCoord
+        self._y = yCoord
         self.cost = pathCost
+        self._is_food = is_food
+        self._debug_char = debug_char
+        self.visited = False
+
+
+    #Getters and setters
     
-    def getCoord(self):
-        return [self.x, self.y]
-    
-    def getX(self):
-        return self.x
+    def get_x(self):
+        return self._x
 
-    def getY(self):
-        return self.y
+    def get_y(self):
+        return self._y
 
-    def visit(self):
-        self.visited = True
+    def set_visited(self, visit):
+        self.visited = visit
 
-    def getVisited(self):
+    def get_visited(self):
         return self.visited
     
-    def getCost(self):
+    def get_cost(self):
         return self.cost
+    
+
+    '''
+    doesn't change "walls" and won't make a pathable tile unpathable
+    '''
+    def modify_cost(self, change_by):
+        if self.getCost() < 1:
+            return
+        if self.getCost() + change_by < 1:
+            self.cost = 1
+            return
+        self.cost += change_by
+
+    def get_food(self):
+        return self._is_food
+
+    def get_char(self):
+        return self._debug_char
