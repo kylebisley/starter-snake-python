@@ -16,9 +16,9 @@ def int_board(converted_data):
     Returns: A* friendly version of the gameboard
     """
     path_board = setEdge(converted_data)
-    path_board = setSnakeValues(converted_data, path_board)
-    path_board = bullyPathing(converted_data, path_board)
-    path_board = cowardPathing(converted_data, path_board)
+    setSnakeValues(converted_data, path_board)
+    bullyPathing(converted_data, path_board)
+    cowardPathing(converted_data, path_board)
     return path_board
 
 
