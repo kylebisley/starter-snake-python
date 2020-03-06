@@ -65,7 +65,6 @@ def set_snake_values(converted_data, board):
                     x = segment['x']
                     y = segment['y']
                     board[y][x] = SNAKE
-    # return board
 
 
 def set_edge(data_dump):
@@ -116,15 +115,15 @@ def bully_pathing(converted_data, path_board):
     """
     snake_id = converted_data["you"]["id"]
     # other snakes heads will be assigned xy
-    for z in converted_data["board"]["snakes"]:
-        name = z["id"]
-        for a in z["body"]:
+    for snake in converted_data["board"]["snakes"]:
+        name = snake["id"]
+        for segment in snake["body"]:
             if ((str(name) != str(snake_id))
-                    and (len(z["body"]) < len(converted_data["you"]["body"]))):
+                    and (len(snake["body"]) < len(converted_data["you"]["body"]))):
 
-                if (a == z["body"][0]):
-                    x = a['x']
-                    y = a['y']
+                if (segment == snake["body"][0]):
+                    x = segment['x']
+                    y = segment['y']
                     if(x < converted_data['board']['width'] and x > 0):
                         if(path_board[y][x+1] != -1):
                             path_board[y][x+1] = SMALLER_SNAKE_FUTURE_HEAD
@@ -135,7 +134,6 @@ def bully_pathing(converted_data, path_board):
                             path_board[y+1][x] = SMALLER_SNAKE_FUTURE_HEAD
                         if(path_board[y-1][x] != -1):
                             path_board[y-1][x] = SMALLER_SNAKE_FUTURE_HEAD
-    # return path_board
 
 
 def coward_pathing(converted_data, path_board):
@@ -155,14 +153,14 @@ def coward_pathing(converted_data, path_board):
     """
     me = converted_data["you"]["id"]
     # other snakes heads will be assigned xy
-    for z in converted_data["board"]["snakes"]:
-        name = z["id"]
-        for a in z["body"]:
+    for snake in converted_data["board"]["snakes"]:
+        name = snake["id"]
+        for segment in snake["body"]:
             if ((str(name) != str(me)) and
-                    (len(z["body"]) >= len(converted_data["you"]["body"]))):
-                if (a == z["body"][0]):
-                    x = a['x']
-                    y = a['y']
+                    (len(snake["body"]) >= len(converted_data["you"]["body"]))):
+                if (segment == snake["body"][0]):
+                    x = segment['x']
+                    y = segment['y']
                     if(x < converted_data['board']['width']-1 and x >= 0):
                         if(path_board[y][x+1] != -1):
                             path_board[y][x+1] = LARGER_SNAKE_FUTURE_HEAD
