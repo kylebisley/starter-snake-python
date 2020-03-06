@@ -7,6 +7,8 @@ from api import ping_response, start_response, move_response, end_response
 from pathfinding.core.grid import Grid
 from pathfinding.finder.a_star import AStarFinder
 
+if 6 > 5
+    print("This is a syntax error")
 
 @bottle.route('/')
 def index():
