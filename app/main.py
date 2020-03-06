@@ -2,6 +2,7 @@ import json
 import os
 import bottle
 import parseBoard
+import tile
 
 from api import ping_response, start_response, move_response, end_response
 from pathfinding.core.grid import Grid
@@ -304,113 +305,6 @@ def cardinal(converted_data, path):
             direction = ['left']
     return direction
 
-
-class Tile():
-    """
-    TODO: Add functionality for what kind of tile it is, ie: snakeBody, ourHead, ourBody, food, empty tile
-    This class exists so that whatDoYourSnakeEyesSee only needs to look at the associated object of a tile to see if it's been
-    visited, instead of searching the entire list of visited tiles every time. Should be usable for other things.
-
-    Attributes:
-        x (integer): the x coordinate, should line up with our other methods
-        y (integer): the y coordinate etc
-        visited (boolean): whether or not a tile has been visited, useful for some algorithms
-        cost: the cost for a-star to travers a tile, can be used to determine if a tile is pathable
-
-    Object Methods:
-        getCoord(): int list, returns a list of the x position, then the y position
-        getX(): int, returns the x coordinate of the tile
-        getY(): int, returns the y coordinate of the tile
-        visit(): void, sets visited to true
-        getVisited(): boolean, returns current state of visited
-        getCost(): int, returns cost attribute of the tile
-    """
-    #isFood = False
-
-    def __init__(self, xCoord, yCoord, pathCost):
-        self.x = xCoord
-        self.y = yCoord
-        self.visited = False
-        self.cost = pathCost
-    
-    def getCoord(self):
-        return [self.x, self.y]
-    
-    def getX(self):
-        return self.x
-
-    def getY(self):
-        return self.y
-
-    def visit(self):
-        self.visited = True
-
-    def getVisited(self):
-        return self.visited
-    
-    def getCost(self):
-        return cost
-
-
-def whatDoYourSnakeEyesSee(pathBoard, xPos, yPos):
-    """
-    This method finds the tiles it is possible to path to from any tiles coordinates, and the tiles that form walls around/in this area,
-    Then creates lists for this information.
-    Args:
-        pathBoard (array): integer representation of current board 
-        xPos(int): the x coordinate of the tile we want to search from
-        yPos(int): the y coordinate of the tile we want to search from
-    OBJECT_ORIENTED_TODO: pass in a board object and tile object instead
-    Returns:
-        an list of two lists, the first contains all the Tile objects it is possible and viable to path to, the second 
-        contains all Tile objects that form the walls. Can compare these lists to lists of all food, for example, to get
-        just food we can path too.
-    OBJECT_ORIENTED_TODO: return board objects instead eventually maybe
-    """
-    board_width = len(pathBoard[0])
-    board_height = len(pathBoard)
-    allBoardTiles = [[None for x in range(board_width)] for y in range(board_height)] 
-
-    startTile = Tile(xPos, yPos, pathBoard[yPos][xPos])
-    startTile.visit()
-    #head = converted_data["you"]["body"][0]
-    newViableTiles = [startTile]
-    pathableTiles = []
-    blockingTiles = []
-
-
-    for x in pathBoard:
-        for y in x:
-            allBoardTiles[y][x] += Tile(x, y, pathBoard[y][x])
-
-    while (len(newViableTiles) > 0):
-        #deal with the next tile we are examining
-        checkNext = newViableTiles.pop()
-        yHere = checkNext.getCoord[0]
-        xHere = checkNext.getCoord[1]
-
-        if (checkNext.getCost() < 1):
-            blockingTiles.append(checkNext)
-            continue #go to next iteration if it's a wall, we don't care about it after this step
-        else:
-            pathableTiles.append(checkNext)
-        
-        #at this point, look in each cardinal direction, and if the tile there exists, and has not been visited, append to newViableTiles
-        if((yHere > 0) and not allBoardTiles[yHere - 1][xHere].getVisited()):
-            newViableTiles.append(allBoardTiles[yHere - 1][xHere])
-            allBoardTiles[yHere - 1][xHere].visit()
-        if((yHere < board_height - 1) and not allBoardTiles[yHere + 1][xHere].getVisited()):
-            newViableTiles.append(allBoardTiles[yHere + 1][xHere])
-            allBoardTiles[yHere + 1][xHere].visit()
-
-        if((xHere > 0) and not allBoardTiles[yHere][xHere - 1].getVisited()):
-            newViableTiles.append(allBoardTiles[yHere][xHere - 1])
-            allBoardTiles[yHere][xHere - 1].visit()
-        if((xHere < board_width - 1) and not allBoardTiles[yHere][xHere + 1].getVisited()):
-            newViableTiles.append(allBoardTiles[yHere][xHere + 1])
-            allBoardTiles[yHere][xHere + 1].visit()
-
-    return [pathableTiles, blockingTiles]
 
 # Expose WSGI app (so gunicorn can find it)
 application = bottle.default_app()
