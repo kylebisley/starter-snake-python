@@ -72,7 +72,7 @@ def move():
     directions = cardinal(converted_data,
                           get_min_path_to_food(converted_data, pathable_board))
 
-    response = {"move": directions[0], "shout": board_object.get_food_tiles()}
+    response = {"move": directions[0], "shout": board_object.food_string()}
     return response
 
 
