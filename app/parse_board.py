@@ -15,14 +15,18 @@ def int_board(converted_data):
 
     Returns: A* friendly version of the gameboard
     """
-    path_board = setEdge(converted_data)
-    setSnakeValues(converted_data, path_board)
-    bullyPathing(converted_data, path_board)
-    cowardPathing(converted_data, path_board)
+    # make path_board
+    path_board = set_edge(converted_data)
+
+    # pass by reference modify it
+    set_snake_values(converted_data, path_board)
+    bully_pathing(converted_data, path_board)
+    coward_pathing(converted_data, path_board)
+
     return path_board
 
 
-def setSnakeValues(jData, board):
+def set_snake_values(jData, board):
     """
     Replaces values on pathable board that corespond with snake locations
     with values for snake bodies
@@ -64,7 +68,7 @@ def setSnakeValues(jData, board):
     # return board
 
 
-def setEdge(data_dump):
+def set_edge(data_dump):
     """
     Creates pathable board and sets edge of gamemap to the value 'WALL_SPACE'
     Args:
@@ -96,7 +100,7 @@ def setEdge(data_dump):
     return board
 
 
-def bullyPathing(converted_data, path_board):
+def bully_pathing(converted_data, path_board):
     """
     Finds Snakes that are smaller than us and assigns the area around their
     head with the SMALLER_SNAKE_FUTURE_HEAD
@@ -134,7 +138,7 @@ def bullyPathing(converted_data, path_board):
     # return path_board
 
 
-def cowardPathing(converted_data, path_board):
+def coward_pathing(converted_data, path_board):
     """
     Finds Snakes that are LARGER than us and assigns
     the area around their head with the LARGER_Snake_Future_Head
