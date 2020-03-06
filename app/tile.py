@@ -40,7 +40,7 @@ class Tile:
     def get_cost(self):
         return self.cost
 
-    #be careful with this one, make sure to set it back after you're done
+    # be careful with this one, make sure to set it back after you're done
     def set_cost(self, new_cost):
         self.cost = new_cost
 
