@@ -61,7 +61,7 @@ def setSnakeValues(jData, board):
                     x = segment['x']
                     y = segment['y']
                     board[y][x] = SNAKE
-    return board
+    # return board
 
 
 def setEdge(data_dump):
@@ -131,7 +131,7 @@ def bullyPathing(converted_data, path_board):
                             path_board[y+1][x] = SMALLER_SNAKE_FUTURE_HEAD
                         if(path_board[y-1][x] != -1):
                             path_board[y-1][x] = SMALLER_SNAKE_FUTURE_HEAD
-    return path_board
+    # return path_board
 
 
 def cowardPathing(converted_data, path_board):
@@ -170,7 +170,7 @@ def cowardPathing(converted_data, path_board):
                         if(path_board[y-1][x] != -1):
                             path_board[y-1][x] = LARGER_SNAKE_FUTURE_HEAD
 
-    return path_board
+    # return path_board
 
 
 def boardToArray(data_dump):
