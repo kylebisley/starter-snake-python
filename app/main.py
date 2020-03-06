@@ -1,7 +1,7 @@
 import json
 import os
 import bottle
-import parseBoard
+import parse_board
 import tile
 
 from api import ping_response, start_response, move_response, end_response
@@ -60,13 +60,13 @@ def move():
     # Converts data to be parsable
     converted_data = json.loads(json.dumps(data))
 
-    board = parseBoard.boardToArray(converted_data)
-    pathable_board = parseBoard.int_board(converted_data)
+    board = parse_board.boardToArray(converted_data)
+    pathable_board = parse_board.int_board(converted_data)
 
     # Json data is printed for debug help
     print(json.dumps(data))
     # debug display boards
-    parseBoard.display(board, pathable_board)
+    parse_board.display(board, pathable_board)
 
     directions = cardinal(converted_data,
                           getMinPathToFood(converted_data, pathable_board))

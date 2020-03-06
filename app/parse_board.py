@@ -229,20 +229,23 @@ def display(converted_board, integer_board):
             print(str(y) + " "),
         print()
 
-#TODO: change this to use passed in board object, can't use as is since Tile constructor changed
+#TODO: change this to use passed in board object, can't use as is since Tile
+# constructor changed
 # def whatDoYourSnakeEyesSee(pathBoard, xPos, yPos):
 #     """
-#     This method finds the tiles it is possible to path to from any tiles coordinates,
-#     and the tiles that form walls around/in this area, then creates lists of this information.
+#     This method finds the tiles it is possible to path to from any tiles
+#     coordinates, and the tiles that form walls around/in this area,
+#     then creates lists of this information.
 #     Args:
-#         pathBoard (array): integer representation of current board 
+#         pathBoard (array): integer representation of current board
 #         xPos(int): the x coordinate of the tile we want to search from
 #         yPos(int): the y coordinate of the tile we want to search from
 #     OBJECT_ORIENTED_TODO: pass in a board object and tile object instead
 #     Returns:
-#         an list of two lists, the first contains all the Tile objects it is possible and viable to path to, the second 
-#         contains all Tile objects that form the walls. Can compare these lists to lists of all food, for example, to get
-#         just food we can path too.
+#         an list of two lists, the first contains all the Tile objects it is
+#         possible and viable to path to, the second contains all Tile objects
+#         that form the walls. Can compare these lists to lists of all food,
+#         for example, to get just food we can path too.
 #     OBJECT_ORIENTED_TODO: return board objects instead eventually maybe
 #     """
 #     board_width = len(pathBoard[0])
