@@ -242,52 +242,51 @@ def display(converted_board, integer_board):
         print()
 
 
-def look_from_here(the_board, the_tile, j_data):
-    '''
-    finds all tiles reachable on a board from a given tile, and the walls surrounding them, treats our head as
-    a wall
-    Args:
-        the_board (board): a board object
-        the_tile (tile): the tile object we want to search from
-        j_data (dict): the converted json data initially given to us
-    Returns:
-        a list of two 1d lists, the first is all the tiles that are possible to path to from the passed in tile,
-        the second is a list of tiles that form a wall around the pathable area
-    '''
-    tile_is_head = True
-    head_cost = the_tile.get_cost()
-    head = j_data["you"]["body"][0]
-    if not ((the_tile.get_x() == head["x"]) and (the_tile.get_y() == head["y"])):
-        tile_is_head = False
-        the_board.get_tile_at(head["x"], head["y"]).set_cost(-1)
+# def look_from_here(the_board, the_tile, j_data):
+#     '''
+#     finds all tiles reachable on a board from a given tile, and the walls surrounding them, treats our head as
+#     a wall
+#     Args:
+#         the_board (board): a board object
+#         the_tile (tile): the tile object we want to search from
+#         j_data (dict): the converted json data initially given to us
+#     Returns:
+#         a list of two 1d lists, the first is all the tiles that are possible to path to from the passed in tile,
+#         the second is a list of tiles that form a wall around the pathable area
+#     '''
+#     tile_is_head = True
+#     head_cost = the_tile.get_cost()
+#     head = j_data["you"]["body"][0]
+#     if not ((the_tile.get_x() == head["x"]) and (the_tile.get_y() == head["y"])):
+#         tile_is_head = False
+#         the_board.get_tile_at(head["x"], head["y"]).set_cost(-1)
 
-
-    new_viable_tiles = [the_tile]
-    blocking_tiles = []
-    pathable_tiles = []
+#     new_viable_tiles = [the_tile]
+#     blocking_tiles = []
+#     pathable_tiles = []
     
-    while (len(new_viable_tiles) > 0):
-        #deal with the next tile we are examining
-        check_next = new_viable_tiles.pop()
+#     while (len(new_viable_tiles) > 0):
+#         #deal with the next tile we are examining
+#         check_next = new_viable_tiles.pop()
 
-        if (check_next.getCost() < 1):
-            blocking_tiles.append(check_next)
-            continue #go to next iteration if it's a wall, we don't care about it after this step
-        else:
-            pathable_tiles.append(check_next)
+#         if (check_next.getCost() < 1):
+#             blocking_tiles.append(check_next)
+#             continue  # go to next iteration if it's a wall, we don't care about it after this step
+#         else:
+#             pathable_tiles.append(check_next)
 
-        neighbours = the_board.find_neighbours(check_next)
+#         neighbours = the_board.find_neighbours(check_next)
 
-        for t in neighbours:
-            if (not t.get_visited()):
-                new_viable_tiles.append(t)
-                t.set_visited(True)
+#         for t in neighbours:
+#             if (not t.get_visited()):
+#                 new_viable_tiles.append(t)
+#                 t.set_visited(True)
         
-    for x in range(the_board.get_width()):
-        for y in range(the_board.get_height()):
-            the_board.get_tile_at(x, y).set_visited(False)
+#     for x in range(the_board.get_width()):
+#         for y in range(the_board.get_height()):
+#             the_board.get_tile_at(x, y).set_visited(False)
 
-    if not tile_is_head:
-        the_board.get_tile_at(head["x"], head["y"]).set_cost(head_cost)
+#     if not tile_is_head:
+#         the_board.get_tile_at(head["x"], head["y"]).set_cost(head_cost)
     
-    return [pathable_tiles, blocking_tiles]
+#     return [pathable_tiles, blocking_tiles]
