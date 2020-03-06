@@ -141,7 +141,7 @@ def getMinPathToFood(converted_data, path_board):
     Returns:
         shortest_path (path): shortest path to food
         OR
-        shortest_path (string): "Unassigned" when it can't path to food
+        shortest_path (str): "Unassigned" when it can't path to food
     """
     shortest_path = "Unassigned"
     for food in converted_data["board"]["food"]:
