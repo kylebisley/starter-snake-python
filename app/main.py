@@ -85,51 +85,6 @@ def end():
     return end_response()
 
 
-def boardToArray(data_dump):
-    """
-    Converts converted JSON data from battlesnake engine to a list
-    Args:
-        data_dump (dict): Converted JSON data
-
-    Returns:
-        2D list of game board.
-    """
-    board_width = data_dump["board"]["width"]
-    board_height = data_dump["board"]["height"]
-    board = [[0 for x in range(board_width)] for y in range(board_height)]
-    # label spaces as food
-    for z in data_dump["board"]["food"]:
-        x = z['x']
-        y = z['y']
-        board[y][x] = 'F'
-    # finding your body
-    me = data_dump["you"]["id"]
-    for z in data_dump["you"]["body"]:
-
-        if (z == data_dump["you"]["body"][0]):
-            x = z['x']
-            y = z['y']
-            board[y][x] = 'H'
-        else:
-            x = z['x']
-            y = z['y']
-            board[y][x] = 'S'
-    # to find other snakes
-    for z in data_dump["board"]["snakes"]:
-        name = z["id"]
-        for a in z["body"]:
-            if (name != me):
-                if (a == z["body"][0]):
-                    x = a['x']
-                    y = a['y']
-                    board[y][x] = 'E'
-                else:
-                    x = a['x']
-                    y = a['y']
-                    board[y][x] = 'S'
-    return board
-
-
 def getMinPathToFood(converted_data, path_board):
     """
     Checks for lightest path to food.
