@@ -6,8 +6,8 @@ class Board:
 
     # TODO: add functionality to ignore tails if their snake isn't growing this turn
     def __init__(self, j_data, path_board):
-        self._board_width = len(j_data["board"]["width"])
-        self._board_height = len(j_data["board"]["height"])
+        self._board_width = j_data["board"]["width"]
+        self._board_height = j_data["board"]["height"]
         self._the_board = [[None for x in range(self._board_width)] for y in range(self._board_height)]
         self.food_tiles = []
         
