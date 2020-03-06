@@ -134,7 +134,7 @@ def getMinPathToFood(converted_data, path_board):
     """
     Checks for lightest path to food.
     Args:
-        converted_data (json): converted python representation of current game
+        converted_data (dict): converted python representation of current game
 
                                 snapshot
         path_board (int array): integer representation of board
