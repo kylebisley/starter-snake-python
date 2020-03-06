@@ -249,7 +249,7 @@ def look_from_here(the_board, the_tile, j_data):
     head = j_data["you"]["body"][0]
     if not ((the_tile.get_x() == head["x"]) and (the_tile.get_y() == head["y"])):
         tile_is_head = False
-        the_tile.set_cost(-1)
+        the_board.get_tile_at(head["x"], head["y"]).set_cost(-1)
 
 
     new_viable_tiles = [the_tile]
@@ -278,6 +278,6 @@ def look_from_here(the_board, the_tile, j_data):
             the_board.get_tile_at(x, y).set_visited(False)
 
     if not tile_is_head:
-        tile.set_cost(head_cost)
+        the_board.get_tile_at(head["x"], head["y"]).set_cost(head_cost)
     
     return [pathable_tiles, blocking_tiles]
