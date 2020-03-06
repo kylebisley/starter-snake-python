@@ -1,12 +1,14 @@
 import json
 from bottle import HTTPResponse
 
+
 def ping_response():
     return HTTPResponse(
         status=200
     )
 
-def start_response(color,head,tail):
+
+def start_response(color, head, tail):
     assert type(color) is str, \
         "Color value must be string"
 
@@ -18,9 +20,10 @@ def start_response(color,head,tail):
         body=json.dumps({
             "color": color,
             "headType": head,
-            "tailType":tail
+            "tailType": tail
         })
     )
+
 
 def move_response(move):
     assert move in ['up', 'down', 'left', 'right'], \
@@ -35,6 +38,7 @@ def move_response(move):
             "move": move
         })
     )
+
 
 def end_response():
     return HTTPResponse(

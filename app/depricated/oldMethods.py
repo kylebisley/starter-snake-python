@@ -1,4 +1,4 @@
-# DEPRICATED
+# DEPRECATED
 # I'd like to move this code to another file in our repo and keep it for reference. 
 # def getNearestFood(datadump):
 #     """
@@ -26,7 +26,7 @@
 #     return food_array[index_of_smallest]
 
 
-# def getMinPathToFood(converted_data, pathBoard):
+# def get_min_path_to_food(converted_data, pathBoard):
 #     """
 #     Checks for shortest path to food. 
 #     Args:
@@ -47,7 +47,7 @@
 #         if (len(newPath) < len(shortestPath) and (len(newPath) != 0)):
 #             shortestPath = newPath
         
-#         sumPathWeight(newPath, pathBoard)
+#         sum_path_weight(newPath, pathBoard)
 #     return shortestPath
 #
 #   def printBoard(converted_board, integer_board):
