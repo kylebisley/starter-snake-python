@@ -139,7 +139,7 @@ def getMinPathToFood(converted_data, path_board):
                                 snapshot
         path_board (list): integer representation of board
     Returns:
-        shortest_path (path): shortest path to food
+        shortest_path (list): shortest path to food
         OR
         shortest_path (str): "Unassigned" when it can't path to food
     """
