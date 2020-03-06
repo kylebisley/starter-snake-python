@@ -1,5 +1,4 @@
 import tile as t
-from parse_board import board_to_array
 
 
 class Board:

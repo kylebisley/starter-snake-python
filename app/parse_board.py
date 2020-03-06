@@ -1,6 +1,5 @@
 import tile
 import copy
-import board as b
 
 SNAKE = -1
 WALL_SPACE = 50
