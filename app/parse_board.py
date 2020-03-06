@@ -8,51 +8,70 @@ OUR_HEAD = 10
 LARGER_SNAKE_FUTURE_HEAD = 99
 
 
-def setBoardValues(jData):
+def int_board(converted_data):
     """
-    Converts converted JSON data from the battlesnake engine, to an a_star
-    friendly gameboard.
+    Call list of functions that modify and build the path_board
+    Args: 
+        converted_data (dict): Converted json
+
+    Returns: 
+        A* friendly version of the gameboard
+    """
+    # make path_board
+    path_board = set_edge(converted_data)
+
+    # pass by reference modify it
+    set_snake_values(converted_data, path_board)
+    bully_pathing(converted_data, path_board)
+    coward_pathing(converted_data, path_board)
+
+    return path_board
+
+
+def set_snake_values(converted_data, board):
+    """
+    Replaces values on pathable board that corespond with snake locations
+    with values for snake bodies
     Args:
-        jData (dict): Converted JSON data
+        converted_data (dict): Converted JSON data
+        board (list): integer representation of the board
 
     Returns:
         A_Star friendly version of the gameboard.
 
     """
-    board = setEdge(jData)
 
     # pertaining to our own body
-    me = jData["you"]["id"]
+    me = converted_data["you"]["id"]
 
-    for z in jData["you"]["body"]:
-        if (z == jData["you"]["body"][0]):
-            x = z['x']
-            y = z['y']
+    for segment in converted_data["you"]["body"]:
+        if (segment == converted_data["you"]["body"][0]):
+            x = segment['x']
+            y = segment['y']
             board[y][x] = OUR_HEAD
         else:
-            x = z['x']
-            y = z['y']
+            x = segment['x']
+            y = segment['y']
             board[y][x] = SNAKE
 
     # other snakes
-    for z in jData["board"]["snakes"]:
-        name = z["id"]
-        for a in z["body"]:
+    for snake in converted_data["board"]["snakes"]:
+        name = snake["id"]
+        for segment in snake["body"]:
             if (name != me):
-                if (a == z["body"][0]):
-                    x = a['x']
-                    y = a['y']
+                if (segment == snake["body"][0]):
+                    x = segment['x']
+                    y = segment['y']
                     board[y][x] = SNAKE
                 else:
-                    x = a['x']
-                    y = a['y']
+                    x = segment['x']
+                    y = segment['y']
                     board[y][x] = SNAKE
-    return board
 
 
-def setEdge(data_dump):
+def set_edge(data_dump):
     """
-    Sets edge of gamemap to the value '10'
+    Creates pathable board and sets edge of gamemap to the value 'WALL_SPACE'
     Args:
         data_dump (dict): Converted JSON data
 
@@ -82,10 +101,10 @@ def setEdge(data_dump):
     return board
 
 
-def bullyPathing(converted_data, path_board):
+def bully_pathing(converted_data, path_board):
     """
     Finds Snakes that are smaller than us and assigns the area around their
-    head with the Smaller_Snake_Future_Head
+    head with the SMALLER_SNAKE_FUTURE_HEAD
 
     May need logical update for snake bodies but it should be fine
 
@@ -98,15 +117,15 @@ def bullyPathing(converted_data, path_board):
     """
     snake_id = converted_data["you"]["id"]
     # other snakes heads will be assigned xy
-    for z in converted_data["board"]["snakes"]:
-        name = z["id"]
-        for a in z["body"]:
+    for snake in converted_data["board"]["snakes"]:
+        name = snake["id"]
+        for segment in snake["body"]:
             if ((str(name) != str(snake_id))
-                    and (len(z["body"]) < len(converted_data["you"]["body"]))):
+                    and (len(snake["body"]) < len(converted_data["you"]["body"]))):
 
-                if (a == z["body"][0]):
-                    x = a['x']
-                    y = a['y']
+                if (segment == snake["body"][0]):
+                    x = segment['x']
+                    y = segment['y']
                     if(x < converted_data['board']['width'] and x > 0):
                         if(path_board[y][x+1] != -1):
                             path_board[y][x+1] = SMALLER_SNAKE_FUTURE_HEAD
@@ -117,10 +136,9 @@ def bullyPathing(converted_data, path_board):
                             path_board[y+1][x] = SMALLER_SNAKE_FUTURE_HEAD
                         if(path_board[y-1][x] != -1):
                             path_board[y-1][x] = SMALLER_SNAKE_FUTURE_HEAD
-    return path_board
 
 
-def cowardPathing(converted_data, path_board):
+def coward_pathing(converted_data, path_board):
     """
     Finds Snakes that are LARGER than us and assigns
     the area around their head with the LARGER_Snake_Future_Head
@@ -137,14 +155,14 @@ def cowardPathing(converted_data, path_board):
     """
     me = converted_data["you"]["id"]
     # other snakes heads will be assigned xy
-    for z in converted_data["board"]["snakes"]:
-        name = z["id"]
-        for a in z["body"]:
+    for snake in converted_data["board"]["snakes"]:
+        name = snake["id"]
+        for segment in snake["body"]:
             if ((str(name) != str(me)) and
-                    (len(z["body"]) >= len(converted_data["you"]["body"]))):
-                if (a == z["body"][0]):
-                    x = a['x']
-                    y = a['y']
+                    (len(snake["body"]) >= len(converted_data["you"]["body"]))):
+                if (segment == snake["body"][0]):
+                    x = segment['x']
+                    y = segment['y']
                     if(x < converted_data['board']['width']-1 and x >= 0):
                         if(path_board[y][x+1] != -1):
                             path_board[y][x+1] = LARGER_SNAKE_FUTURE_HEAD
@@ -155,8 +173,6 @@ def cowardPathing(converted_data, path_board):
                             path_board[y+1][x] = LARGER_SNAKE_FUTURE_HEAD
                         if(path_board[y-1][x] != -1):
                             path_board[y-1][x] = LARGER_SNAKE_FUTURE_HEAD
-
-    return path_board
 
 
 def boardToArray(data_dump):
@@ -179,7 +195,6 @@ def boardToArray(data_dump):
     # finding your body
     me = data_dump["you"]["id"]
     for z in data_dump["you"]["body"]:
-
         if (z == data_dump["you"]["body"][0]):
             x = z['x']
             y = z['y']
@@ -215,20 +230,23 @@ def display(converted_board, integer_board):
             print(str(y) + " "),
         print()
 
-#TODO: change this to use passed in board object, can't use as is since Tile constructor changed
+# TODO: change this to use passed in board object, can't use as is since Tile
+# constructor changed
 # def whatDoYourSnakeEyesSee(pathBoard, xPos, yPos):
 #     """
-#     This method finds the tiles it is possible to path to from any tiles coordinates,
-#     and the tiles that form walls around/in this area, then creates lists of this information.
+#     This method finds the tiles it is possible to path to from any tiles
+#     coordinates, and the tiles that form walls around/in this area,
+#     then creates lists of this information.
 #     Args:
-#         pathBoard (array): integer representation of current board 
+#         pathBoard (array): integer representation of current board
 #         xPos(int): the x coordinate of the tile we want to search from
 #         yPos(int): the y coordinate of the tile we want to search from
 #     OBJECT_ORIENTED_TODO: pass in a board object and tile object instead
 #     Returns:
-#         an list of two lists, the first contains all the Tile objects it is possible and viable to path to, the second 
-#         contains all Tile objects that form the walls. Can compare these lists to lists of all food, for example, to get
-#         just food we can path too.
+#         an list of two lists, the first contains all the Tile objects it is
+#         possible and viable to path to, the second contains all Tile objects
+#         that form the walls. Can compare these lists to lists of all food,
+#         for example, to get just food we can path too.
 #     OBJECT_ORIENTED_TODO: return board objects instead eventually maybe
 #     """
 #     board_width = len(pathBoard[0])
