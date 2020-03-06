@@ -3,11 +3,14 @@ class Tile:
     Attributes:
         _x (integer): the x coordinate, should line up with our other methods
         _y (integer): the y coordinate etc
-        visited (boolean): whether or not a tile has been visited, useful for some algorithms
-        cost: the cost for a-star to travers a tile, can be used to determine if a tile is pathable
+        visited (boolean): whether or not a tile has been visited, useful for
+        some algorithms
+        cost: the cost for a-star to travers a tile, can be used to determine
+        if a tile is pathable
 
     Object Methods:
-        get_coord(): int list, returns a list of the x position, then the y position
+        get_coord(): int list, returns a list of the x position,
+        then the y position
         get_x(): int, returns the x coordinate of the tile
         get_y(): int, returns the y coordinate of the tile
         visit(): void, sets visited to true
@@ -24,7 +27,7 @@ class Tile:
         self.visited = False
 
     # Getters and setters
-    
+
     def get_x(self):
         return self._x
 
@@ -36,11 +39,13 @@ class Tile:
 
     def get_visited(self):
         return self.visited
-    
+
     def get_cost(self):
         return self.cost
 
-    # doesn't change "walls" and won't make a pathable tile un-pathable
+    # be careful with this one, make sure to set it back after you're done
+    def set_cost(self, new_cost):
+        self.cost = new_cost
 
     def modify_cost(self, change_by):
         if self.get_cost() < 1:
