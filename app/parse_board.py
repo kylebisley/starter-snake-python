@@ -55,9 +55,9 @@ def remove_tails(converted_data, path_board):
             x = int(xy[0])
             y = int(xy[1])
             print("food was at " + str(x) + ", " + str(y))
-            print("value of tile")
-            print(int(path_board[y][x]))
-            if (path_board[y][x] <= 0) or (path_board[y][x] != 10):
+            # print("value of tile")
+            # print(int(path_board[y][x]))
+            if (int(path_board[y][x]) <= 0) or (int(path_board[y][x]) != 10):
                 snake_id = snake_id_from_tile(x, y, converted_data)
                 print("snake_id in remove tails")
                 print(snake_id)
@@ -88,11 +88,12 @@ def remove_hungry_tails(path_board, growers, converted_data):
 def snake_id_from_tile(x, y, converted_data):
     for snake in converted_data["board"]["snakes"]:
         name = snake["id"]
-        if x == snake["body"][0]["x"] and y == snake["body"][0]["y"]:
+        print("checking snake=====================================")
+        if (x == snake["body"][0]["x"]) and (y == snake["body"][0]["y"]):
             print("in from tile -- food eatten at " + str(x) + ", " + str(y))
             print("in from tile -- snake['id']")
             print(snake["id"])
-            print("name")
+            print("int from tile -- name")
             print(name)
             return snake["id"]
 
