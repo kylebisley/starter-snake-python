@@ -10,15 +10,20 @@ class Board:
         self._the_board = []
         self.food_tiles = []
 
-        for y in range(len(path_board)):
+        # this loop creates a new row, then creates the tile objects
+        # belonging to that row and adds them to the list of food tiles if
+        # they are food. At the end of the iteration adds that row to the board
+        for y in range(self._board_height):
 
             new_row = []
-            for x in range(len(path_board[0])):
+            for x in range(self._board_width):
 
+                # decide whether a tile is food
                 is_food = False
                 if char_board[y][x] == 'F':
                     is_food = True
 
+                # build the tile
                 new_tile = t.Tile(x, y, path_board[y][x], is_food, char_board[y][x])
                 new_row.append(new_tile)
                 
