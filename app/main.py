@@ -68,9 +68,14 @@ def move():
     print(json.dumps(data))
     # debug display boards
     parse_board.display(dima_board, pathable_board)
+    # debug board object prints
+    board_object.print_dima_board()
+    board_object.print_int_board()
 
+    # switch from modifying board state to interpreting it in pathing
+    pathable_board_from_object = board_object.get_path_board()
     directions = cardinal(converted_data,
-                          get_min_path_to_food(converted_data, pathable_board))
+                          get_min_path_to_food(converted_data, pathable_board_from_object))
 
     response = {"move": directions[0], "shout": board_object.food_string()}
     return response

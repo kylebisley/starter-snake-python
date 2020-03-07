@@ -48,12 +48,27 @@ class Board:
                          "/")
         return food_list
 
-    # TODO: finish print methods
+    
     def print_int_board(self):
-        raise NotImplementedError
+        '''
+        prints integer representation of the board, same as pathing values
+        '''
+        for y in range(self.get_board_height()):
+            for x in range(self.get_board_width()):
+                print(self.get_tile_at(x, y).get_cost() + " "),
+            print()
+        print()
+        
 
     def print_dima_board(self):
-        raise NotImplementedError
+        '''
+        prints character representation of all tiles on board
+        '''
+        for y in range(self.get_board_height()):
+            for x in range(self.get_board_width()):
+                print(self.get_tile_at(x, y).get_char() + " "),
+            print()
+        print()
 
     def dab(self):
         raise NotImplementedError
@@ -82,3 +97,21 @@ class Board:
             neighbours.append(self.get_tile_at(tile.get_x() + 1,tile.get_y()))
         
         return neighbours
+
+
+    def get_path_board(self):
+        '''
+        generates a board that is just the integer values of the costs on the board, same as what's generated
+        by our int_board method
+        '''
+        path_board = []
+        
+        for y in range(self.get_board_height()):
+            row = []
+            
+            for x in range(self.get_board_width()):
+                row.append(self.get_tile_at(x, y).get_cost())
+            
+            path_board.append(row)
+        
+        return path_board
