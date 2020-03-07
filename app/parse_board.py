@@ -16,7 +16,7 @@ def int_board(converted_data):
     Args: 
         converted_data (dict): Converted json
 
-    Returns: 
+    Returns:
         A* friendly version of the game-board
     """
     # make path_board
@@ -35,7 +35,7 @@ def int_board(converted_data):
 
 def remove_tails(converted_data, path_board):
     """
-    Reads shout object for last turns moves and updates board to reflect if 
+    Reads shout object for last turns moves and updates board to reflect if
     any snake heads occupy a tile that was previously occupied by food
 
     Args:
@@ -73,7 +73,7 @@ def remove_hungry_tails(path_board, growers, converted_data):
     Args:
         converted_data (dict): python readable version of json
         path_board (list): int representation of the board for A*
-        growers (list): string list of snake_ids whos tail will not move next 
+        growers (list): string list of snake_ids whos tail will not move next
         turn
     Returns:
         Modifys path_board by reference.
