@@ -61,6 +61,7 @@ def remove_tails(converted_data, path_board):
                 snake_id = snake_id_from_tile(x, y, converted_data)
                 print("snake_id in remove tails")
                 print(snake_id)
+                snake_id.encode("utf-8")
                 growers.append(snake_id)
                 print("a snake just ate")
                 print("growers")
