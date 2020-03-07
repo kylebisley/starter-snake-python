@@ -77,7 +77,7 @@ def remove_hungry_tails(path_board, growers, converted_data):
 def snake_id_from_tile(x, y, converted_data):
     for snake in converted_data["board"]["snakes"]:
         if x == snake["body"][0]["x"] and y == snake["body"][0]["y"]:
-            print("food eatten at " + x + ", " + y)
+            print("food eatten at " + str(x) + ", " + str(y))
             return snake["id"]
 
             # return tail
