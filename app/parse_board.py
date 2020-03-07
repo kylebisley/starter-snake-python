@@ -60,22 +60,21 @@ def remove_tails(converted_data, path_board):
             # print(xy[1])
             x = int(xy[0])
             y = int(xy[1])
-            print("x")
-            print(x)
-            print("y")
-            print(y)
-            print("path_board[x][y]")
-            print(path_board[x][y])
             if path_board[x][y] <= 0:
                 growers.append(snake_id_from_tile(x, y, converted_data))
                 print("a snake just ate")
+                print("growers")
+                print(growers)
     remove_hungry_tails(path_board, growers, converted_data)
 
 
 def remove_hungry_tails(path_board, growers, converted_data):
     print("removing hungry tails")
     for snake in converted_data["board"]["snakes"]:
+        print("removing for")
         if snake["id"] in growers:
+            print('snake["id"]')
+            print(snake["id"])
             path_board[snake["body"][-1]]["x"][snake["body"][-1]["y"]] = 11
 
 
