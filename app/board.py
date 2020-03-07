@@ -46,6 +46,7 @@ class Board:
                          str(food.get_x()) + "," +
                          str(food.get_y()) +
                          "/")
+        print("Shout " + food_list)
         return food_list
 
     # TODO: finish print methods
