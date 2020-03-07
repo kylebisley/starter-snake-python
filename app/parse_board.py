@@ -35,6 +35,7 @@ def remove_tails(converted_data, path_board):
     """
     """
     if converted_data["turn"] == 0:
+        print("escape")
         return
     food = converted_data["you"]["shout"].split("/")
     print("food")
