@@ -249,6 +249,8 @@ def turnedAround(walls_around, converted_data):
 
     """
     tail = converted_data["you"]["body"][len(converted_data["you"]["body"])-1]
+    # tail = converted_data["you"]["body"][len(converted_data["you"]["body"])-1]
+    # tail_object = board.get_tile_at(tail["x"], tail["y"])
     index_counter = 1
     for z in walls_around:
         if z is tail:
@@ -257,42 +259,9 @@ def turnedAround(walls_around, converted_data):
         while tail != walls_around[len(walls_around)-1]:
             tail = converted_data["you"]["body"][len(
                 converted_data["you"]["body"]) - index_counter]
-            index_counter -= 1
+            index_counter += 1
         return tail
 
-
-def DFS(pathableTiles, v, walls_around, seen=None, path=None):
-    # Build graph dictionary
-    G = copy.deepcopy(pathableTiles)
-    for (s, t) in walls_around:
-        G[s].append(t)
-        G[t].append(s)
-
-    # Run DFS, compute metrics
-    all_paths = DFS(G, '1')
-    max_len = max(len(p) for p in all_paths)
-    max_paths = [p for p in all_paths if len(p) == max_len]
-
-    if seen is None:
-        seen = []
-    if path is None:
-        path = [v]
-
-    seen.append(v)
-
-    paths = []
-    for t in G[v]:
-        if t not in seen:
-            t_path = path + [t]
-            paths.append(tuple(t_path))
-            paths.extend(DFS(G, t, seen[:], t_path))
-    # Output
-    print("All Paths:")
-    print(all_paths)
-    print("Longest Paths:")
-    for p in max_paths:
-        print("  ", p)
-    return paths
 
 def look_from_here(the_board, the_tile, j_data):
     '''

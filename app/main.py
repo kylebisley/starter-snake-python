@@ -69,6 +69,7 @@ def move():
     # debug display boards
     parse_board.display(dima_board, pathable_board)
 
+
     directions = cardinal(converted_data,
                           get_min_path_to_food(converted_data, pathable_board))
 
@@ -184,6 +185,12 @@ def cardinal(converted_data, path):
             direction = ['left']
     return direction
 
+def theChoice(converted_data, path_board, board_object):
+    if(get_min_path_to_food(converted_data, path_board) != "Unassigned"):
+        return cardinal(converted_data,
+                          get_min_path_to_food(converted_data, pathable_board))
+    else:
+        space = look_from_here(board_object, board_object.get_tile_at(), j_data)
 
 # Expose WSGI app (so gunicorn can find it)
 application = bottle.default_app()
