@@ -8,6 +8,7 @@ OPEN_SPACE = 25
 SMALLER_SNAKE_FUTURE_HEAD = 15
 OUR_HEAD = 10
 LARGER_SNAKE_FUTURE_HEAD = 99
+TESTER = 4444444444444444444
 
 
 def int_board(converted_data):
@@ -71,7 +72,9 @@ def remove_hungry_tails(path_board, growers, converted_data):
         if snake["id"] in growers:
             print('snake["id"]')
             print(snake["id"])
-            path_board[snake["body"][-1]["x"]][snake["body"][-1]["y"]] = 11
+            print("path_board[snake['body'][-1]['x']][snake['body'][-1]['y']]")
+            print(path_board[snake["body"][-1]["x"]][snake["body"][-1]["y"]])
+            path_board[snake["body"][-1]["x"]][snake["body"][-1]["y"]] = TESTER
 
 
 def snake_id_from_tile(x, y, converted_data):
