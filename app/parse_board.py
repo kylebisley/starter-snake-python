@@ -29,11 +29,11 @@ def int_board(converted_data):
 
     # after snakes fully deployed update board with projected tail positions
     if (converted_data["turn"] > 2):
-        remove_tails(converted_data, path_board)
+        update_tails(converted_data, path_board)
     return path_board
 
 
-def remove_tails(converted_data, path_board):
+def update_tails(converted_data, path_board):
     """
     Reads shout object for last turns moves and updates board to reflect if
     any snake heads occupy a tile that was previously occupied by food
