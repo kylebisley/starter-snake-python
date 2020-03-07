@@ -41,13 +41,16 @@ class Board:
         Returns: (str) x,y/x,y
         """
         food_list = ""
-        for food in self.food_tiles:
-            food_list = (food_list +
-                         str(food.get_x()) + "," +
-                         str(food.get_y()) +
-                         "/")
-        print("Shout " + food_list)
-        return food_list
+        if len(self.food_tiles) == 0:
+            return "Poop"
+        else:
+            for food in self.food_tiles:
+                food_list = (food_list +
+                             str(food.get_x()) + "," +
+                             str(food.get_y()) +
+                             "/")
+            print("Shout " + food_list)
+            return food_list
 
     # TODO: finish print methods
     def print_int_board(self):
