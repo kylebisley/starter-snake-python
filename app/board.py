@@ -24,6 +24,7 @@ class Board:
 
     # Getters and setters
     def get_tile_at(self, x, y):
+        print("getting tile at " + x + y)
         return self._the_board[y][x]
 
     def get_board_width(self):
