@@ -28,7 +28,7 @@ def int_board(converted_data):
     bully_pathing(converted_data, path_board)
     coward_pathing(converted_data, path_board)
 
-    if not (converted_data["turn"] < 0):
+    if (converted_data["turn"] > 2):
         remove_tails(converted_data, path_board)
     return path_board
 
