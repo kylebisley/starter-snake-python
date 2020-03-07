@@ -143,7 +143,7 @@ def navigate(converted_data, path_board, food):
     This method generates the cardinal direction to navigate to the first
     element of path.
     Args:
-        food (list): food locations in (x,y) format
+        food (list): a food location in (x,y) format
         converted_data (dict): parsed json data dump
         path_board (array): integer representation of current board
     Returns:
@@ -185,12 +185,15 @@ def cardinal(converted_data, path):
             direction = ['left']
     return direction
 
+
 def theChoice(converted_data, path_board, board_object):
-    if(get_min_path_to_food(converted_data, path_board) != "Unassigned"):
-        return cardinal(converted_data,
-                          get_min_path_to_food(converted_data, pathable_board))
+    path = get_min_path_to_food(converted_data, path_board)
+    if(path is "Unassigned"):
+        return cardinal(converted_data, path)
     else:
         space = look_from_here(board_object, board_object.get_tile_at(), j_data)
+        target=turnedAround(space[1], converted_data)
+
 
 # Expose WSGI app (so gunicorn can find it)
 application = bottle.default_app()

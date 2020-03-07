@@ -248,19 +248,18 @@ def turnedAround(walls_around, converted_data):
             a set of cords representative of the first tile that will open
 
     """
-    tail = converted_data["you"]["body"][len(converted_data["you"]["body"])-1]
-    # tail = converted_data["you"]["body"][len(converted_data["you"]["body"])-1]
+    tail = converted_data["you"]["body"][len(converted_data["you"]["body"])-1] # [x:"",y:""]
     # tail_object = board.get_tile_at(tail["x"], tail["y"])
     index_counter = 1
-    for z in walls_around:
-        if z is tail:
+    for tile in walls_around:
+        xy = {"x":tile.get_x(), "y":tile.get_y()}
+        if (xy["x"] == tail["x"] and xy["y"] == tail["y"]):
             return tail
-    else:
-        while tail != walls_around[len(walls_around)-1]:
-            tail = converted_data["you"]["body"][len(
-                converted_data["you"]["body"]) - index_counter]
-            index_counter += 1
-        return tail
+    while tail != walls_around[len(walls_around)-1]:
+        tail = converted_data["you"]["body"][len(
+            converted_data["you"]["body"]) - index_counter]
+        index_counter += 1
+    return tail
 
 
 def look_from_here(the_board, the_tile, j_data):
