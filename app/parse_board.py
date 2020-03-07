@@ -8,7 +8,7 @@ OPEN_SPACE = 25
 SMALLER_SNAKE_FUTURE_HEAD = 15
 OUR_HEAD = 10
 LARGER_SNAKE_FUTURE_HEAD = 99
-TESTER = 11
+TESTER = 111111111111111111111111111
 
 
 def int_board(converted_data):
@@ -89,6 +89,7 @@ def remove_hungry_tails(path_board, growers, converted_data):
             print(path_board[snake["body"][-1]["y"]][snake["body"][-1]["x"]])
         else:
             print("snake id was in growers " + str(snake["id"]))
+            path_board[snake["body"][-1]["y"]][snake["body"][-1]["x"]] = 88888888888888888888888
 
 
 def snake_id_from_tile(x, y, converted_data):
@@ -99,7 +100,7 @@ def snake_id_from_tile(x, y, converted_data):
             print("in from tile -- food eatten at " + str(x) + ", " + str(y))
             print("in from tile -- snake['id']")
             print(snake["id"])
-            print("int from tile -- name")
+            print("in from tile -- name")
             print(name)
             return snake["id"]
 
