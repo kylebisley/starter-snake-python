@@ -73,11 +73,11 @@ def move():
 
     # switch from modifying board state to interpreting it in pathing
     pathable_board_obj = board_object.get_path_board()
-    directions = cardinal(converted_data,
-                          get_min_path_to_food(converted_data,
-                                               pathable_board_obj))
+    direction = cardinal(converted_data,
+                         get_min_path_to_food(converted_data,
+                                              pathable_board_obj))
 
-    response = {"move": directions[0], "shout": board_object.food_string()}
+    response = {"move": direction, "shout": board_object.food_string()}
     return response
 
 
@@ -174,20 +174,20 @@ def cardinal(converted_data, path):
         converted_data (dict): python readable json
         path (list): path from a*
     Return:
-        direction (single item list): cardinal direction as string
+        direction (str): cardinal direction as string
     """
     # if x values are same check y values for direction
     if converted_data["you"]["body"][0]['x'] == path[1][0]:
         if (converted_data["you"]["body"][0]['y']) < (path[1][1]):
-            direction = ['down']
+            direction = 'down'
         else:
-            direction = ['up']
+            direction = 'up'
     # x values are different check them for direction
     else:
         if (converted_data["you"]["body"][0]['x']) < (path[1][0]):
-            direction = ['right']
+            direction = 'right'
         else:
-            direction = ['left']
+            direction = 'left'
     return direction
 
 
