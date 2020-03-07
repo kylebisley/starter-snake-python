@@ -40,6 +40,8 @@ def remove_tails(converted_data, path_board):
     print(food)
     for location in food:
         xy = re.split(",", location)
+        print("path_board[1][1]")
+        print(path_board[1][1])
         print("path_board[xy[0]][xy[1]]")
         print(path_board[xy[0]][xy[1]])
         if path_board[xy[0]][xy[1]] <= 0:
