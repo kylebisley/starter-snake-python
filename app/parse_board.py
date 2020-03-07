@@ -40,7 +40,7 @@ def remove_tails(converted_data, path_board):
         print("escape")
         return
     food = converted_data["you"]["shout"].split("/")
-    food.encode("utf-8")
+    food = [str(x) for x in food]
     print("food")
     print(food)
     print("len(food)")
