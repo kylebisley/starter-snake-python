@@ -34,6 +34,8 @@ def int_board(converted_data):
 def remove_tails(converted_data, path_board):
     """
     """
+    print("converted_data['turn']")
+    print(converted_data['turn'])
     if converted_data["turn"] == 0:
         print("escape")
         return
