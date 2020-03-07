@@ -71,9 +71,8 @@ def remove_tails(converted_data, path_board):
 
 def snake_id_from_tile(x, y, converted_data):
     for snake in converted_data["board"]["snakes"]:
-        for segment in snake["body"]:
-            if x == segment["x"] and y == segment["y"]:
-                return snake["id"]
+        if x == snake["body"][0]["x"] and y == snake["body"][0]["y"]:
+            return snake["id"]
 
             # get snake id from json
             # set tail of snake[id] to 25
