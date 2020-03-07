@@ -24,8 +24,8 @@ def int_board(converted_data):
 
     # pass by reference modify it
     set_snake_values(converted_data, path_board)
-    # bully_pathing(converted_data, path_board)
-    # coward_pathing(converted_data, path_board)
+    bully_pathing(converted_data, path_board)
+    coward_pathing(converted_data, path_board)
 
     # after snakes fully deployed update board with projected tail positions
     if (converted_data["turn"] > 2):
