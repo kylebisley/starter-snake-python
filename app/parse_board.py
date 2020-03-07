@@ -46,8 +46,6 @@ def remove_tails(converted_data, path_board):
     print(type(food))
     for location in food:
         xy = location.split(",")
-        print("path_board[1][1]")
-        print(path_board[1][1])
         print("xy")
         print(xy)
         print("type(xy)")
@@ -55,6 +53,8 @@ def remove_tails(converted_data, path_board):
         print("xy[0] followed by xy[1]")
         print(xy[0])
         print(xy[1])
+        print("path_board[xy[0]][xy[1]]")
+        print(path_board[xy[0]][xy[1]])
         x = int(xy[0])
         y = int(xy[1])
         print("x")

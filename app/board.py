@@ -49,6 +49,7 @@ class Board:
                              str(food.get_x()) + "," +
                              str(food.get_y()) +
                              "/")
+            food_list.strip('/')
             print("Shout " + food_list)
             return food_list
 
