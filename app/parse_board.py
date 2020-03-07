@@ -68,12 +68,12 @@ def remove_hungry_tails(path_board, growers, converted_data):
     print("growers size")
     print(len(growers))
     for snake in converted_data["board"]["snakes"]:
-        print("removing for")
+        print("snake['id']")
+        print(snake["id"])
         if snake["id"] not in growers:
-            print('snake["id"]')
-            print(snake["id"])
-            print("path_board[snake['body'][-1]['x']][snake['body'][-1]['y']]")
-            print(path_board[snake["body"][-1]["x"]][snake["body"][-1]["y"]])
+            print('not in growers')
+            print("path_board[snake['body'][-1]['y']][snake['body'][-1]['x']]")
+            print(path_board[snake["body"][-1]["y"]][snake["body"][-1]["x"]])
             path_board[snake["body"][-1]["y"]][snake["body"][-1]["x"]] = TESTER
 
 
