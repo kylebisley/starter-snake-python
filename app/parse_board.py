@@ -70,6 +70,8 @@ def remove_tails(converted_data, path_board):
 
 def remove_hungry_tails(path_board, growers, converted_data):
     print("removing hungry tails")
+    print("growers size")
+    print(len(growers))
     for snake in converted_data["board"]["snakes"]:
         print("removing for")
         if snake["id"] in growers:
@@ -81,11 +83,11 @@ def remove_hungry_tails(path_board, growers, converted_data):
 def snake_id_from_tile(x, y, converted_data):
     for snake in converted_data["board"]["snakes"]:
         if x == snake["body"][0]["x"] and y == snake["body"][0]["y"]:
-            # return tail
-            return {"x": snake["body"][-1]["x"], "y": snake["body"][-1]["y"]}
-            
-            # return snake["id"]
 
+            return snake["id"]
+
+            # return tail
+            # return {"x": snake["body"][-1]["x"], "y": snake["body"][-1]["y"]}
             # get snake id from json
             # set tail of snake[id] to 25
 
