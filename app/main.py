@@ -2,7 +2,6 @@ import json
 import os
 import bottle
 import parse_board
-import tile
 import board
 
 from api import ping_response, start_response, move_response, end_response
@@ -67,10 +66,16 @@ def move():
     # Json data is printed for debug help
     print(json.dumps(data))
     # debug display boards
-    parse_board.display(dima_board, pathable_board)
+    # parse_board.display(dima_board, pathable_board)
+    # debug board object boards
+    board_object.print_int_board()
+    board_object.print_dima_board()
 
+    # switch from modifying board state to interpreting it in pathing
+    pathable_board_obj = board_object.get_path_board()
     directions = cardinal(converted_data,
-                          get_min_path_to_food(converted_data, pathable_board))
+                          get_min_path_to_food(converted_data,
+                                               pathable_board_obj))
 
     response = {"move": directions[0], "shout": board_object.food_string()}
     return response
@@ -93,7 +98,8 @@ def get_min_path_to_food(converted_data, path_board):
     """
     Checks for lightest path to food.
     Args:
-        converted_data (dict): converted python representation of current game snapshot
+        converted_data (dict): converted python representation of current game
+                                snapshot
         path_board (array.py): integer representation of board
     Returns:
         shortest_path (list): shortest path to food

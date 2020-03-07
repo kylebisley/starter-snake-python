@@ -251,18 +251,17 @@ def look_from_here(the_board, the_tile, j_data):
         tile_is_head = False
         the_board.get_tile_at(head["x"], head["y"]).set_cost(-1)
 
-
     new_viable_tiles = [the_tile]
     blocking_tiles = []
     pathable_tiles = []
     
     while (len(new_viable_tiles) > 0):
-        #deal with the next tile we are examining
+        # deal with the next tile we are examining
         check_next = new_viable_tiles.pop()
 
         if (check_next.getCost() < 1):
             blocking_tiles.append(check_next)
-            continue #go to next iteration if it's a wall, we don't care about it after this step
+            continue  # go to next iteration if it's a wall
         else:
             pathable_tiles.append(check_next)
 
