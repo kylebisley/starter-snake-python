@@ -28,8 +28,8 @@ def int_board(converted_data):
     bully_pathing(converted_data, path_board)
     coward_pathing(converted_data, path_board)
 
-    remove_tails(converted_data, path_board)
-
+    if not (converted_data["turn"] < 0):
+        remove_tails(converted_data, path_board)
     return path_board
 
 
@@ -38,9 +38,7 @@ def remove_tails(converted_data, path_board):
     """
     # print("converted_data['turn']")
     # print(converted_data['turn'])
-    if converted_data["turn"] == 0:
-        print("escape")
-        return
+
     food = converted_data["you"]["shout"].split("/")
     food = [str(x) for x in food]
     food.pop()
