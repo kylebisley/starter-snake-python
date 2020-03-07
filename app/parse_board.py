@@ -36,72 +36,72 @@ def int_board(converted_data):
 def remove_tails(converted_data, path_board):
     """
     """
-    print("converted_data['turn']")
-    print(converted_data['turn'])
+    # print("converted_data['turn']")
+    # print(converted_data['turn'])
     if converted_data["turn"] == 0:
         print("escape")
         return
     food = converted_data["you"]["shout"].split("/")
     food = [str(x) for x in food]
     food.pop()
-    print("food")
-    print(food)
-    print("len(food)")
-    print(len(food))
+    # print("food")
+    # print(food)
+    # print("len(food)")
+    # print(len(food))
     growers = []
     if len(food) > 0:
         for location in food:
             xy = location.split(",")
             x = int(xy[0])
             y = int(xy[1])
-            print("food was at " + str(x) + ", " + str(y))
+            # print("food was at " + str(x) + ", " + str(y))
             # print("value of tile")
             # print(int(path_board[y][x]))
             if (int(path_board[y][x]) <= 0) or (int(path_board[y][x]) == 10):
                 snake_id = snake_id_from_tile(x, y, converted_data)
-                print("snake_id in remove tails")
-                print(snake_id)
+                # print("snake_id in remove tails")
+                # print(snake_id)
                 snake_id.encode("utf-8")
                 growers.append(snake_id)
-                print("a snake just ate")
-                print("growers")
-                print(growers)
+                # print("a snake just ate")
+                # print("growers")
+                # print(growers)
     remove_hungry_tails(path_board, growers, converted_data)
 
 
 def remove_hungry_tails(path_board, growers, converted_data):
-    print("removing hungry tails")
-    print("growers size")
-    print(len(growers))
-    print("growers")
-    print(growers)
+    # print("removing hungry tails")
+    # print("growers size")
+    # print(len(growers))
+    # print("growers")
+    # print(growers)
     for snake in converted_data["board"]["snakes"]:
-        print("snake['id']")
-        print(snake["id"])
-        for each in growers:
-            print("each in growers")
-            print(each)
+        # print("snake['id']")
+        # print(snake["id"])
+        # for each in growers:
+            # print("each in growers")
+            # print(each)
         if snake["id"] not in growers:
-            print(snake["id"] + 'not in growers')
+            # print(snake["id"] + 'not in growers')
             # print("path_board[snake['body'][-1]['y']][snake['body'][-1]['x']]")
             # print(path_board[snake["body"][-1]["y"]][snake["body"][-1]["x"]])
             path_board[snake["body"][-1]["y"]][snake["body"][-1]["x"]] = TESTER
-            print(path_board[snake["body"][-1]["y"]][snake["body"][-1]["x"]])
+            # print(path_board[snake["body"][-1]["y"]][snake["body"][-1]["x"]])
         else:
             print("snake id was in growers " + str(snake["id"]))
-            path_board[snake["body"][-1]["y"]][snake["body"][-1]["x"]] = 88888888888888888888888
+            # path_board[snake["body"][-1]["y"]][snake["body"][-1]["x"]] = 88888888888888888888888
 
 
 def snake_id_from_tile(x, y, converted_data):
     for snake in converted_data["board"]["snakes"]:
-        name = snake["id"]
-        print("checking snake=====================================")
+        # name = snake["id"]
+        # print("checking snake=====================================")
         if (x == snake["body"][0]["x"]) and (y == snake["body"][0]["y"]):
-            print("in from tile -- food eatten at " + str(x) + ", " + str(y))
-            print("in from tile -- snake['id']")
-            print(snake["id"])
-            print("in from tile -- name")
-            print(name)
+            # print("in from tile -- food eatten at " + str(x) + ", " + str(y))
+            # print("in from tile -- snake['id']")
+            # print(snake["id"])
+            # print("in from tile -- name")
+            # print(name)
             return snake["id"]
 
             # return tail
