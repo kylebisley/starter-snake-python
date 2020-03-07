@@ -66,7 +66,7 @@ def move():
     # Json data is printed for debug help
     print(json.dumps(data))
     # debug display boards
-    #parse_board.display(dima_board, pathable_board)
+    # parse_board.display(dima_board, pathable_board)
     # debug board object boards
     board_object.print_int_board()
     board_object.print_dima_board()
