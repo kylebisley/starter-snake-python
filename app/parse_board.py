@@ -1,6 +1,5 @@
 import tile
 import board as b
-# import re
 
 SNAKE = -1
 WALL_SPACE = 50
@@ -8,7 +7,7 @@ OPEN_SPACE = 25
 SMALLER_SNAKE_FUTURE_HEAD = 15
 OUR_HEAD = 10
 LARGER_SNAKE_FUTURE_HEAD = 99
-TESTER = 111111111111111111111111111
+PATHABLE_TAIL = 25
 
 
 def int_board(converted_data):
@@ -28,6 +27,7 @@ def int_board(converted_data):
     bully_pathing(converted_data, path_board)
     coward_pathing(converted_data, path_board)
 
+    # after snakes fully deployed update board with projected tail positions
     if (converted_data["turn"] > 2):
         remove_tails(converted_data, path_board)
     return path_board
@@ -35,77 +35,71 @@ def int_board(converted_data):
 
 def remove_tails(converted_data, path_board):
     """
-    """
-    # print("converted_data['turn']")
-    # print(converted_data['turn'])
+    Reads shout object for last turns moves and updates board to reflect if 
+    any snake heads occupy a tile that was previously occupied by food
 
+    Args:
+        converted_data (dict): python readable version of json
+        path_board (list): int representation of the board for A*
+
+    Returns:
+        Nothing
+
+    """
     food = converted_data["you"]["shout"].split("/")
     food = [str(x) for x in food]
-    food.pop()
-    # print("food")
-    # print(food)
-    # print("len(food)")
-    # print(len(food))
+    food.pop()  # kludge removes empty last element caused by parsing
+
     growers = []
     if len(food) > 0:
         for location in food:
+            # get x,y with unicode converted
             xy = location.split(",")
             x = int(xy[0])
             y = int(xy[1])
-            # print("food was at " + str(x) + ", " + str(y))
-            # print("value of tile")
-            # print(int(path_board[y][x]))
+
+            # if other snake or our head
             if (int(path_board[y][x]) <= 0) or (int(path_board[y][x]) == 10):
-                snake_id = snake_id_from_tile(x, y, converted_data)
-                # print("snake_id in remove tails")
-                # print(snake_id)
-                snake_id.encode("utf-8")
+                snake_id = snake_id_from_XY(x, y, converted_data)
+                snake_id.encode("utf-8")  # fixes unicode issue with parser
                 growers.append(snake_id)
-                # print("a snake just ate")
-                # print("growers")
-                # print(growers)
     remove_hungry_tails(path_board, growers, converted_data)
 
 
 def remove_hungry_tails(path_board, growers, converted_data):
-    # print("removing hungry tails")
-    # print("growers size")
-    # print(len(growers))
-    # print("growers")
-    # print(growers)
+    """
+    Edits the path_board to reflect if a snake ate this turn or not
+
+    Args:
+        converted_data (dict): python readable version of json
+        path_board (list): int representation of the board for A*
+        growers (list): string list of snake_ids whos tail will not move next 
+        turn
+    Returns:
+        Modifys path_board by reference.
+    """
     for snake in converted_data["board"]["snakes"]:
-        # print("snake['id']")
-        # print(snake["id"])
-        # for each in growers:
-            # print("each in growers")
-            # print(each)
         if snake["id"] not in growers:
-            # print(snake["id"] + 'not in growers')
-            # print("path_board[snake['body'][-1]['y']][snake['body'][-1]['x']]")
-            # print(path_board[snake["body"][-1]["y"]][snake["body"][-1]["x"]])
-            path_board[snake["body"][-1]["y"]][snake["body"][-1]["x"]] = TESTER
-            # print(path_board[snake["body"][-1]["y"]][snake["body"][-1]["x"]])
-        else:
-            print("snake id was in growers " + str(snake["id"]))
-            # path_board[snake["body"][-1]["y"]][snake["body"][-1]["x"]] = 88888888888888888888888
+            x = snake["body"][-1]["x"]
+            y = snake["body"][-1]["y"]
+            path_board[y][x] = PATHABLE_TAIL
 
 
-def snake_id_from_tile(x, y, converted_data):
+def snake_id_from_XY(x, y, converted_data):
+    """
+    Returns snake_id from x, y integers.
+
+    Args: 
+        x (int): x value of tile
+        y (int): y value of tile
+        converted_data (dict): python readable version of json
+    
+    Returns:
+        snake["id"](unicode string): snake id
+    """
     for snake in converted_data["board"]["snakes"]:
-        # name = snake["id"]
-        # print("checking snake=====================================")
         if (x == snake["body"][0]["x"]) and (y == snake["body"][0]["y"]):
-            # print("in from tile -- food eatten at " + str(x) + ", " + str(y))
-            # print("in from tile -- snake['id']")
-            # print(snake["id"])
-            # print("in from tile -- name")
-            # print(name)
             return snake["id"]
-
-            # return tail
-            # return {"x": snake["body"][-1]["x"], "y": snake["body"][-1]["y"]}
-            # get snake id from json
-            # set tail of snake[id] to 25
 
 
 def set_snake_values(converted_data, board):
