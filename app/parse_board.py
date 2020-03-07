@@ -1,6 +1,6 @@
 import tile
 import board as b
-import re
+# import re
 
 SNAKE = -1
 WALL_SPACE = 50
@@ -34,12 +34,13 @@ def int_board(converted_data):
 def remove_tails(converted_data, path_board):
     """
     """
-
-    food = re.split("/", converted_data["you"]["shout"])
+    if converted_data["turn"] == 0:
+        return
+    food = converted_data["you"]["shout"].split("/")
     print("food")
     print(food)
     for location in food:
-        xy = re.split(",", location)
+        xy = location.split(",")
         print("path_board[1][1]")
         print(path_board[1][1])
         print("xy")
