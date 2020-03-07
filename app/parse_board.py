@@ -72,6 +72,8 @@ def remove_hungry_tails(path_board, growers, converted_data):
     print("removing hungry tails")
     print("growers size")
     print(len(growers))
+    print("growers")
+    print(growers)
     for snake in converted_data["board"]["snakes"]:
         print("snake['id']")
         print(snake["id"])
