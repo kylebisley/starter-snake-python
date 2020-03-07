@@ -69,7 +69,7 @@ def remove_hungry_tails(path_board, growers, converted_data):
     print(len(growers))
     for snake in converted_data["board"]["snakes"]:
         print("removing for")
-        if snake["id"] in growers:
+        if snake["id"] not in growers:
             print('snake["id"]')
             print(snake["id"])
             print("path_board[snake['body'][-1]['x']][snake['body'][-1]['y']]")
