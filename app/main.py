@@ -143,23 +143,22 @@ def sum_path_weight(path, path_board):
     return weight
 
 
-def navigate(converted_data, path_board, food):
+def navigate(converted_data, path_board, target):
     """
-    This method generates the cardinal direction to navigate to the first
-    element of path.
+    This method generates A* path to navigate to the target
     Args:
-        food (list): food locations in (x,y) format
+        target (list): [x,y] format
         converted_data (dict): parsed json data dump
         path_board (array): integer representation of current board
     Returns:
-        output of cardinal function
+        path(list): path to target
     """
     matrix = path_board
     grid = Grid(matrix=matrix)
 
     start_tile = grid.node(converted_data["you"]["body"][0]['x'],
                            converted_data["you"]["body"][0]['y'])
-    end_tile = grid.node(food[0], food[1])
+    end_tile = grid.node(target[0], target[1])
 
     finder = AStarFinder()
     path, runs = finder.find_path(start_tile, end_tile, grid)
