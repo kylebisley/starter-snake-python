@@ -57,7 +57,7 @@ def remove_tails(converted_data, path_board):
             print("food was at " + str(x) + ", " + str(y))
             print("value of tile")
             print(int(path_board[y][x]))
-            if int(path_board[y][x]) <= 0:
+            if (int(path_board[y][x]) <= 0) and (int(path_board[y][x]) != 10):
                 snake_id = snake_id_from_tile(x, y, converted_data)
                 print("snake_id in remove tails")
                 print(snake_id)
