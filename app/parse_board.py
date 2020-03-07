@@ -41,6 +41,7 @@ def remove_tails(converted_data, path_board):
         return
     food = converted_data["you"]["shout"].split("/")
     food = [str(x) for x in food]
+    food.pop()
     print("food")
     print(food)
     print("len(food)")
