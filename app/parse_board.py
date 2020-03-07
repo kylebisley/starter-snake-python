@@ -42,19 +42,21 @@ def remove_tails(converted_data, path_board):
     food = converted_data["you"]["shout"].split("/")
     print("food")
     print(food)
-    for location in food:
-        xy = location.split(",")
-        print("path_board[1][1]")
-        print(path_board[1][1])
-        print("xy")
-        print(xy)
-        print("type(xy)")
-        print(type(xy))
-        print("path_board[xy[0]][xy[1]]")
-        print(path_board[xy[0]][xy[1]])
-        if path_board[xy[0]][xy[1]] <= 0:
-            snake_id = snake_id_from_tile(xy[0], xy[1], converted_data)
-            print("snake " + str(snake_id) + " just ate")
+    print("type(food)")
+    print(type(food))
+    # for location in food:
+    #     xy = location.split(",")
+    #     print("path_board[1][1]")
+    #     print(path_board[1][1])
+    #     print("xy")
+    #     print(xy)
+    #     print("type(xy)")
+    #     print(type(xy))
+    #     print("path_board[xy[0]][xy[1]]")
+    #     print(path_board[xy[0]][xy[1]])
+    #     if path_board[xy[0]][xy[1]] <= 0:
+    #         snake_id = snake_id_from_tile(xy[0], xy[1], converted_data)
+    #         print("snake " + str(snake_id) + " just ate")
 
 
 def snake_id_from_tile(x, y, converted_data):
