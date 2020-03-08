@@ -211,7 +211,7 @@ def heads_up(converted_data, board):
     # remove head and unpathable neighbours from our list stack
     for i in xrange(len(neighbours) - 1, -1, -1):
         if ((neighbours[i].get_cost() < 1 or
-             neighbours[i].get_cost() == 10)(neighbours, i)):
+             neighbours[i].get_cost() == 10)):
             del neighbours[i]
     possible_futures = []
     for neighbour in neighbours:
