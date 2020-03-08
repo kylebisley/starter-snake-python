@@ -3,6 +3,7 @@ import os
 import bottle
 import parse_board
 import board
+import tests
 
 from api import ping_response, start_response, move_response, end_response
 from pathfinding.core.grid import Grid
@@ -70,6 +71,8 @@ def move():
     # debug board object boards
     board_object.print_int_board()
     board_object.print_dima_board()
+    # debug look_from_here
+    tests.print_look_from(board_object, converted_data)
 
     # switch from modifying board state to interpreting it in pathing
     pathable_board_obj = board_object.get_path_board()
