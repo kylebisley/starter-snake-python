@@ -76,7 +76,7 @@ def move():
 
     # switch from modifying board state to interpreting it in pathing
     pathable_board_obj = board_object.get_path_board()
-    heads_up(converted_data, board_object)
+    # heads_up(converted_data, board_object)
     direction = cardinal(converted_data,
                          get_min_path_to_food(converted_data,
                                               pathable_board_obj))
@@ -196,10 +196,11 @@ def cardinal(converted_data, path):
 
 def heads_up(converted_data, board):
     '''
-    Creates list of look_from_here objects based on targets neighbours
+    Creates list of look_from_here objects based on targets pathable
+    neighbours that are not our head
     Args:
-        converted_data
-        board
+        converted_data (dict): python readable json
+        board(board object): representation of board
     Returns:
         possible_futures(list): collection of objects returned from
         look_from_here
@@ -216,9 +217,9 @@ def heads_up(converted_data, board):
     possible_futures = []
     for neighbour in neighbours:
         possible_futures.append(board.look_from_here(neighbour, converted_data))
-    print("***************************************")
-    print(possible_futures)
-    print("***************************************")
+    # print("***************************************")
+    # print(possible_futures)
+    # print("***************************************")
     return possible_futures
 
 
