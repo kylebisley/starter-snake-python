@@ -206,7 +206,7 @@ def heads_up(converted_data, board):
     '''
     head = board.get_tile_at(converted_data["you"]["body"][0]['x'],
                              converted_data["you"]["body"][0]['y'])
-    neighbours = board.find_neighbors(head)
+    neighbours = board.find_neighbours(head)
 
     # remove head and unpathable neighbours from our list stack
     for i in xrange(len(neighbours) - 1, -1, -1):
