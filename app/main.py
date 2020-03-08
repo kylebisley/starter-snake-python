@@ -215,7 +215,7 @@ def heads_up(converted_data, board):
             del neighbours[i]
     possible_futures = []
     for neighbour in neighbours:
-        possible_futures.append(board.look_from_here(neighbour))
+        possible_futures.append(board.look_from_here(neighbour, converted_data))
     print("***************************************")
     print(possible_futures)
     print("***************************************")
