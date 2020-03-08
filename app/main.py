@@ -76,6 +76,7 @@ def move():
 
     # switch from modifying board state to interpreting it in pathing
     pathable_board_obj = board_object.get_path_board()
+    heads_up(converted_data, board_object)
     direction = cardinal(converted_data,
                          get_min_path_to_food(converted_data,
                                               pathable_board_obj))
@@ -191,6 +192,34 @@ def cardinal(converted_data, path):
         else:
             direction = 'left'
     return direction
+
+
+def heads_up(converted_data, board):
+    '''
+    Creates list of look_from_here objects based on targets neighbours
+    Args:
+        converted_data
+        board
+    Returns:
+        possible_futures(list): collection of objects returned from
+        look_from_here
+    '''
+    head = board.get_tile_at(converted_data["you"]["body"][0]['x'],
+                             converted_data["you"]["body"][0]['y'])
+    neighbours = board.find_neighbors(head)
+
+    # remove head and unpathable neighbours from our list stack
+    for i in xrange(len(neighbours) - 1, -1, -1):
+        if ((neighbours[i].get_cost() < 1 or
+             neighbours[i].get_cost() == 10)(neighbours, i)):
+            del neighbours[i]
+    possible_futures = []
+    for neighbour in neighbours:
+        possible_futures.append(board.look_from_here(neighbour))
+    print("***************************************")
+    print(possible_futures)
+    print("***************************************")
+    return possible_futures
 
 
 # Expose WSGI app (so gunicorn can find it)
