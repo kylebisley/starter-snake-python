@@ -223,6 +223,44 @@ def heads_up(converted_data, board):
     return possible_futures
 
 
+def target_selection(possible_futures, converted_data, board):
+    '''
+    Can eventually be call list for logic to deal with oh shit situations.
+    Returns a path to cloest food or tail given possible_futures.
+    Args:
+        possible_futures(list): collection of objects returned from
+            look_from_here
+        converted_data (dict): python readable json
+        board(board object): representation of board
+    Returns:
+        path(list): path to target
+    '''
+    raise NotImplementedError
+
+def chasing_tail(possible_futures, converted_data, board):
+    '''
+    Prunes possible_futures without out tail in them. 
+    Args:
+        possible_futures(list): collection of objects returned from
+            look_from_here
+        converted_data (dict): python readable json
+        board(board object): representation of board
+    Returns:
+        path(list): path to target
+    '''
+    tail = board.get_tile_at(converted_data["you"]["body"][-1]['x'],
+                             converted_data["you"]["body"][-1]['y'])
+    for future in possible_futures:
+        possible = future[0]
+        walls = future[1]
+        if tail in possible:
+            print("tail found in possible")
+            continue
+        if tail in walls:
+            print("tail found in walls")
+            continue
+
+
 # Expose WSGI app (so gunicorn can find it)
 application = bottle.default_app()
 
