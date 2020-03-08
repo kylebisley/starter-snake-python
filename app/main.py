@@ -76,7 +76,8 @@ def move():
 
     # switch from modifying board state to interpreting it in pathing
     pathable_board_obj = board_object.get_path_board()
-    # heads_up(converted_data, board_object)
+    temp = heads_up(converted_data, board_object)
+    chasing_tail(temp, converted_data, board_object)
     direction = cardinal(converted_data,
                          get_min_path_to_food(converted_data,
                                               pathable_board_obj))
