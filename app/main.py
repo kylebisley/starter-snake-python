@@ -274,7 +274,7 @@ def target_selection(converted_data, board):
     if (len(options) == 0) or (weight_path == "Unassigned"):
         x = converted_data["you"]["body"][-1]['x']
         y = converted_data["you"]["body"][-1]['y']
-        return navigate(converted_data, board.get_path_board(), [x,y]])
+        return navigate(converted_data, board.get_path_board(), [x, y])
 
     return weight_path[1]
 
