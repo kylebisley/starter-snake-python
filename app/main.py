@@ -236,7 +236,11 @@ def target_selection(converted_data, board):
     '''
     possible_futures = heads_up(converted_data, board)
     possible_futures = chasing_tail(possible_futures, converted_data, board)
-    
+    i = 0
+    for tile_lists in possible_futures:
+        print("**the view from here**" + i)
+        tests.print_look_from_object(tile_lists, converted_data)
+        i = i + 1
     food_tiles = board.get_food_tiles()
     options = []
     for future in possible_futures:
@@ -259,6 +263,7 @@ def target_selection(converted_data, board):
         for option in options:
             if shortest_path == "Unassigned" and (option[0] != 0): # might be able to remove this later
                 shortest_path = option[1]
+                # tests.print()
             elif shortest_path != "Unassigned":
                 # Line below too long. Broken into 3 pieces for clarity
                 if (option[0]) < len(shortest_path) and (option[0] != 0):
