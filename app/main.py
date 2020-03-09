@@ -246,7 +246,7 @@ def target_selection(converted_data, board):
         i = i + 1
     # 888888888888888888888888888888888888888888888888888888888888888888
 
-    options = buffet(possible_futures, converted_data board)
+    options = buffet(possible_futures, converted_data, board)
     # # build list of all the routes to food from the tiles adjcent to our head
     # # and their coresponding weights
     # food_tiles = board.get_food_tiles()
@@ -291,6 +291,7 @@ def buffet(possible_futures, converted_data, board):
                 weight = [sum_path_weight(path, board.get_path_board()), path]
                 options.append(weight)
     return options
+
 
 def shortest_option(options):
     '''
@@ -341,7 +342,7 @@ def path_to_tail(converted_data, board):
 
 def chasing_tail(possible_futures, converted_data, board):
     '''
-    Prunes possible_futures without out tail in them. 
+    Prunes possible_futures without out tail in them.
     Args:
         possible_futures(list): collection of objects returned from
             look_from_here
