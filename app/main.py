@@ -4,6 +4,7 @@ import bottle
 import parse_board
 import board
 import tests
+# from copy import deepcopy
 
 from api import ping_response, start_response, move_response, end_response
 from pathfinding.core.grid import Grid
@@ -227,7 +228,7 @@ def heads_up(converted_data, board):
 def target_selection(converted_data, board):
     '''
     Can eventually be call list for logic to deal with oh shit situations.
-    Returns a path to cloest food or tail given possible_futures.
+    Returns a path to closest food or tail given possible_futures.
     Args:
         converted_data (dict): python readable json
         board(board object): representation of board
@@ -236,39 +237,46 @@ def target_selection(converted_data, board):
     '''
     possible_futures = heads_up(converted_data, board)
     possible_futures = chasing_tail(possible_futures, converted_data, board)
+    # 888888888888888888888888888888888888888888888888888888888888888888
     i = 0
     for tile_lists in possible_futures:
         print("**the view from here**" + str(i))
         tests.print_look_from_object(tile_lists, converted_data, board)
         i = i + 1
+    # 888888888888888888888888888888888888888888888888888888888888888888
+    # build list of all the routes to food from the tiles adjcent to our head
+    # and their coresponding weights
     food_tiles = board.get_food_tiles()
     options = []
     for future in possible_futures:
+        #  deepcopy()
         for food in food_tiles:
-            if food not in future[0]:
-                del food
-            else:
+            # if food not in future[0]:
+            #     del food
+            if food in future[0]:
                 target = [food.get_x(), food.get_y()]
                 path = navigate(converted_data, board.get_path_board(), target)
                 temp = [sum_path_weight(path, board.get_path_board()), path]
                 options.append(temp)
-
+    # if list of routes to food not empty
     if len(options) > 0:
-        shortest_path = "Unassigned"
-        # option[0] is lenght of path found in option[1]
+        weight_path = "Unassigned"
+        # option[0] is weight of path found in option[1]
         for option in options:
-            if shortest_path == "Unassigned" and (option[0] != 0): # might be able to remove this later
-                shortest_path = option[1]
+            if weight_path == "Unassigned":  # and (option[0] != 0): # might be able to remove this later
+                weight_path = option
                 # tests.print()
-            elif shortest_path != "Unassigned":
+            elif weight_path != "Unassigned":
                 # Line below too long. Broken into 3 pieces for clarity
-                if (option[0]) < len(shortest_path) and (option[0] != 0):
-                    shortest_path = option[1]
-    if (len(options) == 0) or (shortest_path == "Unassigned"):
+                if (option[0] < weight_path[0]) and (option[0] != 0):
+                    weight_path = option
+    # if no food to path to then path to tail
+    if (len(options) == 0) or (weight_path == "Unassigned"):
         tail = board.get_tile_at(converted_data["you"]["body"][-1]['x'],
                                  converted_data["you"]["body"][-1]['y'])
         return navigate(converted_data, board.get_path_board(), tail)
-    return shortest_path
+
+    return weight_path[1]
 
 
 def chasing_tail(possible_futures, converted_data, board):
