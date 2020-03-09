@@ -65,20 +65,14 @@ def move():
     dima_board = parse_board.board_to_array(converted_data)
     pathable_board = parse_board.int_board(converted_data)
     board_object = board.Board(converted_data, pathable_board, dima_board)
+
     # Json data is printed for debug help
     print(json.dumps(data))
-    # debug display boards
-    # parse_board.display(dima_board, pathable_board)
+
     # debug board object boards
     board_object.print_int_board()
     board_object.print_dima_board()
 
-    # switch from modifying board state to interpreting it in pathing
-    pathable_board_obj = board_object.get_path_board()
-
-    # direction = cardinal(converted_data,
-    #                      get_min_path_to_food(converted_data,
-    #                                           pathable_board_obj))
     direction = cardinal(converted_data, target_selection(converted_data,
                                                           board_object))
 
@@ -99,34 +93,34 @@ def end():
     return end_response()
 
 
-def get_min_path_to_food(converted_data, path_board):
-    """
-    Checks for lightest path to food.
-    Args:
-        converted_data (dict): converted python representation of current game
-                                snapshot
-        path_board (array.py): integer representation of board
-    Returns:
-        shortest_path (list): shortest path to food
-        OR
-        shortest_path (str): "Unassigned" when it can't path to food
-    """
-    shortest_path = "Unassigned"
-    for food in converted_data["board"]["food"]:
-        x = food['x']
-        y = food['y']
-        new_path = navigate(converted_data, path_board, [x, y])
-        if shortest_path == "Unassigned" and (len(new_path) != 0):
-            shortest_path = new_path
-        elif shortest_path != "Unassigned":
-            # Line below too long. Broken into 3 pieces for clarity
-            if (sum_path_weight(new_path, path_board) <
-                    sum_path_weight(shortest_path, path_board)
-                    and (len(new_path) != 0)):
-                shortest_path = new_path
-# --------------------------------------------------------------------------------------------
-        sum_path_weight(new_path, path_board) # fairly sure this can be removed in a last pass
-    return shortest_path
+# def get_min_path_to_food(converted_data, path_board):
+#     """
+#     Checks for lightest path to food.
+#     Args:
+#         converted_data (dict): converted python representation of current game
+#                                 snapshot
+#         path_board (array.py): integer representation of board
+#     Returns:
+#         shortest_path (list): shortest path to food
+#         OR
+#         shortest_path (str): "Unassigned" when it can't path to food
+#     """
+#     shortest_path = "Unassigned"
+#     for food in converted_data["board"]["food"]:
+#         x = food['x']
+#         y = food['y']
+#         new_path = navigate(converted_data, path_board, [x, y])
+#         if shortest_path == "Unassigned" and (len(new_path) != 0):
+#             shortest_path = new_path
+#         elif shortest_path != "Unassigned":
+#             # Line below too long. Broken into 3 pieces for clarity
+#             if (sum_path_weight(new_path, path_board) <
+#                     sum_path_weight(shortest_path, path_board)
+#                     and (len(new_path) != 0)):
+#                 shortest_path = new_path
+# # --------------------------------------------------------------------------------------------
+#         sum_path_weight(new_path, path_board) # fairly sure this can be removed in a last pass
+#     return shortest_path
 
 
 def sum_path_weight(path, path_board):
@@ -215,13 +209,11 @@ def heads_up(converted_data, board):
         if ((neighbours[i].get_cost() < 1 or
              neighbours[i].get_cost() == 10)):
             del neighbours[i]
+
     possible_futures = []
     for neighbour in neighbours:
-        possible_futures.append(board.look_from_here(neighbour, 
+        possible_futures.append(board.look_from_here(neighbour,
                                                      converted_data))
-    print("***************************************")
-    print(len(possible_futures))
-    print("***************************************")
     return possible_futures
 
 
@@ -238,13 +230,13 @@ def target_selection(converted_data, board):
                               collection of walls around them
         options (list):[][] collection of weights of paths and paths to food
         weigth_path (list):[][] same as options
-    
+
     Returns:
         path(list): path to target
     '''
     possible_futures = heads_up(converted_data, board)
     possible_futures = chasing_tail(possible_futures, converted_data, board)
-    
+
     # Debug for seeing the choices the snake is making. Leaving it in for now
     # 888888888888888888888888888888888888888888888888888888888888888888
     i = 0
@@ -253,9 +245,42 @@ def target_selection(converted_data, board):
         tests.print_look_from_object(tile_lists, converted_data, board)
         i = i + 1
     # 888888888888888888888888888888888888888888888888888888888888888888
-   
-    # build list of all the routes to food from the tiles adjcent to our head
-    # and their coresponding weights
+
+    options = buffet(possible_futures, converted_data board)
+    # # build list of all the routes to food from the tiles adjcent to our head
+    # # and their coresponding weights
+    # food_tiles = board.get_food_tiles()
+    # options = []
+    # for future in possible_futures:
+    #     for food in food_tiles:
+    #         if food in future[0]:
+    #             target = [food.get_x(), food.get_y()]
+    #             path = navigate(converted_data, board.get_path_board(), target)
+    #             weight = [sum_path_weight(path, board.get_path_board()), path]
+    #             options.append(weight)
+
+    # if list of routes to food not empty
+    shortest_path = "Unassigned"
+    if len(options) > 0:
+        shortest_path = shortest_option(options)
+    # No safe food so path to tail
+    if (len(options) == 0) or (shortest_path == "Unassigned"):
+        return path_to_tail(converted_data, board)
+
+    return shortest_path[1]
+
+
+def buffet(possible_futures, converted_data, board):
+    '''
+    Returns a list of all routes to food from tiles adjcent to our head
+    and their weights
+    Args:
+        possible_futures (list): [[][],] collection of tile_lists
+        tile_list (list):[][] collection of pathable tiles,
+                              collection of walls around them
+    Returns:
+        options (list):[][] collection of weights of paths and paths to food
+    '''
     food_tiles = board.get_food_tiles()
     options = []
     for future in possible_futures:
@@ -265,27 +290,7 @@ def target_selection(converted_data, board):
                 path = navigate(converted_data, board.get_path_board(), target)
                 weight = [sum_path_weight(path, board.get_path_board()), path]
                 options.append(weight)
-    # if list of routes to food not empty
-    shortest_path = "Unassigned"
-    if len(options) > 0:
-        weight_path = "Unassigned"
-        shortest_path = shortest_option(options)
-        # weight_path = "Unassigned"
-        # # option[0] is weight of path found in option[1]
-        # # sifting for the shortest path to food
-        # for option in options:
-        #     if weight_path == "Unassigned":
-        #         weight_path = option
-        #     elif weight_path != "Unassigned":
-        #         if (option[0] < weight_path[0]) and (option[0] != 0):
-        #             weight_path = option
-
-    # if no food to path to then path to tail
-    if (len(options) == 0) or (shortest_path == "Unassigned"):
-        return path_to_tail(converted_data, board)
-
-    return shortest_path[1]
-
+    return options
 
 def shortest_option(options):
     '''
