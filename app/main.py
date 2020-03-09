@@ -238,7 +238,7 @@ def target_selection(converted_data, board):
     possible_futures = chasing_tail(possible_futures, converted_data, board)
     i = 0
     for tile_lists in possible_futures:
-        print("**the view from here**" + i)
+        print("**the view from here**" + str(i))
         tests.print_look_from_object(tile_lists, converted_data)
         i = i + 1
     food_tiles = board.get_food_tiles()
