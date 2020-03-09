@@ -71,16 +71,15 @@ def move():
     # debug board object boards
     board_object.print_int_board()
     board_object.print_dima_board()
-    # debug look_from_here
-    # tests.print_look_from(board_object, converted_data)
 
     # switch from modifying board state to interpreting it in pathing
-    pathable_board_obj = board_object.get_path_board()
-    temp = heads_up(converted_data, board_object)
-    chasing_tail(temp, converted_data, board_object)
-    direction = cardinal(converted_data,
-                         get_min_path_to_food(converted_data,
-                                              pathable_board_obj))
+    # pathable_board_obj = board_object.get_path_board()
+
+    # direction = cardinal(converted_data,
+    #                      get_min_path_to_food(converted_data,
+    #                                           pathable_board_obj))
+    direction = cardinal(converted_data, target_selection(converted_data,
+                                                          board))
 
     response = {"move": direction, "shout": board_object.food_string()}
     return response
@@ -217,26 +216,44 @@ def heads_up(converted_data, board):
             del neighbours[i]
     possible_futures = []
     for neighbour in neighbours:
-        possible_futures.append(board.look_from_here(neighbour, converted_data))
+        possible_futures.append(board.look_from_here(neighbour, 
+                                                     converted_data))
     print("***************************************")
     print(len(possible_futures))
     print("***************************************")
     return possible_futures
 
 
-def target_selection(possible_futures, converted_data, board):
+def target_selection(converted_data, board):
     '''
     Can eventually be call list for logic to deal with oh shit situations.
     Returns a path to cloest food or tail given possible_futures.
     Args:
-        possible_futures(list): collection of objects returned from
-            look_from_here
         converted_data (dict): python readable json
         board(board object): representation of board
     Returns:
         path(list): path to target
     '''
-    raise NotImplementedError
+    possible_futures = heads_up(converted_data, board)
+    possible_futures = chasing_tail(possible_futures, converted_data, board)
+    
+    food_tiles = board.get_food_tiles()
+    options = []
+    for future in possible_futures:
+        for food in food_tiles:
+            if food not in future[0]:
+                del food
+            else:
+                target = [food.get_x(), food.get_y()]
+                path = navigate(converted_data, board.get_path_board(), target)
+                temp = [sum_path_weight(path, board.get_path_board()), path]
+                options.push(temp)
+
+    if len(options) == 0:
+        tail = board.get_tile_at(converted_data["you"]["body"][-1]['x'],
+                                 converted_data["you"]["body"][-1]['y'])
+        return navigate(converted_data, board.get_path_board(), tail)
+    return
 
 
 def chasing_tail(possible_futures, converted_data, board):
@@ -259,17 +276,7 @@ def chasing_tail(possible_futures, converted_data, board):
             del possible_futures[i]
             continue
     print(len(possible_futures))
-    
-    # for future in possible_futures:
-    #     possible = future[0]
-    #     walls = future[1]
-    #     print(finding)
-    #     if tail in possible:
-    #         print("tail found in possible")
-    #         continue
-    #     if tail in walls:
-    #         print("tail found in walls")
-    #         continue
+    return possible_futures
 
 
 # Expose WSGI app (so gunicorn can find it)
