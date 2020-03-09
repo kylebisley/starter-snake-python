@@ -73,7 +73,7 @@ def move():
     board_object.print_dima_board()
 
     # switch from modifying board state to interpreting it in pathing
-    # pathable_board_obj = board_object.get_path_board()
+    pathable_board_obj = board_object.get_path_board()
 
     # direction = cardinal(converted_data,
     #                      get_min_path_to_food(converted_data,
@@ -123,8 +123,8 @@ def get_min_path_to_food(converted_data, path_board):
                     sum_path_weight(shortest_path, path_board)
                     and (len(new_path) != 0)):
                 shortest_path = new_path
-
-        sum_path_weight(new_path, path_board)
+# --------------------------------------------------------------------------------------------
+        sum_path_weight(new_path, path_board) # fairly sure this can be removed in a last pass
     return shortest_path
 
 
@@ -253,7 +253,17 @@ def target_selection(converted_data, board):
         tail = board.get_tile_at(converted_data["you"]["body"][-1]['x'],
                                  converted_data["you"]["body"][-1]['y'])
         return navigate(converted_data, board.get_path_board(), tail)
-    return
+    else:
+        shortest_path = "Unassigned"
+        # option[0] is lenght of path found in option[1]
+        for option in options:
+            if shortest_path == "Unassigned" and (option[0] != 0): # might be able to remove this later
+                shortest_path = option[1]
+            elif shortest_path != "Unassigned":
+                # Line below too long. Broken into 3 pieces for clarity
+                if (option[0]) < len(shortest_path) and (option[0] != 0):
+                    shortest_path = option[1]
+    return shortest_path
 
 
 def chasing_tail(possible_futures, converted_data, board):
