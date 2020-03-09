@@ -79,7 +79,7 @@ def move():
     #                      get_min_path_to_food(converted_data,
     #                                           pathable_board_obj))
     direction = cardinal(converted_data, target_selection(converted_data,
-                                                          board))
+                                                          board_object))
 
     response = {"move": direction, "shout": board_object.food_string()}
     return response
