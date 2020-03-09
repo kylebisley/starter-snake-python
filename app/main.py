@@ -247,7 +247,7 @@ def target_selection(converted_data, board):
                 target = [food.get_x(), food.get_y()]
                 path = navigate(converted_data, board.get_path_board(), target)
                 temp = [sum_path_weight(path, board.get_path_board()), path]
-                options.push(temp)
+                options.append(temp)
 
     if len(options) == 0:
         tail = board.get_tile_at(converted_data["you"]["body"][-1]['x'],
