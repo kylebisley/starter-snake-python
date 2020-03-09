@@ -274,6 +274,7 @@ def target_selection(converted_data, board):
     if (len(options) == 0) or (weight_path == "Unassigned"):
         x = converted_data["you"]["body"][-1]['x']
         y = converted_data["you"]["body"][-1]['y']
+        board.get_tile_at(x, y).set_cost(111) # tail must be pathable for a* I AM THE KLUDGE
         path_to_tail = navigate(converted_data, board.get_path_board(), [x, y])
         print (path_to_tail)
         return path_to_tail
