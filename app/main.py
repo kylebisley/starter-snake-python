@@ -253,11 +253,7 @@ def target_selection(converted_data, board):
                 temp = [sum_path_weight(path, board.get_path_board()), path]
                 options.append(temp)
 
-    if len(options) == 0:
-        tail = board.get_tile_at(converted_data["you"]["body"][-1]['x'],
-                                 converted_data["you"]["body"][-1]['y'])
-        return navigate(converted_data, board.get_path_board(), tail)
-    else:
+    if len(options) > 0:
         shortest_path = "Unassigned"
         # option[0] is lenght of path found in option[1]
         for option in options:
@@ -268,6 +264,10 @@ def target_selection(converted_data, board):
                 # Line below too long. Broken into 3 pieces for clarity
                 if (option[0]) < len(shortest_path) and (option[0] != 0):
                     shortest_path = option[1]
+    if (len(options) == 0) or (shortest_path == "Unassigned"):
+        tail = board.get_tile_at(converted_data["you"]["body"][-1]['x'],
+                                 converted_data["you"]["body"][-1]['y'])
+        return navigate(converted_data, board.get_path_board(), tail)
     return shortest_path
 
 
