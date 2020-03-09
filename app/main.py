@@ -236,31 +236,10 @@ def target_selection(converted_data, board):
     '''
     possible_futures = heads_up(converted_data, board)
     possible_futures = chasing_tail(possible_futures, converted_data, board)
-
-    # Debug for seeing the choices the snake is making. Leaving it in for now
-    # 888888888888888888888888888888888888888888888888888888888888888888
-    i = 0
-    for tile_lists in possible_futures:
-        print("**the view from here**" + str(i))
-        tests.print_look_from_object(tile_lists, converted_data, board)
-        i = i + 1
-    # 888888888888888888888888888888888888888888888888888888888888888888
-
     options = buffet(possible_futures, converted_data, board)
-    # # build list of all the routes to food from the tiles adjcent to our head
-    # # and their coresponding weights
-    # food_tiles = board.get_food_tiles()
-    # options = []
-    # for future in possible_futures:
-    #     for food in food_tiles:
-    #         if food in future[0]:
-    #             target = [food.get_x(), food.get_y()]
-    #             path = navigate(converted_data, board.get_path_board(), target)
-    #             weight = [sum_path_weight(path, board.get_path_board()), path]
-    #             options.append(weight)
 
-    # if list of routes to food not empty
     shortest_path = "Unassigned"
+
     if len(options) > 0:
         shortest_path = shortest_option(options)
     # No safe food so path to tail

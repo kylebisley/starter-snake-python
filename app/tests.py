@@ -62,3 +62,12 @@ def print_look_from_object(tileLists, converted_data, board_object):
             print str(y) + " ",
         print ""
     print ""
+
+    # # Debug for seeing the choices the snake is making. Leaving it in for now
+    # # 888888888888888888888888888888888888888888888888888888888888888888
+    # i = 0
+    # for tile_lists in possible_futures:
+    #     print("**the view from here**" + str(i))
+    #     tests.print_look_from_object(tile_lists, converted_data, board)
+    #     i = i + 1
+    # # 888888888888888888888888888888888888888888888888888888888888888888
