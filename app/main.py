@@ -272,8 +272,8 @@ def target_selection(converted_data, board):
                     weight_path = option
     # if no food to path to then path to tail
     if (len(options) == 0) or (weight_path == "Unassigned"):
-        tail = board.get_tile_at(converted_data["you"]["body"][-1]['x'],
-                                 converted_data["you"]["body"][-1]['y'])
+        tail = [converted_data["you"]["body"][-1]['x'],
+                converted_data["you"]["body"][-1]['y']]
         return navigate(converted_data, board.get_path_board(), tail)
 
     return weight_path[1]
