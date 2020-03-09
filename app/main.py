@@ -72,7 +72,7 @@ def move():
     board_object.print_int_board()
     board_object.print_dima_board()
     # debug look_from_here
-    tests.print_look_from(board_object, converted_data)
+    # tests.print_look_from(board_object, converted_data)
 
     # switch from modifying board state to interpreting it in pathing
     pathable_board_obj = board_object.get_path_board()
@@ -218,9 +218,9 @@ def heads_up(converted_data, board):
     possible_futures = []
     for neighbour in neighbours:
         possible_futures.append(board.look_from_here(neighbour, converted_data))
-    # print("***************************************")
-    # print(possible_futures)
-    # print("***************************************")
+    print("***************************************")
+    print(possible_futures)
+    print("***************************************")
     return possible_futures
 
 
@@ -237,6 +237,7 @@ def target_selection(possible_futures, converted_data, board):
         path(list): path to target
     '''
     raise NotImplementedError
+
 
 def chasing_tail(possible_futures, converted_data, board):
     '''
