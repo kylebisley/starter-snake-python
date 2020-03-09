@@ -219,7 +219,7 @@ def heads_up(converted_data, board):
     for neighbour in neighbours:
         possible_futures.append(board.look_from_here(neighbour, converted_data))
     print("***************************************")
-    print(possible_futures)
+    print(len(possible_futures))
     print("***************************************")
     return possible_futures
 
