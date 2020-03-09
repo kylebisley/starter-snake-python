@@ -270,16 +270,46 @@ def target_selection(converted_data, board):
                 # Line below too long. Broken into 3 pieces for clarity
                 if (option[0] < weight_path[0]) and (option[0] != 0):
                     weight_path = option
+
     # if no food to path to then path to tail
     if (len(options) == 0) or (weight_path == "Unassigned"):
-        x = converted_data["you"]["body"][-1]['x']
-        y = converted_data["you"]["body"][-1]['y']
-        board.get_tile_at(x, y).set_cost(111) # tail must be pathable for a* I AM THE KLUDGE
-        path_to_tail = navigate(converted_data, board.get_path_board(), [x, y])
-        print (path_to_tail)
-        return path_to_tail
+        # x = converted_data["you"]["body"][-1]['x']
+        # y = converted_data["you"]["body"][-1]['y']
+        # print("No food. Must eat tail!")
+        # # save tile then fix it as you leave
+        # tail_tile_value = board.get_tile_at(x, y).get_cost()
+        # board.get_tile_at(x, y).set_cost(111)  # tail must be pathable for a* I AM THE KLUDGE
+        # path_to_tail = navigate(converted_data, board.get_path_board(), [x, y])
+        # # replace tale tile
+        # board.get_tile_at(x, y).set_cost(tail_tile_value)
+
+        return path_to_tail(converted_data, board)
 
     return weight_path[1]
+
+
+def path_to_tail(converted_data, board):
+    '''
+    Returns A* path to tail including tomfoolery around tail weight. 
+        Args:
+        converted_data (dict): python readable json
+        board(board object): representation of board
+    Returns:
+        path(list): path to tail
+    '''
+    x = converted_data["you"]["body"][-1]['x']
+    y = converted_data["you"]["body"][-1]['y']
+
+    print("No food. Must eat tail!")
+
+    # save tile value
+    tail_tile_value = board.get_tile_at(x, y).get_cost()
+    board.get_tile_at(x, y).set_cost(111)  # tail must be pathable for A*
+    path_to_tail = navigate(converted_data, board.get_path_board(), [x, y])
+    # replace tale value
+    board.get_tile_at(x, y).set_cost(tail_tile_value)
+
+    return path_to_tail
 
 
 def chasing_tail(possible_futures, converted_data, board):
