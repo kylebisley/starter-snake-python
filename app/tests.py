@@ -31,7 +31,7 @@ def print_look_from(board_object, converted_data):
     print ""
 
 
-def print_look_from_object(tileLists, converted_data):
+def print_look_from_object(tileLists, converted_data, board_object):
     '''
     prints the output of look_from_here_object
     "0" means pathable, "X" means unpathable

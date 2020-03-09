@@ -239,7 +239,7 @@ def target_selection(converted_data, board):
     i = 0
     for tile_lists in possible_futures:
         print("**the view from here**" + str(i))
-        tests.print_look_from_object(tile_lists, converted_data)
+        tests.print_look_from_object(tile_lists, converted_data, board)
         i = i + 1
     food_tiles = board.get_food_tiles()
     options = []
