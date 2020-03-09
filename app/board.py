@@ -173,7 +173,6 @@ class Board:
         head = j_data["you"]["body"][0]
         # if we path from anywhere other than our head temporarily change cost
         if not ((the_tile.get_x() == head["x"]) and (the_tile.get_y() == head["y"])):
-            print("****Tile is not head***")
             tile_is_head = False
             self.get_tile_at(head["x"], head["y"]).set_cost(-1)
 
