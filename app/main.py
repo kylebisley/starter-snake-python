@@ -252,15 +252,24 @@ def chasing_tail(possible_futures, converted_data, board):
     '''
     tail = board.get_tile_at(converted_data["you"]["body"][-1]['x'],
                              converted_data["you"]["body"][-1]['y'])
-    for future in possible_futures:
-        possible = future[0]
-        walls = future[1]
-        if tail in possible:
-            print("tail found in possible")
+    for i in xrange(len(possible_futures) - 1, -1, -1):
+        possible = possible_futures[i][0]
+        walls = possible_futures[i][1]
+        if (tail not in possible) and (tail not in walls):
+            del possible_futures[i]
             continue
-        if tail in walls:
-            print("tail found in walls")
-            continue
+    print(len(possible_futures))
+    
+    # for future in possible_futures:
+    #     possible = future[0]
+    #     walls = future[1]
+    #     print(finding)
+    #     if tail in possible:
+    #         print("tail found in possible")
+    #         continue
+    #     if tail in walls:
+    #         print("tail found in walls")
+    #         continue
 
 
 # Expose WSGI app (so gunicorn can find it)
