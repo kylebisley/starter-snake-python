@@ -64,21 +64,16 @@ def move():
     dima_board = parse_board.board_to_array(converted_data)
     pathable_board = parse_board.int_board(converted_data)
     board_object = board.Board(converted_data, pathable_board, dima_board)
+
     # Json data is printed for debug help
     print(json.dumps(data))
-    # debug display boards
-    # parse_board.display(dima_board, pathable_board)
+
     # debug board object boards
     board_object.print_int_board()
     board_object.print_dima_board()
-    # debug look_from_here
-    tests.print_look_from(board_object, converted_data)
 
-    # switch from modifying board state to interpreting it in pathing
-    pathable_board_obj = board_object.get_path_board()
-    direction = cardinal(converted_data,
-                         get_min_path_to_food(converted_data,
-                                              pathable_board_obj))
+    direction = cardinal(converted_data, target_selection(converted_data,
+                                                          board_object))
 
     response = {"move": direction, "shout": board_object.food_string()}
     return response
@@ -95,36 +90,6 @@ def end():
     print(json.dumps(data))
 
     return end_response()
-
-
-def get_min_path_to_food(converted_data, path_board):
-    """
-    Checks for lightest path to food.
-    Args:
-        converted_data (dict): converted python representation of current game
-                                snapshot
-        path_board (array.py): integer representation of board
-    Returns:
-        shortest_path (list): shortest path to food
-        OR
-        shortest_path (str): "Unassigned" when it can't path to food
-    """
-    shortest_path = "Unassigned"
-    for food in converted_data["board"]["food"]:
-        x = food['x']
-        y = food['y']
-        new_path = navigate(converted_data, path_board, [x, y])
-        if shortest_path == "Unassigned" and (len(new_path) != 0):
-            shortest_path = new_path
-        elif shortest_path != "Unassigned":
-            # Line below too long. Broken into 3 pieces for clarity
-            if (sum_path_weight(new_path, path_board) <
-                    sum_path_weight(shortest_path, path_board)
-                    and (len(new_path) != 0)):
-                shortest_path = new_path
-
-        sum_path_weight(new_path, path_board)
-    return shortest_path
 
 
 def sum_path_weight(path, path_board):
@@ -191,6 +156,159 @@ def cardinal(converted_data, path):
         else:
             direction = 'left'
     return direction
+
+
+def heads_up(converted_data, board):
+    '''
+    Creates list of look_from_here objects based on targets pathable
+    neighbours that are not our head
+    Args:
+        converted_data (dict): python readable json
+        board(board object): representation of board
+    Returns:
+        possible_futures(list): collection of objects returned from
+        look_from_here
+    '''
+    head = board.get_tile_at(converted_data["you"]["body"][0]['x'],
+                             converted_data["you"]["body"][0]['y'])
+    neighbours = board.find_neighbours(head)
+
+    # remove head and unpathable neighbours from our list stack
+    for i in xrange(len(neighbours) - 1, -1, -1):
+        if ((neighbours[i].get_cost() < 1 or
+             neighbours[i].get_cost() == 10)):
+            del neighbours[i]
+
+    possible_futures = []
+    for neighbour in neighbours:
+        possible_futures.append(board.look_from_here(neighbour,
+                                                     converted_data))
+    return possible_futures
+
+
+def target_selection(converted_data, board):
+    '''
+    Can eventually be call list for logic to deal with oh shit situations.
+    Returns a path to closest food or tail given possible_futures.
+    Args:
+        converted_data (dict): python readable json
+        board(board object): representation of board
+    Variables: (explination of some variables that might not be clear)
+        possible_futures (list): [[][],] collection of tile_lists
+        tile_list (list):[][] collection of pathable tiles, 
+                              collection of walls around them
+        options (list):[][] collection of weights of paths and paths to food
+        weigth_path (list):[][] same as options
+
+    Returns:
+        path(list): path to target
+    '''
+    possible_futures = heads_up(converted_data, board)
+    possible_futures = chasing_tail(possible_futures, converted_data, board)
+    options = buffet(possible_futures, converted_data, board)
+
+    shortest_path = "Unassigned"
+
+    if len(options) > 0:
+        shortest_path = shortest_option(options)
+    # No safe food so path to tail
+    if (shortest_path == "Unassigned"):
+        return path_to_tail(converted_data, board)
+
+    return shortest_path[1]
+
+
+def buffet(possible_futures, converted_data, board):
+    '''
+    Returns a list of all routes to food from tiles adjcent to our head
+    and their weights
+    Args:
+        possible_futures (list): [[][],] collection of tile_lists
+        tile_list (list):[][] collection of pathable tiles,
+                              collection of walls around them
+    Returns:
+        options (list):[][] collection of weights of paths and paths to food
+    '''
+    food_tiles = board.get_food_tiles()
+    options = []
+    for future in possible_futures:
+        for food in food_tiles:
+            if food in future[0]:
+                target = [food.get_x(), food.get_y()]
+                path = navigate(converted_data, board.get_path_board(), target)
+                weight = [sum_path_weight(path, board.get_path_board()), path]
+                options.append(weight)
+    return options
+
+
+def shortest_option(options):
+    '''
+    Takes in list of paired weights and paths returns shortest.
+    Args:
+        options(list):[[weight][path],]
+    Returns:
+        shortest(list):[][]
+        or
+        shortest(string): "Unassigned" if something went wrong
+    '''
+    shortest = "Unassigned"
+    # option[0] is weight of path found in option[1]
+    # sifting for the shortest path to food
+    for option in options:
+        if shortest == "Unassigned":
+            shortest = option
+        elif shortest != "Unassigned":
+            if (option[0] < shortest[0]) and (option[0] != 0):
+                shortest = option
+    return shortest
+
+
+def path_to_tail(converted_data, board):
+    '''
+    Returns A* path to tail including tomfoolery around tail weight.
+    NEEDS better fix to not eat tail if there is another safe option.
+        Args:
+        converted_data (dict): python readable json
+        board(board object): representation of board
+    Returns:
+        path(list): path to tail
+    '''
+    x = converted_data["you"]["body"][-1]['x']
+    y = converted_data["you"]["body"][-1]['y']
+
+    print("No food. Must eat tail!")
+
+    # save tile value
+    tail_tile_value = board.get_tile_at(x, y).get_cost()
+    board.get_tile_at(x, y).set_cost(111)  # tail must be pathable for A*
+    path_to_tail = navigate(converted_data, board.get_path_board(), [x, y])
+    # replace tale value
+    board.get_tile_at(x, y).set_cost(tail_tile_value)
+
+    return path_to_tail
+
+
+def chasing_tail(possible_futures, converted_data, board):
+    '''
+    Prunes possible_futures without out tail in them.
+    Args:
+        possible_futures(list): collection of objects returned from
+            look_from_here
+        converted_data (dict): python readable json
+        board(board object): representation of board
+    Returns:
+        path(list): path to target
+    '''
+    tail = board.get_tile_at(converted_data["you"]["body"][-1]['x'],
+                             converted_data["you"]["body"][-1]['y'])
+    for i in xrange(len(possible_futures) - 1, -1, -1):
+        possible = possible_futures[i][0]
+        walls = possible_futures[i][1]
+        if (tail not in possible) and (tail not in walls):
+            del possible_futures[i]
+            continue
+    print(len(possible_futures))
+    return possible_futures
 
 
 # Expose WSGI app (so gunicorn can find it)
