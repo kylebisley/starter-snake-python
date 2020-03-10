@@ -212,7 +212,7 @@ def target_selection(converted_data, board):
     if len(options) > 0:
         shortest_path = shortest_option(options)
     # No safe food so path to tail
-    if (len(options) == 0) or (shortest_path == "Unassigned"):
+    if (shortest_path == "Unassigned"):
         return path_to_tail(converted_data, board)
 
     return shortest_path[1]
