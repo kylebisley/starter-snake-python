@@ -62,3 +62,33 @@
 #
 #
 #
+
+
+# def get_min_path_to_food(converted_data, path_board):
+#     """
+#     Checks for lightest path to food.
+#     Args:
+#         converted_data (dict): converted python representation of current game
+#                                 snapshot
+#         path_board (array.py): integer representation of board
+#     Returns:
+#         shortest_path (list): shortest path to food
+#         OR
+#         shortest_path (str): "Unassigned" when it can't path to food
+#     """
+#     shortest_path = "Unassigned"
+#     for food in converted_data["board"]["food"]:
+#         x = food['x']
+#         y = food['y']
+#         new_path = navigate(converted_data, path_board, [x, y])
+#         if shortest_path == "Unassigned" and (len(new_path) != 0):
+#             shortest_path = new_path
+#         elif shortest_path != "Unassigned":
+#             # Line below too long. Broken into 3 pieces for clarity
+#             if (sum_path_weight(new_path, path_board) <
+#                     sum_path_weight(shortest_path, path_board)
+#                     and (len(new_path) != 0)):
+#                 shortest_path = new_path
+# # --------------------------------------------------------------------------------------------
+#         sum_path_weight(new_path, path_board) # fairly sure this can be removed in a last pass
+#     return shortest_path

@@ -2,20 +2,21 @@ import tile
 import board as b
 
 SNAKE = -1
-WALL_SPACE = 50
-OPEN_SPACE = 25
-SMALLER_SNAKE_FUTURE_HEAD = 15
+WALL_SPACE = 26
+OPEN_SPACE = 15
+SMALLER_SNAKE_FUTURE_HEAD = 11
 OUR_HEAD = 10
 LARGER_SNAKE_FUTURE_HEAD = 99
+PATHABLE_TAIL = 12
 
 
 def int_board(converted_data):
     """
     Call list of functions that modify and build the path_board
-    Args: 
+    Args:
         converted_data (dict): Converted json
 
-    Returns: 
+    Returns:
         A* friendly version of the game-board
     """
     # make path_board
@@ -26,7 +27,79 @@ def int_board(converted_data):
     bully_pathing(converted_data, path_board)
     coward_pathing(converted_data, path_board)
 
+    # after snakes fully deployed update board with projected tail positions
+    if (converted_data["turn"] > 2):
+        update_tails(converted_data, path_board)
     return path_board
+
+
+def update_tails(converted_data, path_board):
+    """
+    Reads shout object for last turns moves and updates board to reflect if
+    any snake heads occupy a tile that was previously occupied by food
+
+    Args:
+        converted_data (dict): python readable version of json
+        path_board (list): int representation of the board for A*
+
+    Returns:
+        Nothing
+
+    """
+    food = converted_data["you"]["shout"].split("/")
+    food = [str(x) for x in food]
+    food.pop()  # kludge removes empty last element caused by parsing
+
+    growers = []
+    if len(food) > 0:
+        for location in food:
+            # get x,y with unicode converted
+            xy = location.split(",")
+            x = int(xy[0])
+            y = int(xy[1])
+
+            # if other snake or our head
+            if (int(path_board[y][x]) <= 0) or (int(path_board[y][x]) == 10):
+                snake_id = snake_id_from_XY(x, y, converted_data)
+                snake_id.encode("utf-8")  # fixes unicode issue with parser
+                growers.append(snake_id)
+    remove_hungry_tails(path_board, growers, converted_data)
+
+
+def remove_hungry_tails(path_board, growers, converted_data):
+    """
+    Edits the path_board to reflect if a snake ate this turn or not
+
+    Args:
+        converted_data (dict): python readable version of json
+        path_board (list): int representation of the board for A*
+        growers (list): string list of snake_ids whos tail will not move next
+        turn
+    Returns:
+        Modifys path_board by reference.
+    """
+    for snake in converted_data["board"]["snakes"]:
+        if snake["id"] not in growers:
+            x = snake["body"][-1]["x"]
+            y = snake["body"][-1]["y"]
+            path_board[y][x] = PATHABLE_TAIL
+
+
+def snake_id_from_XY(x, y, converted_data):
+    """
+    Returns snake_id from x, y integers.
+
+    Args:
+        x (int): x value of tile
+        y (int): y value of tile
+        converted_data (dict): python readable version of json
+
+    Returns:
+        snake["id"](unicode string): snake id
+    """
+    for snake in converted_data["board"]["snakes"]:
+        if (x == snake["body"][0]["x"]) and (y == snake["body"][0]["y"]):
+            return snake["id"]
 
 
 def set_snake_values(converted_data, board):
@@ -122,17 +195,18 @@ def bully_pathing(converted_data, path_board):
         name = snake["id"]
         for segment in snake["body"]:
             if ((str(name) != str(snake_id))
-                    and (len(snake["body"]) < len(converted_data["you"]["body"]))):
+                    and (len(snake["body"]) <
+                         len(converted_data["you"]["body"]))):
 
                 if segment == snake["body"][0]:
                     x = segment['x']
                     y = segment['y']
-                    if converted_data['board']['width'] > x > 0:
+                    if (converted_data['board']['width'] - 1) > x > 0:
                         if path_board[y][x + 1] != -1:
                             path_board[y][x+1] = SMALLER_SNAKE_FUTURE_HEAD
                         if path_board[y][x - 1] != -1:
                             path_board[y][x-1] = SMALLER_SNAKE_FUTURE_HEAD
-                    if converted_data['board']['width'] > y > 0:
+                    if (converted_data['board']['width'] - 1) > y > 0:
                         if -1 != path_board[y + 1][x]:
                             path_board[y+1][x] = SMALLER_SNAKE_FUTURE_HEAD
                         if path_board[y - 1][x] != -1:
@@ -160,7 +234,8 @@ def coward_pathing(converted_data, path_board):
         name = snake["id"]
         for segment in snake["body"]:
             if ((str(name) != str(me)) and
-                    (len(snake["body"]) >= len(converted_data["you"]["body"]))):
+                    (len(snake["body"]) >=
+                        len(converted_data["you"]["body"]))):
                 if segment == snake["body"][0]:
                     x = segment['x']
                     y = segment['y']
@@ -230,6 +305,7 @@ def display(converted_board, integer_board):
         for y in x:
             print(str(y) + " "),
         print()
+
 
 
 def turnedAround(walls_around, converted_data):
@@ -310,3 +386,4 @@ def look_from_here(the_board, the_tile, j_data):
         the_board.get_tile_at(head["x"], head["y"]).set_cost(head_cost)
     
     return [pathable_tiles, blocking_tiles]
+
