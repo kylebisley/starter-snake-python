@@ -260,7 +260,7 @@ def nacho(converted_data, board):
         for tile in adjacents:
             neighbours_plate.append(tile) # add all the parts of a list I believe there is a better function for this in the API
     print("neighbours_plate after adjacents 1")
-    print(len(adjacents))
+    print(len(neighbours_plate))
     for tile in neighbours_plate:
         adjacents = board.find_neighbours(tile)
         for once_removed in adjacents:
