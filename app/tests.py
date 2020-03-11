@@ -75,17 +75,18 @@ def print_look_from_object(tileLists, converted_data, board_object):
 
 def print_other_plates(tileLists, converted_data):
 
-    board_width = converted_data["board"]["width"]
-    board_height = converted_data["board"]["height"]
-    poop = [["-" for x in range(board_width)] for y in range(board_height)]
+    look_board_width = converted_data["board"]["width"]
+    look_board_height = converted_data["board"]["height"]
+    look_board = [["-" for x in range(look_board_width)] for y in range(look_board_height)]
 
-    print "Other plates"
     for tile in tileLists:
         x = tile.get_x()
         y = tile.get_y()
-        poop[y][x] = 'P'
+        look_board[y][x] = 'P'
 
-    for x in poop:
+
+    print "look_from output"
+    for x in look_board:
         for y in x:
             print str(y) + " ",
         print ""
