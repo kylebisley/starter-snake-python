@@ -239,16 +239,35 @@ def coward_pathing(converted_data, path_board):
                 if segment == snake["body"][0]:
                     x = segment['x']
                     y = segment['y']
-                    if converted_data['board']['width']-1 > x >= 0:
+                    # x axis
+                    if converted_data['board']['width'] - 1 > x >= 0:
+                        # right
                         if path_board[y][x + 1] != -1:
-                            path_board[y][x+1] = LARGER_SNAKE_FUTURE_HEAD
+                            path_board[y][x + 1] = LARGER_SNAKE_FUTURE_HEAD
+                            if converted_data['board']['width'] - 2 > x >= 1:
+                                if path_board[y][x + 2] != -1:
+                                    path_board[y][x + 2] = LARGER_SNAKE_FUTURE_HEAD * 0.696969
+                        # left
                         if path_board[y][x - 1] != -1:
-                            path_board[y][x-1] = LARGER_SNAKE_FUTURE_HEAD
-                    if converted_data['board']['height']-1 > y >= 0:
+                            path_board[y][x - 1] = LARGER_SNAKE_FUTURE_HEAD
+                            if converted_data['board']['width'] - 2 > x >= 1:
+                                if path_board[y][x - 2] != -1:
+                                    path_board[y][x - 2] = LARGER_SNAKE_FUTURE_HEAD * 0.696969
+
+                    # y axis
+                    if converted_data['board']['height'] - 1 > y >= 0:
+                        # down
                         if path_board[y + 1][x] != -1:
-                            path_board[y+1][x] = LARGER_SNAKE_FUTURE_HEAD
+                            path_board[y + 1][x] = LARGER_SNAKE_FUTURE_HEAD
+                            if converted_data['board']['height'] - 2 > y >= 1:
+                                if path_board[y + 2][x] != -1:
+                                    path_board[y + 2][x] = LARGER_SNAKE_FUTURE_HEAD * 0.696969
+                        # up
                         if path_board[y - 1][x] != -1:
-                            path_board[y-1][x] = LARGER_SNAKE_FUTURE_HEAD
+                            path_board[y - 1][x] = LARGER_SNAKE_FUTURE_HEAD
+                            if converted_data['board']['height'] - 2 > y >= 1:
+                                if path_board[y - 2][x] != -1:
+                                    path_board[y - 2][x] = LARGER_SNAKE_FUTURE_HEAD * 0.696969
 
 
 def board_to_array(data_dump):
