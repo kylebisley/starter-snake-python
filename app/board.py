@@ -235,20 +235,19 @@ class Board:
         print("number of bigger snakes")
         print(len(big_snakes_heads))
         # if big snakes_heads > 0
-        if (len(big_snakes_heads) > 0):
-            neighbours_plate = []
-            for head in big_snakes_heads:
-                adjacents = self.find_neighbours(head)
-                for tile in adjacents:
-                    neighbours_plate.append(tile)  # add all the parts of a list I believe there is a better function for this in the API
-            print("neighbours_plate after adjacents 1")
-            print(len(neighbours_plate))
+        neighbours_plate = []
+        for head in big_snakes_heads:
+            adjacents = self.find_neighbours(head)
+            for tile in adjacents:
+                neighbours_plate.append(tile)  # add all the parts of a list I believe there is a better function for this in the API
+        print("neighbours_plate after adjacents 1")
+        print(len(neighbours_plate))
 
-            for tile in neighbours_plate:
-                adjacents = self.find_neighbours(tile)
-                for once_removed in adjacents:
-                    # if once_removed not in neighbours_plate:
-                    neighbours_plate.append(once_removed)
-            print("neighbours_plate after adjacents 2")
-            print(len(neighbours_plate))
-            tests.print_other_plates(neighbours_plate, converted_data)
+        for tile in neighbours_plate:
+            adjacents = self.find_neighbours(tile)
+            for once_removed in adjacents:
+                # if once_removed not in neighbours_plate:
+                neighbours_plate.append(once_removed)
+        print("neighbours_plate after adjacents 2")
+        print(len(neighbours_plate))
+        tests.print_other_plates(neighbours_plate, converted_data)
