@@ -208,13 +208,13 @@ def bully_pathing(converted_data, path_board):
                             path_board[y][x+1] = SMALLER_SNAKE_FUTURE_HEAD
                             if converted_data['board']['width'] - 2 > x >= 1:
                                 if path_board[y][x + 2] != -1:
-                                    path_board[y][x + 2] = round(SMALLER_SNAKE_FUTURE_HEAD * 0.696969, 0)
+                                    path_board[y][x + 2] = int(round(SMALLER_SNAKE_FUTURE_HEAD * 0.696969, 0))
                         # RIGHT
                         if path_board[y][x - 1] != -1:
                             path_board[y][x-1] = SMALLER_SNAKE_FUTURE_HEAD
                             if converted_data['board']['width'] - 2 > x >= 1:
                                 if path_board[y][x - 2] != -1:
-                                    path_board[y][x - 2] = round(SMALLER_SNAKE_FUTURE_HEAD * 0.696969, 0)
+                                    path_board[y][x - 2] = int(round(SMALLER_SNAKE_FUTURE_HEAD * 0.696969, 0))
                     # Y axis
                     if (converted_data['board']['width'] - 1) > y > 0:
                         # DOWN
@@ -222,13 +222,13 @@ def bully_pathing(converted_data, path_board):
                             path_board[y+1][x] = SMALLER_SNAKE_FUTURE_HEAD
                             if converted_data['board']['height'] - 2 > y >= 1:
                                 if path_board[y + 2][x] != -1:
-                                    path_board[y + 2][x] = round(SMALLER_SNAKE_FUTURE_HEAD * 0.696969, 0)
+                                    path_board[y + 2][x] = int(round(SMALLER_SNAKE_FUTURE_HEAD * 0.696969, 0))
                         # UP
                         if path_board[y - 1][x] != -1:
                             path_board[y-1][x] = SMALLER_SNAKE_FUTURE_HEAD
                             if converted_data['board']['height'] - 2 > y >= 1:
                                 if path_board[y - 2][x] != -1:
-                                    path_board[y - 2][x] = round(SMALLER_SNAKE_FUTURE_HEAD * 0.696969, 0)
+                                    path_board[y - 2][x] = int(round(SMALLER_SNAKE_FUTURE_HEAD * 0.696969, 0))
 
 
 def coward_pathing(converted_data, path_board):
@@ -264,13 +264,13 @@ def coward_pathing(converted_data, path_board):
                             path_board[y][x + 1] = LARGER_SNAKE_FUTURE_HEAD
                             if converted_data['board']['width'] - 2 > x >= 1:
                                 if path_board[y][x + 2] != -1:
-                                    path_board[y][x + 2] = round(LARGER_SNAKE_FUTURE_HEAD * 0.696969, 0)
+                                    path_board[y][x + 2] = int(round(LARGER_SNAKE_FUTURE_HEAD * 0.696969, 0))
                         # left
                         if path_board[y][x - 1] != -1:
                             path_board[y][x - 1] = LARGER_SNAKE_FUTURE_HEAD
                             if converted_data['board']['width'] - 2 > x >= 1:
                                 if path_board[y][x - 2] != -1:
-                                    path_board[y][x - 2] = round(LARGER_SNAKE_FUTURE_HEAD * 0.696969, 0)
+                                    path_board[y][x - 2] = int(round(LARGER_SNAKE_FUTURE_HEAD * 0.696969, 0))
 
                     # y axis
                     if converted_data['board']['height'] - 1 > y >= 0:
@@ -279,13 +279,13 @@ def coward_pathing(converted_data, path_board):
                             path_board[y + 1][x] = LARGER_SNAKE_FUTURE_HEAD
                             if converted_data['board']['height'] - 2 > y >= 1:
                                 if path_board[y + 2][x] != -1:
-                                    path_board[y + 2][x] = round(LARGER_SNAKE_FUTURE_HEAD * 0.696969, 0)
+                                    path_board[y + 2][x] = int(round(LARGER_SNAKE_FUTURE_HEAD * 0.696969, 0))
                         # up
                         if path_board[y - 1][x] != -1:
                             path_board[y - 1][x] = LARGER_SNAKE_FUTURE_HEAD
                             if converted_data['board']['height'] - 2 > y >= 1:
                                 if path_board[y - 2][x] != -1:
-                                    path_board[y - 2][x] = round(LARGER_SNAKE_FUTURE_HEAD * 0.696969, 0)
+                                    path_board[y - 2][x] = int(round(LARGER_SNAKE_FUTURE_HEAD * 0.696969, 0))
 
 
 def board_to_array(data_dump):
