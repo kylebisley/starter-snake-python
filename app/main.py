@@ -252,14 +252,19 @@ def nacho(converted_data, board):
             y = snake["body"][0]["y"]
 
             big_snakes_heads.append(board.get_tile_at(x, y))
-    tests.print_other_plates(big_snakes_heads, converted_data, board)
 
     neighbours_plate = []
     for head in big_snakes_heads:
         temp = board.get_neighbours(head)
         for each in temp:
             neighbours_plate.append(each)
-    
+
+    for plate in neighbours_plate:
+        temp = board.get_neighbours(plate)
+        for each in temp:
+            if each not in neighbours_plate:
+                neighbours_plate.append(each)
+    tests.print_other_plates(big_snakes_heads, converted_data, board)
 
 
 def shortest_option(options):
