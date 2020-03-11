@@ -252,18 +252,19 @@ def nacho(converted_data, board):
             x = snake["body"][0]["x"]
             y = snake["body"][0]["y"]
             big_snakes_heads.append(board.get_tile_at(x, y))
-    # if big snakes_heads > 0 
+            print("head at" + str(x) + str(y))
+    # if big snakes_heads > 0
     neighbours_plate = []
     for head in big_snakes_heads:
-        temp = board.find_neighbours(head)
-        for each in temp:
-            neighbours_plate.append(each)
+        adjacents = board.find_neighbours(head)
+        for tile in adjacents:
+            neighbours_plate.append(tile) # add all the parts of a list I believe there is a better function for this in the API
 
-    for plate in neighbours_plate:
-        temp = board.find_neighbours(plate)
-        for each in temp:
-            if each not in neighbours_plate:
-                neighbours_plate.append(each)
+    for tile in neighbours_plate:
+        adjacents = board.find_neighbours(tile)
+        for once_removed in adjacents:
+            if once_removed not in neighbours_plate:
+                neighbours_plate.append(once_removed)
     tests.print_other_plates(neighbours_plate, converted_data, board)
 
 

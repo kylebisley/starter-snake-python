@@ -55,7 +55,7 @@ def print_look_from_object(tileLists, converted_data, board_object):
         x = tile.get_x()
         y = tile.get_y()
         look_board[y][x] = 'X'
-    
+
     print "look_from output"
     for x in look_board:
         for y in x:
@@ -75,7 +75,7 @@ def print_look_from_object(tileLists, converted_data, board_object):
 
 def print_other_plates(tileLists, converted_data, board_object):
     '''
-    prints the output of look_from_here_object
+    prints the locations of tiles
     "0" means pathable, "X" means unpathable
     and "-" means unreachable, best used with dima board for info like food
     locations and our head location
@@ -88,12 +88,12 @@ def print_other_plates(tileLists, converted_data, board_object):
     board_height = converted_data["board"]["height"]
     board = [["-" for x in range(board_width)] for y in range(board_height)]
 
+    print "Other plates"
     for tile in tileLists:
         x = tile.get_x()
         y = tile.get_y()
         board[y][x] = 'P'
 
-    print "Other plates"
     for x in board:
         for y in x:
             print str(y) + " ",
