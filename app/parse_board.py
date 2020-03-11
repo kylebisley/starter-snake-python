@@ -201,16 +201,34 @@ def bully_pathing(converted_data, path_board):
                 if segment == snake["body"][0]:
                     x = segment['x']
                     y = segment['y']
+
                     if (converted_data['board']['width'] - 1) > x > 0:
+                        # LEFT 
                         if path_board[y][x + 1] != -1:
                             path_board[y][x+1] = SMALLER_SNAKE_FUTURE_HEAD
+                            if converted_data['board']['width'] - 2 > x >= 1:
+                                if path_board[y][x + 2] != -1:
+                                    path_board[y][x + 2] = SMALLER_SNAKE_FUTURE_HEAD * 0.696969
+                        # RIGHT
                         if path_board[y][x - 1] != -1:
                             path_board[y][x-1] = SMALLER_SNAKE_FUTURE_HEAD
+                            if converted_data['board']['width'] - 2 > x >= 1:
+                                if path_board[y][x - 2] != -1:
+                                    path_board[y][x - 2] = SMALLER_SNAKE_FUTURE_HEAD * 0.696969
+                    
                     if (converted_data['board']['width'] - 1) > y > 0:
+                        # DOWN
                         if -1 != path_board[y + 1][x]:
                             path_board[y+1][x] = SMALLER_SNAKE_FUTURE_HEAD
+                            if converted_data['board']['height'] - 2 > y >= 1:
+                                if path_board[y + 2][x] != -1:
+                                    path_board[y + 2][x] = SMALLER_SNAKE_FUTURE_HEAD * 0.696969
+                        # UP
                         if path_board[y - 1][x] != -1:
                             path_board[y-1][x] = SMALLER_SNAKE_FUTURE_HEAD
+                            if converted_data['board']['height'] - 2 > y >= 1:
+                                if path_board[y - 2][x] != -1:
+                                    path_board[y - 2][x] = SMALLER_SNAKE_FUTURE_HEAD * 0.696969
 
 
 def coward_pathing(converted_data, path_board):
