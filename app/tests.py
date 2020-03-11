@@ -73,16 +73,7 @@ def print_look_from_object(tileLists, converted_data, board_object):
     # # 888888888888888888888888888888888888888888888888888888888888888888
 
 
-def print_other_plates(tileLists, converted_data, board_object):
-    '''
-    prints the locations of tiles
-    "0" means pathable, "X" means unpathable
-    and "-" means unreachable, best used with dima board for info like food
-    locations and our head location
-    Arguments:
-        board_object (Board): the full board object
-        converted_data (dict): Converted JSON data
-    '''
+def print_other_plates(tileLists, converted_data):
 
     board_width = converted_data["board"]["width"]
     board_height = converted_data["board"]["height"]
