@@ -202,45 +202,31 @@ def bully_pathing(converted_data, path_board):
                     x = segment['x']
                     y = segment['y']
                     # X axis
-                    if (converted_data['board']['width'] - 1) > x > 0:
-                        # LEFT
-                        if path_board[y][x + 1] != -1:
-                            path_board[y][x+1] = SMALLER_SNAKE_FUTURE_HEAD
-                            if converted_data['board']['width'] - 2 > x >= 1:
-                                if path_board[y][x + 2] != -1:
-                                    path_board[y][x + 2] = int(round(SMALLER_SNAKE_FUTURE_HEAD * 0.696969, 0))
-                                    if converted_data['board']['width'] - 3 > x >= 2:
-                                        if path_board[y][x + 3] != -1:
-                                            path_board[y][x + 3] = int(round(SMALLER_SNAKE_FUTURE_HEAD * 0.454545, 0))
-                        # RIGHT
-                        if path_board[y][x - 1] != -1:
-                            path_board[y][x-1] = SMALLER_SNAKE_FUTURE_HEAD
-                            if converted_data['board']['width'] - 2 > x >= 1:
-                                if path_board[y][x - 2] != -1:
-                                    path_board[y][x - 2] = int(round(SMALLER_SNAKE_FUTURE_HEAD * 0.696969, 0))
-                                    if converted_data['board']['width'] - 3 > x >= 2:
-                                        if path_board[y][x - 3] != -1:
-                                            path_board[y][x - 3] = int(round(SMALLER_SNAKE_FUTURE_HEAD * 0.454545, 0))
-                    # Y axis
-                    if (converted_data['board']['width'] - 1) > y > 0:
-                        # DOWN
-                        if -1 != path_board[y + 1][x]:
-                            path_board[y+1][x] = SMALLER_SNAKE_FUTURE_HEAD
-                            if converted_data['board']['height'] - 2 > y >= 1:
-                                if path_board[y + 2][x] != -1:
-                                    path_board[y + 2][x] = int(round(SMALLER_SNAKE_FUTURE_HEAD * 0.696969, 0))
-                                    if converted_data['board']['height'] - 3 > y >= 2:
-                                        if path_board[y + 3][x] != -1:
-                                            path_board[y + 3][x] = int(round(SMALLER_SNAKE_FUTURE_HEAD * 0.454545, 0))
-                        # UP
-                        if path_board[y - 1][x] != -1:
-                            path_board[y-1][x] = SMALLER_SNAKE_FUTURE_HEAD
-                            if converted_data['board']['height'] - 2 > y >= 1:
-                                if path_board[y - 2][x] != -1:
-                                    path_board[y - 2][x] = int(round(SMALLER_SNAKE_FUTURE_HEAD * 0.696969, 0))
-                                    if converted_data['board']['height'] - 3 > y >= 2:
-                                        if path_board[y - 3][x] != -1:
-                                            path_board[y - 3][x] = int(round(SMALLER_SNAKE_FUTURE_HEAD * 0.454545, 0))
+                    if converted_data['board']['width'] - 1 > x >= 0:
+                        # right
+                        snakeEvalRight(SMALLER_SNAKE_FUTURE_HEAD, path_board,
+                                       converted_data, x, y)
+                        # left
+                        snakeEvalLeft(SMALLER_SNAKE_FUTURE_HEAD, path_board,
+                                      converted_data, x, y)
+
+                    # y axis
+                    if converted_data['board']['height'] - 1 > y >= 0:
+                        # down
+                        snakeEvalDown(SMALLER_SNAKE_FUTURE_HEAD, path_board,
+                                      converted_data, x, y)
+                        # up
+                        snakeEvalUp(SMALLER_SNAKE_FUTURE_HEAD, path_board,
+                                    converted_data, x, y)
+                    # diagonals
+                    snakeEvalUpLeft(SMALLER_SNAKE_FUTURE_HEAD, path_board,
+                                    converted_data, x, y)
+                    snakeEvalUpRight(SMALLER_SNAKE_FUTURE_HEAD, path_board,
+                                     converted_data, x, y)
+                    snakeEvalDownRight(SMALLER_SNAKE_FUTURE_HEAD, path_board,
+                                       converted_data, x, y)
+                    snakeEvalDownLeft(SMALLER_SNAKE_FUTURE_HEAD, path_board,
+                                      converted_data, x, y)
 
 
 def coward_pathing(converted_data, path_board):
@@ -272,52 +258,29 @@ def coward_pathing(converted_data, path_board):
                     # x axis
                     if converted_data['board']['width'] - 1 > x >= 0:
                         # right
-                        if path_board[y][x + 1] != -1:
-                            path_board[y][x + 1] = LARGER_SNAKE_FUTURE_HEAD
-                            if converted_data['board']['width'] - 2 > x >= 1:
-                                if path_board[y][x + 2] != -1:
-                                    path_board[y][x + 2] = int(round(LARGER_SNAKE_FUTURE_HEAD * 0.696969, 0))
-                                    if path_board[y][x + 3] != -1:
-                                        path_board[y][x + 3] = int(round(LARGER_SNAKE_FUTURE_HEAD * 0.454545, 0))
-                                        if converted_data['board']['width'] - 3 > x >= 2:
-                                            if path_board[y][x - 3] != -1:
-                                                path_board[y][x - 3] = int(round(LARGER_SNAKE_FUTURE_HEAD * 0.454545, 0))
+                        snakeEvalRight(LARGER_SNAKE_FUTURE_HEAD, path_board,
+                                       converted_data, x, y)
                         # left
-                        if path_board[y][x - 1] != -1:
-                            path_board[y][x - 1] = LARGER_SNAKE_FUTURE_HEAD
-                            if converted_data['board']['width'] - 2 > x >= 1:
-                                if path_board[y][x - 2] != -1:
-                                    path_board[y][x - 2] = int(round(LARGER_SNAKE_FUTURE_HEAD * 0.696969, 0))
-                                    if path_board[y][x - 3] != -1:
-                                        path_board[y][x - 3] = int(round(LARGER_SNAKE_FUTURE_HEAD * 0.454545, 0))
-                                        if converted_data['board']['width'] - 3 > x >= 2:
-                                            if path_board[y][x + 3] != -1:
-                                                path_board[y][x + 3] = int(round(LARGER_SNAKE_FUTURE_HEAD * 0.454545, 0))
+                        snakeEvalLeft(LARGER_SNAKE_FUTURE_HEAD, path_board,
+                                      converted_data, x, y)
 
                     # y axis
                     if converted_data['board']['height'] - 1 > y >= 0:
                         # down
-                        if path_board[y + 1][x] != -1:
-                            path_board[y + 1][x] = LARGER_SNAKE_FUTURE_HEAD
-                            if converted_data['board']['height'] - 2 > y >= 1:
-                                if path_board[y + 2][x] != -1:
-                                    path_board[y + 2][x] = int(round(LARGER_SNAKE_FUTURE_HEAD * 0.696969, 0))
-                                    if path_board[y + 3][x] != -1:
-                                        path_board[y + 3][x] = int(round(LARGER_SNAKE_FUTURE_HEAD * 0.454545, 0))
-                                        if converted_data['board']['height'] - 3 > y >= 2:
-                                            if path_board[y + 3][x] != -1:
-                                                path_board[y + 3][x] = int(round(LARGER_SNAKE_FUTURE_HEAD * 0.454545, 0))
+                        snakeEvalDown(LARGER_SNAKE_FUTURE_HEAD, path_board,
+                                      converted_data, x, y)
                         # up
-                        if path_board[y - 1][x] != -1:
-                            path_board[y - 1][x] = LARGER_SNAKE_FUTURE_HEAD
-                            if converted_data['board']['height'] - 2 > y >= 1:
-                                if path_board[y - 2][x] != -1:
-                                    path_board[y - 2][x] = int(round(LARGER_SNAKE_FUTURE_HEAD * 0.696969, 0))
-                                    if path_board[y - 3][x] != -1:
-                                        path_board[y - 3][x] = int(round(LARGER_SNAKE_FUTURE_HEAD * 0.454545, 0))
-                                        if converted_data['board']['height'] - 3 > y >= 2:
-                                            if path_board[y - 3][x] != -1:
-                                                path_board[y - 3][x] = int(round(LARGER_SNAKE_FUTURE_HEAD * 0.454545, 0))
+                        snakeEvalUp(LARGER_SNAKE_FUTURE_HEAD, path_board,
+                                    converted_data, x, y)
+                    # diagonals
+                    snakeEvalUpLeft(LARGER_SNAKE_FUTURE_HEAD, path_board,
+                                    converted_data, x, y)
+                    snakeEvalUpRight(LARGER_SNAKE_FUTURE_HEAD, path_board,
+                                     converted_data, x, y)
+                    snakeEvalDownRight(LARGER_SNAKE_FUTURE_HEAD, path_board,
+                                       converted_data, x, y)
+                    snakeEvalDownLeft(LARGER_SNAKE_FUTURE_HEAD, path_board,
+                                      converted_data, x, y)
 
 
 def board_to_array(data_dump):
@@ -374,3 +337,123 @@ def display(converted_board, integer_board):
         for y in x:
             print(str(y) + " "),
         print()
+
+
+def snakeEvalUp(head_value, path_board, converted_data, x, y):
+    if path_board[y - 1][x] != -1:
+        path_board[y - 1][x] = head_value
+        if y >= 1:
+            if path_board[y - 2][x] != -1:
+                path_board[y - 2][x] = int(round(head_value * 0.696969, 0))
+                if x >= 2:
+                    if path_board[y - 3][x] != -1:
+                        path_board[y - 3][x] = int(round(
+                            head_value * 0.454545, 0))
+
+
+def snakeEvalDown(head_value, path_board, converted_data, x, y):
+    if path_board[y + 1][x] != -1:
+        path_board[y + 1][x] = head_value
+        if converted_data['board']['height'] - 2 > y:
+            if path_board[y + 2][x] != -1:
+                path_board[y + 2][x] = int(round(head_value * 0.696969, 0))
+                if converted_data['board']['height'] - 3 > x:
+                    if path_board[y + 3][x] != -1:
+                        path_board[y + 3][x] = int(round(
+                            head_value * 0.454545, 0))
+
+
+def snakeEvalLeft(head_value, path_board, converted_data, x, y):
+    if path_board[y][x - 1] != -1:
+        path_board[y][x - 1] = head_value
+        if x >= 1:
+            if path_board[y][x - 2] != -1:
+                path_board[y][x - 2] = int(round(head_value * 0.696969, 0))
+                if x >= 2:
+                    if path_board[y][x - 3] != -1:
+                        path_board[y][x - 3] = int(round(
+                            head_value * 0.454545, 0))
+
+
+def snakeEvalRight(head_value, path_board, converted_data, x, y):
+    if path_board[y][x + 1] != -1:
+        path_board[y][x + 1] = head_value
+        if converted_data['board']['width'] - 2 > x:
+            if path_board[y][x + 2] != -1:
+                path_board[y][x + 2] = int(round(head_value * 0.696969, 0))
+                if converted_data['board']['width'] - 3 > x:
+                    if path_board[y][x + 3] != -1:
+                        path_board[y][x + 3] = int(round(
+                            head_value * 0.454545, 0))
+
+
+def snakeEvalUpRight(head_value, path_board, converted_data, x, y):
+    if (converted_data['board']['width'] - 1 > x >= 0) and (
+            converted_data['board']['height'] - 1 > y >= 0):
+        if path_board[y - 1][x + 1] != -1:
+            path_board[y - 1][x + 1] = head_value
+            if (converted_data['board']['width'] - 2 > x >= 1) and (
+                        converted_data['board']['height'] - 2 > y >= 1):
+                if path_board[y - 1][x + 2] != -1:
+                    path_board[y - 1][x + 2] = int(
+                        round(head_value * 0.454545, 0))
+                if path_board[y - 2][x + 1] != -1:
+                    path_board[y - 2][x + 1] = int(
+                        round(head_value * 0.454545, 0))
+                if path_board[y - 2][x + 2] != -1:
+                    path_board[y - 2][x + 2] = int(
+                        round(head_value * 0.696969, 0))
+
+
+def snakeEvalUpLeft(head_value, path_board, converted_data, x, y):
+    if (converted_data['board']['width'] - 1 > x >= 0) and (
+            converted_data['board']['height'] - 1 > y >= 0):
+        if path_board[y - 1][x - 1] != -1:
+            path_board[y - 1][x - 1] = head_value
+            if (converted_data['board']['width'] - 2 > x >= 1) and (
+                        converted_data['board']['height'] - 2 > y >= 1):
+                if path_board[y - 1][x - 2] != -1:
+                    path_board[y - 1][x - 2] = int(
+                        round(head_value * 0.454545, 0))
+                if path_board[y - 2][x - 1] != -1:
+                    path_board[y - 2][x - 1] = int(
+                        round(head_value * 0.454545, 0))
+                if path_board[y - 2][x - 2] != -1:
+                    path_board[y - 2][x - 2] = int(
+                        round(head_value * 0.696969, 0))
+
+
+def snakeEvalDownRight(head_value, path_board, converted_data, x, y):
+    if (converted_data['board']['width'] - 1 > x >= 0) and (
+            converted_data['board']['height'] - 1 > y >= 0):
+        if path_board[y + 1][x + 1] != -1:
+            path_board[y + 1][x + 1] = head_value
+            if (converted_data['board']['width'] - 2 > x >= 1) and (
+                        converted_data['board']['height'] - 2 > y >= 1):
+                if path_board[y + 1][x + 2] != -1:
+                    path_board[y + 1][x + 2] = int(
+                        round(head_value * 0.454545, 0))
+                if path_board[y + 2][x + 1] != -1:
+                    path_board[y + 2][x + 1] = int(
+                        round(head_value * 0.454545, 0))
+                if path_board[y + 2][x + 2] != -1:
+                    path_board[y + 2][x + 2] = int(
+                        round(head_value * 0.696969, 0))
+
+
+def snakeEvalDownLeft(head_value, path_board, converted_data, x, y):
+    if (converted_data['board']['width'] - 1 > x >= 0) and (
+            converted_data['board']['height'] - 1 > y >= 0):
+        if path_board[y + 1][x - 1] != -1:
+            path_board[y + 1][x - 1] = head_value
+            if (converted_data['board']['width'] - 2 > x >= 1) and (
+                        converted_data['board']['height'] - 2 > y >= 1):
+                if path_board[y + 1][x - 2] != -1:
+                    path_board[y + 1][x - 2] = int(
+                        round(head_value * 0.454545, 0))
+                if path_board[y + 2][x - 1] != -1:
+                    path_board[y + 2][x - 1] = int(
+                        round(head_value * 0.454545, 0))
+                if path_board[y + 2][x - 2] != -1:
+                    path_board[y + 2][x - 2] = int(
+                        round(head_value * 0.696969, 0))
