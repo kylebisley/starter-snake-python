@@ -201,9 +201,9 @@ def bully_pathing(converted_data, path_board):
                 if segment == snake["body"][0]:
                     x = segment['x']
                     y = segment['y']
-
+                    # X axis
                     if (converted_data['board']['width'] - 1) > x > 0:
-                        # LEFT 
+                        # LEFT
                         if path_board[y][x + 1] != -1:
                             path_board[y][x+1] = SMALLER_SNAKE_FUTURE_HEAD
                             if converted_data['board']['width'] - 2 > x >= 1:
@@ -215,7 +215,7 @@ def bully_pathing(converted_data, path_board):
                             if converted_data['board']['width'] - 2 > x >= 1:
                                 if path_board[y][x - 2] != -1:
                                     path_board[y][x - 2] = SMALLER_SNAKE_FUTURE_HEAD * 0.696969
-                    
+                    # Y axis
                     if (converted_data['board']['width'] - 1) > y > 0:
                         # DOWN
                         if -1 != path_board[y + 1][x]:
