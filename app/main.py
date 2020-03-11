@@ -260,7 +260,7 @@ def nacho(converted_data, board):
     print("number of bigger snakes")
     print(len(big_snakes_heads))
     # if big snakes_heads > 0
-    if len(big_snakes_heads > 0) and (converted_data["turn"] > 3):
+    if (len(big_snakes_heads) > 0) and (converted_data["turn"] > 3):
         neighbours_plate = []
         for head in big_snakes_heads:
             adjacents = board.find_neighbours(head)
