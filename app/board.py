@@ -242,21 +242,23 @@ class Board:
                 neighbours_plate.append(tile)  # add all the parts of a list I believe there is a better function for this in the API
         print("neighbours_plate after adjacents 1")
         print(len(neighbours_plate))
-
-        # for target in neighbours_plate:
-        #     adjacents = self.find_neighbours(target)
-        #     x = target.get_x()
-        #     y = target.get_y()
-        #     print("target check")
-        #     print("adjacents type")
-        #     print(type(adjacents))
-        #     for once_removed in adjacents:
-        #         # print("once_removed_type")
-        #         # print(type(once_removed))
-        #         # if once_removed not in neighbours_plate:
-        #         neighbours_plate.append(once_removed)
-        # print("neighbours_plate after adjacents 2")
-        # print(len(neighbours_plate))
+        # can't change neighbours_plate in the loop. Must use a copy or of neighbours_plate
+        tile_twice_removed = []
+        tile_twice_removed.extend(neighbours_plate)
+        for target in neighbours_plate:
+            adjacents = self.find_neighbours(target)
+            x = target.get_x()
+            y = target.get_y()
+            print("target check")
+            print("adjacents type")
+            print(type(adjacents))
+            for once_removed in adjacents:
+                # print("once_removed_type")
+                # print(type(once_removed))
+                # if once_removed not in neighbours_plate:
+                tile_twice_removed.append(once_removed)
+        print("neighbours_plate after adjacents 2")
+        print(len(neighbours_plate))
         print("************************************************")
         # tests.print_other_plates(neighbours_plate, converted_data)
 
