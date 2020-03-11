@@ -250,4 +250,5 @@ class Board:
                 neighbours_plate.append(once_removed)
         print("neighbours_plate after adjacents 2")
         print(len(neighbours_plate))
+        print("************************************************")
         tests.print_other_plates(neighbours_plate, converted_data)
