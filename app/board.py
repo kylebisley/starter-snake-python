@@ -243,9 +243,11 @@ class Board:
         print("neighbours_plate after adjacents 1")
         print(len(neighbours_plate))
 
-        for tile in neighbours_plate:
-            adjacents = self.find_neighbours(tile)
+        for target in neighbours_plate:
+            adjacents = self.find_neighbours(target)
             for once_removed in adjacents:
+                print("once_removed_type")
+                print(type(once_removed))
                 # if once_removed not in neighbours_plate:
                 neighbours_plate.append(once_removed)
         print("neighbours_plate after adjacents 2")
