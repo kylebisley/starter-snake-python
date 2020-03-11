@@ -240,6 +240,7 @@ def buffet(possible_futures, converted_data, board):
                 path = navigate(converted_data, board.get_path_board(), target)
                 weight = [sum_path_weight(path, board.get_path_board()), path]
                 options.append(weight)
+    
     return options
 
 

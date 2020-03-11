@@ -242,21 +242,22 @@ class Board:
             y = target.get_y()
             for once_removed in adjacents:
                 tile_twice_removed.append(once_removed)
-        print("************************************************")
+        # print("************************************************")
 
-        look_board_width = converted_data["board"]["width"]
-        look_board_height = converted_data["board"]["height"]
-        look_board = [["-" for x in range(look_board_width)] for y in range(look_board_height)]
+        # look_board_width = converted_data["board"]["width"]
+        # look_board_height = converted_data["board"]["height"]
+        # look_board = [["-" for x in range(look_board_width)] for y in range(look_board_height)]
 
-        for tile in tile_twice_removed:
-            x = tile.get_x()
-            y = tile.get_y()
-            look_board[y][x] = 'P'
+        # for tile in tile_twice_removed:
+        #     x = tile.get_x()
+        #     y = tile.get_y()
+        #     look_board[y][x] = 'P'
 
-        print "nachos"
-        for x in look_board:
-            for y in x:
-                print str(y) + " ",
-            print ""
-        print ""
-        return neighbours_plate
+        # print "nachos"
+        # for x in look_board:
+        #     for y in x:
+        #         print str(y) + " ",
+        #     print ""
+        # print ""
+        tests.print_list_of_tiles(tile_twice_removed, converted_data)
+        return tile_twice_removed

@@ -73,11 +73,12 @@ def print_look_from_object(tileLists, converted_data, board_object):
     # # 888888888888888888888888888888888888888888888888888888888888888888
 
 
-def print_other_plates(tileLists, converted_data):
+def print_list_of_tiles(tileLists, converted_data):
     print("*****************************************")
     look_board_width = converted_data["board"]["width"]
     look_board_height = converted_data["board"]["height"]
     look_board = [["-" for x in range(look_board_width)] for y in range(look_board_height)]
+    
     print("board constructed")
     for tile in tileLists:
         x = tile.get_x()
