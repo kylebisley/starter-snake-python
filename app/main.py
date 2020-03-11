@@ -233,8 +233,8 @@ def buffet(possible_futures, converted_data, board):
     options = []
     for future in possible_futures:
         for food in food_tiles:
-            if ((food in future[0]):
-                if food in board.nachos and (converted_data["turn"] > 20):
+            if (food in future[0]):
+                if (food in board.nachos) and (converted_data["turn"] > 20):
                     continue
                 target = [food.get_x(), food.get_y()]
                 path = navigate(converted_data, board.get_path_board(), target)
