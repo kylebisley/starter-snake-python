@@ -266,7 +266,7 @@ class Board:
         look_board_height = converted_data["board"]["height"]
         look_board = [["-" for x in range(look_board_width)] for y in range(look_board_height)]
 
-        for tile in neighbours_plate:
+        for tile in tile_twice_removed:
             x = tile.get_x()
             y = tile.get_y()
             look_board[y][x] = 'P'
