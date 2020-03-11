@@ -195,7 +195,7 @@ def target_selection(converted_data, board):
         board(board object): representation of board
     Variables: (explination of some variables that might not be clear)
         possible_futures (list): [[][],] collection of tile_lists
-        tile_list (list):[][] collection of pathable tiles, 
+        tile_list (list):[][] collection of pathable tiles,
                               collection of walls around them
         options (list):[][] collection of weights of paths and paths to food
         weigth_path (list):[][] same as options
@@ -255,12 +255,12 @@ def nacho(converted_data, board):
 
     neighbours_plate = []
     for head in big_snakes_heads:
-        temp = board.get_neighbours(head)
+        temp = board.find_neighbours(head)
         for each in temp:
             neighbours_plate.append(each)
 
     for plate in neighbours_plate:
-        temp = board.get_neighbours(plate)
+        temp = board.find_neighbours(plate)
         for each in temp:
             if each not in neighbours_plate:
                 neighbours_plate.append(each)

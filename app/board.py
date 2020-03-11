@@ -26,7 +26,6 @@ class Board:
         look_from_here(self, tile, j_data): finds all tiles it is possible
                                             to path to from a tile
     '''
-    # TODO: add functionality to ignore tails if their snake isn't growing this turn
     def __init__(self, j_data, path_board, char_board):
         self._board_width = j_data["board"]["width"]
         self._board_height = j_data["board"]["height"]
@@ -47,7 +46,11 @@ class Board:
                     is_food = True
 
                 # build the tile
-                new_tile = Tile(x, y, path_board[y][x], is_food, char_board[y][x])
+                new_tile = Tile(x,
+                                y,
+                                path_board[y][x],
+                                is_food,
+                                char_board[y][x])
                 new_row.append(new_tile)
 
                 if new_tile.get_food():
