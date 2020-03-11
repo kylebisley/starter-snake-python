@@ -10,9 +10,9 @@ def print_look_from(board_object, converted_data):
                                          converted_data["you"]["body"][0]["y"])
     tileLists = board_object.look_from_here(head_tile, converted_data)
 
-    look_board_width = converted_data["board"]["width"]
-    look_board_height = converted_data["board"]["height"]
-    look_board = [["-" for x in range(look_board_width)] for y in range(look_board_height)]
+    width = converted_data["board"]["width"]
+    height = converted_data["board"]["height"]
+    look_board = [["-" for x in range(width)] for y in range(height)]
 
     for z in tileLists[0]:
         x = z.get_x()
