@@ -100,7 +100,7 @@ def move():
             move = "right"
         elif best_option.get_x() < head_tile.get_x():
             move = "left"
-        elif best_option.get_y() > head_tile.get_y():
+        elif best_option.get_y() < head_tile.get_y():
             move = "up"
         else:
             move = "down"
