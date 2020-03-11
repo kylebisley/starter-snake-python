@@ -32,7 +32,7 @@ class Board:
         self._board_height = j_data["board"]["height"]
         self._the_board = []
         self.food_tiles = []
-        self.nachos = nacho(j_data)
+        self.nachos = self.nacho(j_data)
 
         # this loop creates a new row, then creates the tile objects
         # belonging to that row and adds them to the list of food tiles if

@@ -231,7 +231,6 @@ def buffet(possible_futures, converted_data, board):
     '''
     food_tiles = board.get_food_tiles()
     options = []
-    nacho(converted_data, board)
     for future in possible_futures:
         for food in food_tiles:
             if (food in future[0]) and (food not in board.nachos):
