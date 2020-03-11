@@ -86,15 +86,15 @@ def print_other_plates(tileLists, converted_data, board_object):
 
     board_width = converted_data["board"]["width"]
     board_height = converted_data["board"]["height"]
-    board = [["-" for x in range(board_width)] for y in range(board_height)]
+    poop = [["-" for x in range(board_width)] for y in range(board_height)]
 
     print "Other plates"
     for tile in tileLists:
         x = tile.get_x()
         y = tile.get_y()
-        board[y][x] = 'P'
+        poop[y][x] = 'P'
 
-    for x in board:
+    for x in poop:
         for y in x:
             print str(y) + " ",
         print ""
