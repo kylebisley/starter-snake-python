@@ -46,9 +46,13 @@ def update_tails(converted_data, path_board):
         Nothing
 
     """
-    food = converted_data["you"]["shout"].split("/")
-    food = [str(x) for x in food]
-    food.pop()  # kludge removes empty last element caused by parsing
+    try:
+        food = converted_data["you"]["shout"].split("/")
+        food = [str(x) for x in food]
+        food.pop()  # kludge removes empty last element caused by parsing
+    except KeyError:
+        print "update_tails couldn't make a dictionary for some reason"
+        return
 
     growers = []
     if len(food) > 0:

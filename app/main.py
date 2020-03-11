@@ -71,12 +71,45 @@ def move():
     # debug board object boards
     board_object.print_int_board()
     board_object.print_dima_board()
+    try:
+        direction = cardinal(converted_data, target_selection(converted_data,
+                                                              board_object))
+        response = {"move": direction, "shout": board_object.food_string()}
+    except Exception:
+        print "Pathfinding failed, just picking something safe"
+        head_tile = board_object.get_tile_at(converted_data["you"]["body"][0]["x"], converted_data["you"]["body"][0]["y"])
+        neighbours = board_object.find_neighbours(head_tile)
+        min_cost_option = 10000
+        best_option = None
+        
+        # find the cheapest but still pathable option from our neighbours
+        for option in neighbours:
+            if option.get_cost() > 0:
+                if option.get_cost() < min_cost_option:
+                    min_cost_option = option.get_cost()
+                    best_option = option
 
-    direction = cardinal(converted_data, target_selection(converted_data,
-                                                          board_object))
+        # didn't find any possible move
+        if best_option is None:
+            print "We're dead"
+            board_object.dab()
+            return {"move": "down", "shout": board_object.food_string()}
 
-    response = {"move": direction, "shout": board_object.food_string()}
-    return response
+        # we found a move, figure out where it is relative to us
+        if best_option.get_x() > head_tile.get_x():
+            move = "right"
+        elif best_option.get_x() < head_tile.get_x():
+            move = "left"
+        elif best_option.get_y() > head_tile.get_y():
+            move = "up"
+        else:
+            move = "down"
+
+        response = {"move": move, "shout": board_object.food_string()}
+        print "found an option"
+
+    finally:
+        return response
 
 
 @bottle.post('/end')
@@ -257,7 +290,7 @@ def shortest_option(options):
     for option in options:
         if shortest == "Unassigned":
             shortest = option
-        elif shortest != "Unassigned":
+        else:
             if (option[0] < shortest[0]) and (option[0] != 0):
                 shortest = option
     return shortest
@@ -284,6 +317,10 @@ def path_to_tail(converted_data, board):
     path_to_tail = navigate(converted_data, board.get_path_board(), [x, y])
     # replace tale value
     board.get_tile_at(x, y).set_cost(tail_tile_value)
+
+    if (len(path_to_tail) < 1 and len(converted_data["you"]["body"]) < 4):
+        print "Attempted to path to tail when we have no neck"
+        return
 
     return path_to_tail
 
