@@ -234,15 +234,12 @@ def buffet(possible_futures, converted_data, board):
     nacho(converted_data, board)
     for future in possible_futures:
         for food in food_tiles:
-            if food in future[0]:
+            if (food in future[0]) and (food not in board.nachos):
                 target = [food.get_x(), food.get_y()]
                 path = navigate(converted_data, board.get_path_board(), target)
                 weight = [sum_path_weight(path, board.get_path_board()), path]
                 options.append(weight)
     return options
-
-
-
 
 
 def shortest_option(options):
