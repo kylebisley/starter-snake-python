@@ -266,6 +266,8 @@ def nacho(converted_data, board):
         for once_removed in adjacents:
             if once_removed not in neighbours_plate:
                 neighbours_plate.append(once_removed)
+    print("neighbours_plate after adjacents 2")
+    print(len(neighbours_plate))
     tests.print_other_plates(neighbours_plate, converted_data, board)
 
 
