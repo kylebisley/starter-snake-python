@@ -76,7 +76,7 @@ def move():
                                                           board_object))
 
     response = {"move": direction, "shout": board_object.food_string()}
-    return response["move"]
+    return response
 
 
 @bottle.post('/end')
@@ -253,6 +253,13 @@ def nacho(converted_data, board):
 
             big_snakes_heads.append(board.get_tile_at(x, y))
     tests.print_other_plates(big_snakes_heads, converted_data, board)
+
+    neighbours_plate = []
+    for head in big_snakes_heads:
+        temp = board.get_neighbours(head)
+        for each in temp:
+            neighbours_plate.append(each)
+    
 
 
 def shortest_option(options):
