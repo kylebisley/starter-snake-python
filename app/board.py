@@ -251,4 +251,21 @@ class Board:
         # print("neighbours_plate after adjacents 2")
         # print(len(neighbours_plate))
         print("************************************************")
-        tests.print_other_plates(neighbours_plate, converted_data)
+        # tests.print_other_plates(neighbours_plate, converted_data)
+
+        look_board_width = j_data["board"]["width"]
+        look_board_height = j_data["board"]["height"]
+        look_board = [["-" for x in range(look_board_width)] for y in range(look_board_height)]
+
+        for tile in neighbours_plate:
+            x = tile.get_x()
+            y = tile.get_y()
+            look_board[y][x] = 'P'
+
+        print "nachos"
+        for x in look_board:
+            for y in x:
+                print str(y) + " ",
+            print ""
+        print ""
+        return neighbours_plate
