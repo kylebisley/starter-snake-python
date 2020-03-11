@@ -49,10 +49,10 @@ class Board:
                 # build the tile
                 new_tile = Tile(x, y, path_board[y][x], is_food, char_board[y][x])
                 new_row.append(new_tile)
-                
+
                 if new_tile.get_food():
                     self.food_tiles.append(new_tile)
-            
+
             self._the_board.append(new_row)
 
     # Getters and setters
@@ -81,7 +81,7 @@ class Board:
                          str(food.get_y()) +
                          "/")
         return food_list
-    
+
     def print_int_board(self):
         '''
         prints integer representation of the board, same as pathing values
@@ -92,7 +92,7 @@ class Board:
                 print str(self.get_tile_at(x, y).get_cost()) + " ",
             print ""
         print ""
-        
+
     def print_dima_board(self):
         '''
         prints character representation of all tiles on board
@@ -132,11 +132,11 @@ class Board:
         # look left
         if(tile.get_x() > 0):
             neighbours.append(self.get_tile_at(tile.get_x() - 1, tile.get_y()))
-        
+
         # look right
         if(tile.get_x() < self.get_board_width() - 1):
             neighbours.append(self.get_tile_at(tile.get_x() + 1, tile.get_y()))
-        
+
         return neighbours
 
     def get_path_board(self):
@@ -145,15 +145,15 @@ class Board:
         by our int_board method
         '''
         path_board = []
-        
+
         for y in range(self.get_board_height()):
             row = []
-            
+
             for x in range(self.get_board_width()):
                 row.append(self.get_tile_at(x, y).get_cost())
-            
+
             path_board.append(row)
-        
+
         return path_board
 
     def look_from_here(self, the_tile, j_data):

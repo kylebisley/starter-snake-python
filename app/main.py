@@ -76,7 +76,7 @@ def move():
                                                           board_object))
 
     response = {"move": direction, "shout": board_object.food_string()}
-    return response
+    return response["move"]
 
 
 @bottle.post('/end')
@@ -231,6 +231,7 @@ def buffet(possible_futures, converted_data, board):
     '''
     food_tiles = board.get_food_tiles()
     options = []
+    nacho(converted_data, board)
     for future in possible_futures:
         for food in food_tiles:
             if food in future[0]:
@@ -239,6 +240,16 @@ def buffet(possible_futures, converted_data, board):
                 weight = [sum_path_weight(path, board.get_path_board()), path]
                 options.append(weight)
     return options
+
+
+def nacho(converted_data, board):
+    my_size = len(converted_data["you"]["body"])
+    my_id = converted_data["you"]["id"]
+    big_snakes_heads = []
+    for snake in converted_data["board"]["snakes"]:
+        if (snake["id"] != my_id) and (len(snake["body"]) >= my_size):
+            big_snakes_heads.append(board.get_tile_at(snake["body"][0]))
+    tests.print_other_plates(big_snakes_heads, converted_data, board)
 
 
 def shortest_option(options):
