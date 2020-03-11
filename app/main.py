@@ -253,6 +253,8 @@ def nacho(converted_data, board):
             y = snake["body"][0]["y"]
             big_snakes_heads.append(board.get_tile_at(x, y))
             print("head at x:" + str(x) + ", y:" + str(y))
+    print("number of bigger snakes")
+    print(len(big_snakes_heads))
     # if big snakes_heads > 0
     neighbours_plate = []
     for head in big_snakes_heads:
