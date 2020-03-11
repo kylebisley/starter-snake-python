@@ -248,7 +248,10 @@ def nacho(converted_data, board):
     big_snakes_heads = []
     for snake in converted_data["board"]["snakes"]:
         if (snake["id"] != my_id) and (len(snake["body"]) >= my_size):
-            big_snakes_heads.append(board.get_tile_at(snake["body"][0]))
+            x = snake["body"][0]["x"]
+            y = snake["body"][0]["y"]
+
+            big_snakes_heads.append(board.get_tile_at(x, y))
     tests.print_other_plates(big_snakes_heads, converted_data, board)
 
 
