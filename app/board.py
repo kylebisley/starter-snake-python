@@ -224,24 +224,24 @@ class Board:
 
         for snake in converted_data["board"]["snakes"]:
             if (snake["id"] != my_id) and (len(snake["body"]) >= my_size):
-                print("len(snake['body']")
-                print(len(snake["body"]))
-                print("my_size")
-                print(my_size)
+                # print("len(snake['body']")
+                # print(len(snake["body"]))
+                # print("my_size")
+                # print(my_size)
                 x = snake["body"][0]["x"]
                 y = snake["body"][0]["y"]
                 big_snakes_heads.append(self.get_tile_at(x, y))
-                print("head at x:" + str(x) + ", y:" + str(y))
-        print("number of bigger snakes")
-        print(len(big_snakes_heads))
+        #         print("head at x:" + str(x) + ", y:" + str(y))
+        # print("number of bigger snakes")
+        # print(len(big_snakes_heads))
         # if big snakes_heads > 0
         neighbours_plate = []
         for head in big_snakes_heads:
             adjacents = self.find_neighbours(head)
             for tile in adjacents:
                 neighbours_plate.append(tile)  # add all the parts of a list I believe there is a better function for this in the API
-        print("neighbours_plate after adjacents 1")
-        print(len(neighbours_plate))
+        # print("neighbours_plate after adjacents 1")
+        # print(len(neighbours_plate))
         # can't change neighbours_plate in the loop. Must use a copy or of neighbours_plate
         tile_twice_removed = []
         tile_twice_removed.extend(neighbours_plate)
@@ -249,16 +249,16 @@ class Board:
             adjacents = self.find_neighbours(target)
             x = target.get_x()
             y = target.get_y()
-            print("target check")
-            print("adjacents type")
-            print(type(adjacents))
+            # print("target check")
+            # print("adjacents type")
+            # print(type(adjacents))
             for once_removed in adjacents:
                 # print("once_removed_type")
                 # print(type(once_removed))
                 # if once_removed not in neighbours_plate:
                 tile_twice_removed.append(once_removed)
-        print("neighbours_plate after adjacents 2")
-        print(len(neighbours_plate))
+        # print("neighbours_plate after adjacents 2")
+        # print(len(neighbours_plate))
         print("************************************************")
         # tests.print_other_plates(neighbours_plate, converted_data)
 
